@@ -460,13 +460,24 @@ namespace calc {
     MKUSR = 284,                   // MKUSR
     RMUSR = 285,                   // RMUSR
     MKFILE = 286,                  // MKFILE
-    PASSWORD = 287,                // PASSWORD
-    INTEGER = 288,                 // INTEGER
-    PATH_VALUE = 289,              // PATH_VALUE
-    ID_VALUE = 290,                // ID_VALUE
-    PASSWORD_VALUE = 291,          // PASSWORD_VALUE
-    EQUAL = 292,                   // EQUAL
-    EOL = 293                      // EOL
+    MOUNTED = 287,                 // MOUNTED
+    CAT = 288,                     // CAT
+    FILEN = 289,                   // FILEN
+    LOGIN = 290,                   // LOGIN
+    LOGOUT = 291,                  // LOGOUT
+    MKGRP = 292,                   // MKGRP
+    RMGRP = 293,                   // RMGRP
+    CHGRP = 294,                   // CHGRP
+    MKDIR = 295,                   // MKDIR
+    REP = 296,                     // REP
+    PATH_FILE_LIST = 297,          // PATH_FILE_LIST
+    PASSWORD = 298,                // PASSWORD
+    INTEGER = 299,                 // INTEGER
+    PATH_VALUE = 300,              // PATH_VALUE
+    ID_VALUE = 301,                // ID_VALUE
+    PASSWORD_VALUE = 302,          // PASSWORD_VALUE
+    EQUAL = 303,                   // EQUAL
+    EOL = 304                      // EOL
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -483,7 +494,7 @@ namespace calc {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 39, ///< Number of tokens.
+        YYNTOKENS = 50, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -517,40 +528,70 @@ namespace calc {
         S_MKUSR = 29,                            // MKUSR
         S_RMUSR = 30,                            // RMUSR
         S_MKFILE = 31,                           // MKFILE
-        S_PASSWORD = 32,                         // PASSWORD
-        S_INTEGER = 33,                          // INTEGER
-        S_PATH_VALUE = 34,                       // PATH_VALUE
-        S_ID_VALUE = 35,                         // ID_VALUE
-        S_PASSWORD_VALUE = 36,                   // PASSWORD_VALUE
-        S_EQUAL = 37,                            // EQUAL
-        S_EOL = 38,                              // EOL
-        S_YYACCEPT = 39,                         // $accept
-        S_comandos = 40,                         // comandos
-        S_comando = 41,                          // comando
-        S_mkdisk = 42,                           // mkdisk
-        S_mkdisk_params = 43,                    // mkdisk_params
-        S_mkdisk_p = 44,                         // mkdisk_p
-        S_fit_v = 45,                            // fit_v
-        S_unit_v = 46,                           // unit_v
-        S_rmdisk = 47,                           // rmdisk
-        S_fdisk = 48,                            // fdisk
-        S_fdisk_params = 49,                     // fdisk_params
-        S_fdisk_p = 50,                          // fdisk_p
-        S_unit_v2 = 51,                          // unit_v2
-        S_type_v = 52,                           // type_v
-        S_mount = 53,                            // mount
-        S_mount_params = 54,                     // mount_params
-        S_mount_p = 55,                          // mount_p
-        S_mkfs = 56,                             // mkfs
-        S_mkfs_params = 57,                      // mkfs_params
-        S_mkfs_p = 58,                           // mkfs_p
-        S_mkusr = 59,                            // mkusr
-        S_mkusr_params = 60,                     // mkusr_params
-        S_mkusr_p = 61,                          // mkusr_p
-        S_rmusr = 62,                            // rmusr
-        S_mkfile = 63,                           // mkfile
-        S_mkfile_params = 64,                    // mkfile_params
-        S_mkfile_p = 65                          // mkfile_p
+        S_MOUNTED = 32,                          // MOUNTED
+        S_CAT = 33,                              // CAT
+        S_FILEN = 34,                            // FILEN
+        S_LOGIN = 35,                            // LOGIN
+        S_LOGOUT = 36,                           // LOGOUT
+        S_MKGRP = 37,                            // MKGRP
+        S_RMGRP = 38,                            // RMGRP
+        S_CHGRP = 39,                            // CHGRP
+        S_MKDIR = 40,                            // MKDIR
+        S_REP = 41,                              // REP
+        S_PATH_FILE_LIST = 42,                   // PATH_FILE_LIST
+        S_PASSWORD = 43,                         // PASSWORD
+        S_INTEGER = 44,                          // INTEGER
+        S_PATH_VALUE = 45,                       // PATH_VALUE
+        S_ID_VALUE = 46,                         // ID_VALUE
+        S_PASSWORD_VALUE = 47,                   // PASSWORD_VALUE
+        S_EQUAL = 48,                            // EQUAL
+        S_EOL = 49,                              // EOL
+        S_YYACCEPT = 50,                         // $accept
+        S_comandos = 51,                         // comandos
+        S_comando = 52,                          // comando
+        S_mkdisk = 53,                           // mkdisk
+        S_mkdisk_params = 54,                    // mkdisk_params
+        S_mkdisk_p = 55,                         // mkdisk_p
+        S_fit_v = 56,                            // fit_v
+        S_unit_v = 57,                           // unit_v
+        S_rmdisk = 58,                           // rmdisk
+        S_fdisk = 59,                            // fdisk
+        S_fdisk_params = 60,                     // fdisk_params
+        S_fdisk_p = 61,                          // fdisk_p
+        S_unit_v2 = 62,                          // unit_v2
+        S_type_v = 63,                           // type_v
+        S_mount = 64,                            // mount
+        S_mount_params = 65,                     // mount_params
+        S_mount_p = 66,                          // mount_p
+        S_mkfs = 67,                             // mkfs
+        S_mkfs_params = 68,                      // mkfs_params
+        S_mkfs_p = 69,                           // mkfs_p
+        S_mkusr = 70,                            // mkusr
+        S_mkusr_params = 71,                     // mkusr_params
+        S_mkusr_p = 72,                          // mkusr_p
+        S_rmusr = 73,                            // rmusr
+        S_mkfile = 74,                           // mkfile
+        S_mkfile_params = 75,                    // mkfile_params
+        S_mkfile_p = 76,                         // mkfile_p
+        S_mounted = 77,                          // mounted
+        S_cat = 78,                              // cat
+        S_cat_params = 79,                       // cat_params
+        S_cat_p = 80,                            // cat_p
+        S_login = 81,                            // login
+        S_login_params = 82,                     // login_params
+        S_login_p = 83,                          // login_p
+        S_logout = 84,                           // logout
+        S_mkgrp = 85,                            // mkgrp
+        S_rmgrp = 86,                            // rmgrp
+        S_chgrp = 87,                            // chgrp
+        S_chgrp_params = 88,                     // chgrp_params
+        S_chgrp_p = 89,                          // chgrp_p
+        S_mkdir = 90,                            // mkdir
+        S_mkdir_params = 91,                     // mkdir_params
+        S_mkdir_p = 92,                          // mkdir_p
+        S_rep = 93,                              // rep
+        S_rep_params = 94,                       // rep_params
+        S_rep_p = 95                             // rep_p
       };
     };
 
@@ -1319,6 +1360,171 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_MOUNTED ()
+      {
+        return symbol_type (token::MOUNTED);
+      }
+#else
+      static
+      symbol_type
+      make_MOUNTED ()
+      {
+        return symbol_type (token::MOUNTED);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_CAT ()
+      {
+        return symbol_type (token::CAT);
+      }
+#else
+      static
+      symbol_type
+      make_CAT ()
+      {
+        return symbol_type (token::CAT);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_FILEN ()
+      {
+        return symbol_type (token::FILEN);
+      }
+#else
+      static
+      symbol_type
+      make_FILEN ()
+      {
+        return symbol_type (token::FILEN);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_LOGIN ()
+      {
+        return symbol_type (token::LOGIN);
+      }
+#else
+      static
+      symbol_type
+      make_LOGIN ()
+      {
+        return symbol_type (token::LOGIN);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_LOGOUT ()
+      {
+        return symbol_type (token::LOGOUT);
+      }
+#else
+      static
+      symbol_type
+      make_LOGOUT ()
+      {
+        return symbol_type (token::LOGOUT);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_MKGRP ()
+      {
+        return symbol_type (token::MKGRP);
+      }
+#else
+      static
+      symbol_type
+      make_MKGRP ()
+      {
+        return symbol_type (token::MKGRP);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_RMGRP ()
+      {
+        return symbol_type (token::RMGRP);
+      }
+#else
+      static
+      symbol_type
+      make_RMGRP ()
+      {
+        return symbol_type (token::RMGRP);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_CHGRP ()
+      {
+        return symbol_type (token::CHGRP);
+      }
+#else
+      static
+      symbol_type
+      make_CHGRP ()
+      {
+        return symbol_type (token::CHGRP);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_MKDIR ()
+      {
+        return symbol_type (token::MKDIR);
+      }
+#else
+      static
+      symbol_type
+      make_MKDIR ()
+      {
+        return symbol_type (token::MKDIR);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_REP ()
+      {
+        return symbol_type (token::REP);
+      }
+#else
+      static
+      symbol_type
+      make_REP ()
+      {
+        return symbol_type (token::REP);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_PATH_FILE_LIST ()
+      {
+        return symbol_type (token::PATH_FILE_LIST);
+      }
+#else
+      static
+      symbol_type
+      make_PATH_FILE_LIST ()
+      {
+        return symbol_type (token::PATH_FILE_LIST);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_PASSWORD ()
       {
         return symbol_type (token::PASSWORD);
@@ -1433,7 +1639,7 @@ switch (yykind)
 
 
     /// Stored state numbers (used for stacks).
-    typedef signed char state_type;
+    typedef unsigned char state_type;
 
     /// Compute post-reduction state.
     /// \param yystate   the current state
@@ -1476,12 +1682,12 @@ switch (yykind)
     static const signed char yypgoto_[];
 
     // YYDEFGOTO[NTERM-NUM].
-    static const signed char yydefgoto_[];
+    static const unsigned char yydefgoto_[];
 
     // YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
     // positive, shift that token.  If negative, reduce the rule whose
     // number is the opposite.  If YYTABLE_NINF, syntax error.
-    static const signed char yytable_[];
+    static const unsigned char yytable_[];
 
     static const signed char yycheck_[];
 
@@ -1725,8 +1931,8 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 107,     ///< Last index in yytable_.
-      yynnts_ = 27,  ///< Number of nonterminal symbols.
+      yylast_ = 176,     ///< Last index in yytable_.
+      yynnts_ = 46,  ///< Number of nonterminal symbols.
       yyfinal_ = 2 ///< Termination state number.
     };
 
@@ -1739,7 +1945,7 @@ switch (yykind)
 
 #line 12 "grammar.y"
 } // calc
-#line 1743 "Parser1.hpp"
+#line 1949 "Parser1.hpp"
 
 
 // "%code provides" blocks.
@@ -1750,7 +1956,7 @@ switch (yykind)
 
     YY_DECL;
 
-#line 1754 "Parser1.hpp"
+#line 1960 "Parser1.hpp"
 
 
 #endif // !YY_YY_PARSER1_HPP_INCLUDED

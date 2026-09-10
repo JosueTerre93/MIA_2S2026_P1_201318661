@@ -27,85 +27,38 @@
 }
 
 /*
-GRAMATICA A IMPLEMENTAR:
+GRAMATICA NUEVA A IMPLEMENTAR:
 
-comandos -> comandos comando
-        | comando
+MOUNTED (no lleva parametros)
 
-comando -> mkdisk
-        | rmdisk
-        | fdisk
-        | mount
-        | mkfs
-        | mkusr
-        | rmusr
-        | mkfile
+CAT -filen (enlaza archivos)
 
-----------------------------------------
-mkdisk -> MKDISK mkdisk_p
+LOGIN -user(cadena) -pass(password) -id(cadena)
 
-mkdisk_p -> SIZE EQUAL INTEGER
-        | FIT EQUAL fit_V
-        | UNIT EQUAL unit_v
-        | PATH EQUAL PATH_V
+LOGOUT (no lleva parametros)
 
-fit_v -> BF
-        | FF
-        | WF
+- Los siguientes comandos necesitan una sesion iniciada
 
-unit_v -> K
-        | M
+MKGRP -name(cadena)
 
---------------------------------------
-rmdisk -> RMDISK PATH EQUAL PATH_V
+RMGRP -name(cadena)
 
---------------------------------------
-fdisk -> FDISK fdisk_p
+MKUSR -usr(cadena) -pass(password) -grp(cadena)
 
-fdisk_p -> SIZE EQUAL INTEGER
-        | UNIT EQUAL unit_v2
-        | PATH EQUAL PATH_V
-        | TYPE EQUAL type_v
-        | FIT EQUAL fit_v
-        | NAME EQUAL ID_V
+RMUSR -usr(cadena)
 
-unit_v2 -> B
-        | K
-        | M
+CHGRP -usr(cadena) -grp(cadena)
 
-type_v -> P
-        | E
-        | L
+- Administracion de carpetas, archivos y permisos
 
--------------------------------------
-mount -> MOUNT mount_p
+MKDIR -path(ruta) -p
 
-mount_p -> PATH EQUAL PATH_V
-        | NAME EQUAL ID_V
+Reportes
 
-------------------------------------
-mkfs -> MKFS mkfs_p
+REP -name(cadena) -path(ruta) -id(cadena) -path_file_list(ruta)
 
-mkfs_p -> ID EQUAL ID_V
-        TYPE EQUAL FULL
 
-------------------------------------
-mkusr -> MKUSER mkusr_p
 
-mkusr_p -> USER EQUAL USER_V
-        | PASSWORD EQUAL PASSWORD_V
-        | GROUP GROUP_V
-
--------------------------------------
-rmusr -> RMUSR USER EQUAL USER_V
-
---------------------------------------
-mkfile -> MKFILE mkfile_p
-
-mkfile_p -> PATH EQUAL PATH_V
-        | R
-        | SIZE EQUAL INTEGER
-        | COUNT
 
 */
 
@@ -147,6 +100,18 @@ mkfile_p -> PATH EQUAL PATH_V
 %token RMUSR
 %token MKFILE
 
+%token MOUNTED
+%token CAT
+%token FILEN
+%token LOGIN
+%token LOGOUT
+%token MKGRP
+%token RMGRP
+%token CHGRP
+%token MKDIR
+%token REP
+%token PATH_FILE_LIST
+
 %token PASSWORD
 
 %token <long long> INTEGER
@@ -184,6 +149,36 @@ mkfile_p -> PATH EQUAL PATH_V
 %nterm <std::string> mkfile_p
 %nterm <std::string> mkfile
 %nterm <std::string> mkfile_params
+
+%nterm <std::string> mounted
+
+%nterm <std::string> cat
+%nterm <std::string> cat_params
+%nterm <std::string> cat_p
+
+%nterm <std::string> login
+%nterm <std::string> login_params
+%nterm <std::string> login_p
+
+%nterm <std::string> logout
+
+%nterm <std::string> mkgrp
+%nterm <std::string> mkgrp_params
+%nterm <std::string> mkgrp_p
+
+%nterm <std::string> rmgrp
+
+%nterm <std::string> chgrp
+%nterm <std::string> chgrp_params
+%nterm <std::string> chgrp_p
+
+%nterm <std::string> mkdir
+%nterm <std::string> mkdir_params
+%nterm <std::string> mkdir_p
+
+%nterm <std::string> rep
+%nterm <std::string> rep_params
+%nterm <std::string> rep_p
 */
 
 %code
@@ -208,6 +203,16 @@ comando    : EOL  { std::cerr << "No se encontraron comandos.\n"; }
         | mkusr EOL { std::cerr << "Comando mkusr ejecutado.\n"; }
         | rmusr EOL { std::cerr << "Comando rmusr ejecutado.\n"; }
         | mkfile EOL { std::cerr << "Comando mkfile ejecutado.\n"; }
+
+        | mounted EOL { std::cerr << "Comando mounted ejecutado.\n"; }
+        | cat EOL { std::cerr << "Comando cat ejecutado.\n"; }
+        | login EOL { std::cerr << "Comando login ejecutado.\n"; }
+        | logout EOL { std::cerr << "Comando logout ejecutado.\n"; }
+        | mkgrp EOL { std::cerr << "Comando mkgrp ejecutado.\n"; }
+        | rmgrp EOL { std::cerr << "Comando rmgrp ejecutado.\n"; }
+        | chgrp EOL { std::cerr << "Comando chgrp ejecutado.\n"; }
+        | mkdir EOL { std::cerr << "Comando mkdir ejecutado.\n"; }
+        | rep EOL { std::cerr << "Comando rep ejecutado.\n"; }
         /*| error EOL { std::cerr << "Comando no valido, revise que los parametros y los comandos esten bien escritos.\n"; yyerrok; }*/
         ;
 
@@ -316,6 +321,77 @@ mkfile_p : PATH EQUAL PATH_VALUE
         | R
         | SIZE EQUAL INTEGER
         | COUNT
+        ;
+
+/*--------------------------------------*/
+mounted : MOUNTED;
+
+/*--------------------------------------*/
+cat : CAT cat_params;
+
+cat_params : cat_params cat_p
+        | cat_p
+        ;
+
+cat_p : FILEN EQUAL PATH_VALUE
+        ;
+
+/*--------------------------------------*/
+login : LOGIN login_params;
+
+login_params : login_params login_p
+        | login_p
+        ;
+
+login_p : USER EQUAL ID_VALUE
+        | PASSWORD EQUAL PASSWORD_VALUE
+        | ID EQUAL ID_VALUE
+        ;
+
+/*--------------------------------------*/
+logout : LOGOUT;
+
+/*--------------------------------------*/
+mkgrp : MKGRP NAME EQUAL ID_VALUE
+        ;
+
+/*--------------------------------------*/
+rmgrp : RMGRP NAME EQUAL ID_VALUE
+        ;
+
+/*--------------------------------------*/
+chgrp : CHGRP chgrp_params;
+
+chgrp_params : chgrp_params chgrp_p
+        | chgrp_p
+        ;
+
+chgrp_p : USER EQUAL ID_VALUE
+        | GROUP EQUAL ID_VALUE
+        ;
+
+/*--------------------------------------*/
+mkdir : MKDIR mkdir_params;
+
+mkdir_params : mkdir_params mkdir_p
+        | mkdir_p
+        ;
+
+mkdir_p : PATH EQUAL PATH_VALUE
+        | P
+        ;
+
+/*--------------------------------------*/
+rep : REP rep_params;
+
+rep_params : rep_params rep_p
+        | rep_p
+        ;
+
+rep_p : NAME EQUAL ID_VALUE
+        | PATH EQUAL PATH_VALUE
+        | ID EQUAL ID_VALUE
+        | PATH_FILE_LIST EQUAL PATH_VALUE
         ;
 
 %%

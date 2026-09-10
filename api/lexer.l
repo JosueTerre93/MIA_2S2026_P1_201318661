@@ -89,6 +89,16 @@ ID_VALUE         [a-zA-Z_][a-zA-Z0-9_]*
 "rmusr"     return Parser::token::RMUSR;
 "mkfile"    return Parser::token::MKFILE;
 
+"mounted"   return Parser::token::MOUNTED;
+"cat"       return Parser::token::CAT;
+"login"     return Parser::token::LOGIN;
+"logout"    return Parser::token::LOGOUT;
+"mkgrp"     return Parser::token::MKGRP;
+"rmgrp"     return Parser::token::RMGRP;
+"chgrp"     return Parser::token::CHGRP;
+"mkdir"     return Parser::token::MKDIR;
+"rep"       return Parser::token::REP;
+
     /*-------------------PARAMETROS-------------------*/
 "-size" return Parser::token::SIZE;
 
@@ -108,7 +118,7 @@ ID_VALUE         [a-zA-Z_][a-zA-Z0-9_]*
 
 "-type" return Parser::token::TYPE;
 
-"P"     return Parser::token::P;
+"P"|"-p" return Parser::token::P;
 "E"     return Parser::token::E;
 "L"     return Parser::token::L;
 
@@ -116,12 +126,15 @@ ID_VALUE         [a-zA-Z_][a-zA-Z0-9_]*
 
 "-id"           return Parser::token::ID;
 
-"-user" return Parser::token::USER;
+"-user"|"-usr" return Parser::token::USER;
 "-pass" return Parser::token::PASSWORD;
 "-grp"  return Parser::token::GROUP;
 
 "-r"        return Parser::token::R; 
 "-count"    return Parser::token::COUNT;
+
+"-filen"|"-file"[0-9]+|"-file" return Parser::token::FILEN;
+"-path_file_list"              return Parser::token::PATH_FILE_LIST;
 
 "full"  return Parser::token::FULL;
 
