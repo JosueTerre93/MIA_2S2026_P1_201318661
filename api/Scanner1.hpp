@@ -4,9 +4,11 @@
 
 #line 6 "Scanner1.hpp"
 #include "Parser1.hpp"
-#define YYSTYPE calc::Parser::semantic_type
 
-#line 10 "Scanner1.hpp"
+#define YYSTYPE calc::Parser::semantic_type
+#define YYLTYPE calc::Parser::location_type
+
+#line 12 "Scanner1.hpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -30,6 +32,18 @@
 #define yyset_lval_ALREADY_DEFINED
 #else
 #define yyset_lval yyset_lval
+#endif
+
+#ifdef yyget_lloc
+#define yyget_lloc_ALREADY_DEFINED
+#else
+#define yyget_lloc yyget_lloc
+#endif
+
+#ifdef yyset_lloc
+#define yyset_lloc_ALREADY_DEFINED
+#else
+#define yyset_lloc yyset_lloc
 #endif
 
 /* First, we deal with  platform-specific or compiler-specific issues. */
@@ -293,6 +307,10 @@ YYSTYPE * yyget_lval ( yyscan_t yyscanner );
 
 void yyset_lval ( YYSTYPE * yylval_param , yyscan_t yyscanner );
 
+       YYLTYPE *yyget_lloc ( yyscan_t yyscanner );
+    
+        void yyset_lloc ( YYLTYPE * yylloc_param , yyscan_t yyscanner );
+    
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
  */
@@ -339,10 +357,10 @@ static int yy_flex_strlen ( const char * , yyscan_t yyscanner);
 #define YY_DECL_IS_OURS 1
 
 extern int yylex \
-               (YYSTYPE * yylval_param , yyscan_t yyscanner);
+               (YYSTYPE * yylval_param, YYLTYPE * yylloc_param , yyscan_t yyscanner);
 
 #define YY_DECL int yylex \
-               (YYSTYPE * yylval_param , yyscan_t yyscanner)
+               (YYSTYPE * yylval_param, YYLTYPE * yylloc_param , yyscan_t yyscanner)
 #endif /* !YY_DECL */
 
 /* yy_get_previous_state - get the state just before the EOB char was reached */
@@ -504,9 +522,9 @@ extern int yylex \
 #undef yyTABLES_NAME
 #endif
 
-#line 178 "lexer.l"
+#line 190 "lexer.l"
 
 
-#line 511 "Scanner1.hpp"
+#line 529 "Scanner1.hpp"
 #undef yyIN_HEADER
 #endif /* yyHEADER_H */

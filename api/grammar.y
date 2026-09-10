@@ -11,6 +11,10 @@
 %define api.parser.class {Parser}
 %define api.namespace {calc}
 %define api.value.type variant
+%define parse.error detailed
+
+%locations
+
 %param {yyscan_t scanner}
 
 %code requires
@@ -20,8 +24,10 @@
  
 %code provides
 {
-        #define YY_DECL \
-        int yylex(calc::Parser::semantic_type *yylval_param, yyscan_t yyscanner)
+    #define YY_DECL \
+    int yylex    (calc::Parser::semantic_type *yylval_param, \
+                calc::Parser::location_type *yylloc_param, \
+                yyscan_t yyscanner)
 
     YY_DECL;
 }
@@ -117,7 +123,6 @@ REP -name(cadena) -path(ruta) -id(cadena) -path_file_list(ruta)
 %token <long long> INTEGER
 %token <std::string> PATH_VALUE
 %token <std::string> ID_VALUE
-%token <std::string> PASSWORD_VALUE
 
 %token EQUAL
 %token EOL
@@ -195,25 +200,25 @@ comandos   : %empty {  }
         ;
  
 comando    : EOL  { std::cerr << "No se encontraron comandos.\n"; }
-        | mkdisk EOL { std::cerr << "Comando mkdisk ejecutado.\n"; }
-        | rmdisk EOL { std::cerr << "Comando rmdisk ejecutado.\n"; }
-        | fdisk EOL { std::cerr << "Comando fdisk ejecutado.\n"; }
-        | mount EOL { std::cerr << "Comando mount ejecutado.\n"; }
-        | mkfs EOL { std::cerr << "Comando mkfs ejecutado.\n"; }
-        | mkusr EOL { std::cerr << "Comando mkusr ejecutado.\n"; }
-        | rmusr EOL { std::cerr << "Comando rmusr ejecutado.\n"; }
-        | mkfile EOL { std::cerr << "Comando mkfile ejecutado.\n"; }
+        | mkdisk EOL { std::cerr << "MKDISK ejecutado.\n"; }
+        | rmdisk EOL { std::cerr << "RMDISK ejecutado.\n"; }
+        | fdisk EOL { std::cerr << "FDISK ejecutado.\n"; }
+        | mount EOL { std::cerr << "MOUNT ejecutado.\n"; }
+        | mkfs EOL { std::cerr << "MKFS ejecutado.\n"; }
+        | mkusr EOL { std::cerr << "MKUSR ejecutado.\n"; }
+        | rmusr EOL { std::cerr << "RMUSR ejecutado.\n"; }
+        | mkfile EOL { std::cerr << "MKFILE ejecutado.\n"; }
 
-        | mounted EOL { std::cerr << "Comando mounted ejecutado.\n"; }
-        | cat EOL { std::cerr << "Comando cat ejecutado.\n"; }
-        | login EOL { std::cerr << "Comando login ejecutado.\n"; }
-        | logout EOL { std::cerr << "Comando logout ejecutado.\n"; }
-        | mkgrp EOL { std::cerr << "Comando mkgrp ejecutado.\n"; }
-        | rmgrp EOL { std::cerr << "Comando rmgrp ejecutado.\n"; }
-        | chgrp EOL { std::cerr << "Comando chgrp ejecutado.\n"; }
-        | mkdir EOL { std::cerr << "Comando mkdir ejecutado.\n"; }
-        | rep EOL { std::cerr << "Comando rep ejecutado.\n"; }
-        /*| error EOL { std::cerr << "Comando no valido, revise que los parametros y los comandos esten bien escritos.\n"; yyerrok; }*/
+        | mounted EOL { std::cerr << "MOUNTED ejecutado.\n"; }
+        | cat EOL { std::cerr << "CAT ejecutado.\n"; }
+        | login EOL { std::cerr << "LOGIN ejecutado.\n"; }
+        | logout EOL { std::cerr << "LOGOUT ejecutado.\n"; }
+        | mkgrp EOL { std::cerr << "MKGRP ejecutado.\n"; }
+        | rmgrp EOL { std::cerr << "RMGRP ejecutado.\n"; }
+        | chgrp EOL { std::cerr << "CHGRP ejecutado.\n"; }
+        | mkdir EOL { std::cerr << "MKDIR ejecutado.\n"; }
+        | rep EOL { std::cerr << "REP ejecutado.\n"; }
+        | error EOL { std::cerr << "Comando no valido.\n"; yyerrok; }
         ;
 
 /*----------------------------------------*/
@@ -395,7 +400,29 @@ rep_p : NAME EQUAL ID_VALUE
         ;
 
 %%
+
+#include "Scanner1.hpp"
  
-void calc::Parser::error(const std::string& msg) {
-    std::cerr << "Error: " << msg << '\n';
+void calc::Parser::error(
+    const location_type& loc,
+    const std::string& msg
+)
+{
+    std::cerr
+        << "Error sintáctico en línea "
+        << loc.begin.line
+        << ", columna "
+        << loc.begin.column
+        << std::endl;
+
+    std::cerr
+        << "Token encontrado: \""
+        << obtenerUltimoToken()
+        << "\""
+        << std::endl;
+
+    std::cerr
+        << "Detalle: "
+        << msg
+        << std::endl;
 }

@@ -1,6 +1,8 @@
 %top {
 #include "Parser1.hpp"
+
 #define YYSTYPE calc::Parser::semantic_type
+#define YYLTYPE calc::Parser::location_type
 }
 
 %{
@@ -11,60 +13,25 @@
 #include "Parser1.hpp"
 
 using namespace calc;
+
+static std::string ultimo_token;
+
+#define YY_USER_ACTION                                      \
+    yylloc_param->begin.line = yyget_lineno(yyscanner);    \
+    yylloc_param->begin.column = yyget_column(yyscanner);  \
+    yylloc_param->end.line = yyget_lineno(yyscanner);      \
+    yylloc_param->end.column = yyget_column(yyscanner) + yyleng; \
+    yyset_column(yyget_column(yyscanner) + yyleng, yyscanner);
 %}
 
 %option reentrant
 %option bison-bridge
+%option bison-locations
 %option noyywrap
-%option noyylineno
+%option yylineno
 %option nodefault
 %option outfile="Scanner1.cpp"
 %option header-file="Scanner1.hpp"
-
-
-/*
-
-COMANDOS A IMPLEMENTAR:
-
-MKDISK
-    *-size ENTERO
-    -fit BF | FF | WF
-    -unit K | M
-    *-path RUTA
-
-RMDISK
-    *-path RUTA
-
-FDISK
-    *-size ENTERO
-    -unit B | K | M
-    *-path RUTA
-    -type P | E | L
-    -fit BF | FF | WF
-    *-name IDENTIFICADOR
-
-MOUNT
-    *-path RUTA
-    *-name IDENTIFICADOR
-
-MKFS
-    *-id ID
-    -type = full
-
-MKUSR
-    *-user USER (maximo 10)
-    *-pass PASSWORD (maximo 10)
-    *-grp GROUP (maixmo 10)
-
-RMUSR
-    *-user USER (maximo 10)
-
-MKFILE
-    *-path RUTA
-    -r 
-    -size ENTERO
-    -count 
-*/
  
 /*------------EXPRESIONES REGULARES--------------*/
 INTEGER          [0-9]+
@@ -72,6 +39,7 @@ PATH_VALUE       \"\/[^"\r\n]*\"|\/[^ \t\r\n]+
 PASSWORD_VALUE   [a-zA-Z0-9]{1,10}
 ID_VALUE         [a-zA-Z_][a-zA-Z0-9_]*
 
+%x ESPERA_PASSWORD
  
 %%
 
@@ -127,7 +95,14 @@ ID_VALUE         [a-zA-Z_][a-zA-Z0-9_]*
 "-id"           return Parser::token::ID;
 
 "-user"|"-usr" return Parser::token::USER;
-"-pass" return Parser::token::PASSWORD;
+"="         return Parser::token::EQUAL;
+
+"-pass" {
+    ultimo_token = yytext;
+    BEGIN(ESPERA_PASSWORD);
+    return Parser::token::PASSWORD;
+}
+
 "-grp"  return Parser::token::GROUP;
 
 "-r"        return Parser::token::R; 
@@ -138,7 +113,20 @@ ID_VALUE         [a-zA-Z_][a-zA-Z0-9_]*
 
 "full"  return Parser::token::FULL;
 
-"="         return Parser::token::EQUAL;
+<ESPERA_PASSWORD>"=" {
+    ultimo_token = yytext;
+    return Parser::token::EQUAL;
+}
+
+<ESPERA_PASSWORD>[a-zA-Z0-9]{1,10} {
+    ultimo_token = yytext;
+
+    yylval_param->emplace<std::string>(yytext);
+
+    BEGIN(INITIAL);
+
+    return Parser::token::PASSWORD_VALUE;
+}
 
 {INTEGER} {
     yylval_param->emplace<long long>(
@@ -153,19 +141,23 @@ ID_VALUE         [a-zA-Z_][a-zA-Z0-9_]*
     return Parser::token::PATH_VALUE;
 }
 
+[a-zA-Z_][a-zA-Z0-9_]* {
+    ultimo_token = yytext;
+    yylval_param->emplace<std::string>(yytext);
+    return Parser::token::ID_VALUE;
+}
+
 {ID_VALUE} {
     yylval_param->emplace<std::string>(yytext);
     return Parser::token::ID_VALUE;
 }
 
-{PASSWORD_VALUE} {
-    yylval_param->emplace<std::string>(yytext);
-    return Parser::token::PASSWORD_VALUE;
-}
-
     /*------------------- FIN DE LINEA -----------------*/
 
-\n              return Parser::token::EOL;
+\n {
+    yyset_column(1, yyscanner);
+    return Parser::token::EOL;
+}
 
 
     /*------------------- OTROS CARACTERES -------------*/
@@ -175,6 +167,11 @@ ID_VALUE         [a-zA-Z_][a-zA-Z0-9_]*
 }
  
 %%
+
+std::string obtenerUltimoToken()
+{
+    return ultimo_token;
+}
 
 /*
 int main() {

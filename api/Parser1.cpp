@@ -49,7 +49,7 @@
 
 
 // Unqualified %code blocks.
-#line 185 "grammar.y"
+#line 191 "grammar.y"
 
     namespace calc 
     {
@@ -81,6 +81,25 @@
 # endif
 #endif
 
+#define YYRHSLOC(Rhs, K) ((Rhs)[K].location)
+/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
+   If N is 0, then set CURRENT to the empty location which ends
+   the previous symbol: RHS[0] (always defined).  */
+
+# ifndef YYLLOC_DEFAULT
+#  define YYLLOC_DEFAULT(Current, Rhs, N)                               \
+    do                                                                  \
+      if (N)                                                            \
+        {                                                               \
+          (Current).begin  = YYRHSLOC (Rhs, 1).begin;                   \
+          (Current).end    = YYRHSLOC (Rhs, N).end;                     \
+        }                                                               \
+      else                                                              \
+        {                                                               \
+          (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;      \
+        }                                                               \
+    while (false)
+# endif
 
 
 // Enable debugging if requested.
@@ -130,7 +149,7 @@
 
 #line 12 "grammar.y"
 namespace calc {
-#line 134 "Parser1.cpp"
+#line 153 "Parser1.cpp"
 
   /// Build a parser object.
   Parser::Parser (yyscan_t scanner_yyarg)
@@ -158,6 +177,7 @@ namespace calc {
   Parser::basic_symbol<Base>::basic_symbol (const basic_symbol& that)
     : Base (that)
     , value ()
+    , location (that.location)
   {
     switch (this->kind ())
     {
@@ -216,6 +236,7 @@ namespace calc {
         break;
     }
 
+    location = YY_MOVE (s.location);
   }
 
   // by_kind.
@@ -308,7 +329,7 @@ namespace calc {
   {}
 
   Parser::stack_symbol_type::stack_symbol_type (YY_RVREF (stack_symbol_type) that)
-    : super_type (YY_MOVE (that.state))
+    : super_type (YY_MOVE (that.state), YY_MOVE (that.location))
   {
     switch (that.kind ())
     {
@@ -333,7 +354,7 @@ namespace calc {
   }
 
   Parser::stack_symbol_type::stack_symbol_type (state_type s, YY_MOVE_REF (symbol_type) that)
-    : super_type (s)
+    : super_type (s, YY_MOVE (that.location))
   {
     switch (that.kind ())
     {
@@ -376,6 +397,7 @@ namespace calc {
         break;
     }
 
+    location = that.location;
     return *this;
   }
 
@@ -399,6 +421,7 @@ namespace calc {
         break;
     }
 
+    location = that.location;
     // that is emptied.
     that.state = empty_state;
     return *this;
@@ -426,7 +449,8 @@ namespace calc {
       {
         symbol_kind_type yykind = yysym.kind ();
         yyo << (yykind < YYNTOKENS ? "token" : "nterm")
-            << ' ' << yysym.name () << " (";
+            << ' ' << yysym.name () << " ("
+            << yysym.location << ": ";
         YY_USE (yykind);
         yyo << ')';
       }
@@ -527,6 +551,9 @@ namespace calc {
     /// The lookahead symbol.
     symbol_type yyla;
 
+    /// The locations where the error started and ended.
+    stack_symbol_type yyerror_range[3];
+
     /// The return value of parse ().
     int yyresult;
 
@@ -575,7 +602,7 @@ namespace calc {
         try
 #endif // YY_EXCEPTIONS
           {
-            yyla.kind_ = yytranslate_ (yylex (&yyla.value, scanner));
+            yyla.kind_ = yytranslate_ (yylex (&yyla.value, &yyla.location, scanner));
           }
 #if YY_EXCEPTIONS
         catch (const syntax_error& yyexc)
@@ -663,6 +690,12 @@ namespace calc {
     }
 
 
+      // Default location.
+      {
+        stack_type::slice range (yystack_, yylen);
+        YYLLOC_DEFAULT (yylhs.location, range, yylen);
+        yyerror_range[1].location = yylhs.location;
+      }
 
       // Perform the reduction.
       YY_REDUCE_PRINT (yyn);
@@ -673,121 +706,121 @@ namespace calc {
           switch (yyn)
             {
   case 2: // comandos: %empty
-#line 193 "grammar.y"
+#line 199 "grammar.y"
                     {  }
-#line 679 "Parser1.cpp"
+#line 712 "Parser1.cpp"
     break;
 
   case 4: // comando: EOL
-#line 197 "grammar.y"
+#line 203 "grammar.y"
                   { std::cerr << "No se encontraron comandos.\n"; }
-#line 685 "Parser1.cpp"
+#line 718 "Parser1.cpp"
     break;
 
   case 5: // comando: mkdisk EOL
-#line 198 "grammar.y"
+#line 204 "grammar.y"
                      { std::cerr << "Comando mkdisk ejecutado.\n"; }
-#line 691 "Parser1.cpp"
+#line 724 "Parser1.cpp"
     break;
 
   case 6: // comando: rmdisk EOL
-#line 199 "grammar.y"
+#line 205 "grammar.y"
                      { std::cerr << "Comando rmdisk ejecutado.\n"; }
-#line 697 "Parser1.cpp"
+#line 730 "Parser1.cpp"
     break;
 
   case 7: // comando: fdisk EOL
-#line 200 "grammar.y"
+#line 206 "grammar.y"
                     { std::cerr << "Comando fdisk ejecutado.\n"; }
-#line 703 "Parser1.cpp"
+#line 736 "Parser1.cpp"
     break;
 
   case 8: // comando: mount EOL
-#line 201 "grammar.y"
+#line 207 "grammar.y"
                     { std::cerr << "Comando mount ejecutado.\n"; }
-#line 709 "Parser1.cpp"
+#line 742 "Parser1.cpp"
     break;
 
   case 9: // comando: mkfs EOL
-#line 202 "grammar.y"
+#line 208 "grammar.y"
                    { std::cerr << "Comando mkfs ejecutado.\n"; }
-#line 715 "Parser1.cpp"
+#line 748 "Parser1.cpp"
     break;
 
   case 10: // comando: mkusr EOL
-#line 203 "grammar.y"
+#line 209 "grammar.y"
                     { std::cerr << "Comando mkusr ejecutado.\n"; }
-#line 721 "Parser1.cpp"
+#line 754 "Parser1.cpp"
     break;
 
   case 11: // comando: rmusr EOL
-#line 204 "grammar.y"
+#line 210 "grammar.y"
                     { std::cerr << "Comando rmusr ejecutado.\n"; }
-#line 727 "Parser1.cpp"
+#line 760 "Parser1.cpp"
     break;
 
   case 12: // comando: mkfile EOL
-#line 205 "grammar.y"
+#line 211 "grammar.y"
                      { std::cerr << "Comando mkfile ejecutado.\n"; }
-#line 733 "Parser1.cpp"
+#line 766 "Parser1.cpp"
     break;
 
   case 13: // comando: mounted EOL
-#line 207 "grammar.y"
+#line 213 "grammar.y"
                       { std::cerr << "Comando mounted ejecutado.\n"; }
-#line 739 "Parser1.cpp"
+#line 772 "Parser1.cpp"
     break;
 
   case 14: // comando: cat EOL
-#line 208 "grammar.y"
+#line 214 "grammar.y"
                   { std::cerr << "Comando cat ejecutado.\n"; }
-#line 745 "Parser1.cpp"
+#line 778 "Parser1.cpp"
     break;
 
   case 15: // comando: login EOL
-#line 209 "grammar.y"
+#line 215 "grammar.y"
                     { std::cerr << "Comando login ejecutado.\n"; }
-#line 751 "Parser1.cpp"
+#line 784 "Parser1.cpp"
     break;
 
   case 16: // comando: logout EOL
-#line 210 "grammar.y"
+#line 216 "grammar.y"
                      { std::cerr << "Comando logout ejecutado.\n"; }
-#line 757 "Parser1.cpp"
+#line 790 "Parser1.cpp"
     break;
 
   case 17: // comando: mkgrp EOL
-#line 211 "grammar.y"
+#line 217 "grammar.y"
                     { std::cerr << "Comando mkgrp ejecutado.\n"; }
-#line 763 "Parser1.cpp"
+#line 796 "Parser1.cpp"
     break;
 
   case 18: // comando: rmgrp EOL
-#line 212 "grammar.y"
+#line 218 "grammar.y"
                     { std::cerr << "Comando rmgrp ejecutado.\n"; }
-#line 769 "Parser1.cpp"
+#line 802 "Parser1.cpp"
     break;
 
   case 19: // comando: chgrp EOL
-#line 213 "grammar.y"
+#line 219 "grammar.y"
                     { std::cerr << "Comando chgrp ejecutado.\n"; }
-#line 775 "Parser1.cpp"
+#line 808 "Parser1.cpp"
     break;
 
   case 20: // comando: mkdir EOL
-#line 214 "grammar.y"
+#line 220 "grammar.y"
                     { std::cerr << "Comando mkdir ejecutado.\n"; }
-#line 781 "Parser1.cpp"
+#line 814 "Parser1.cpp"
     break;
 
   case 21: // comando: rep EOL
-#line 215 "grammar.y"
+#line 221 "grammar.y"
                   { std::cerr << "Comando rep ejecutado.\n"; }
-#line 787 "Parser1.cpp"
+#line 820 "Parser1.cpp"
     break;
 
 
-#line 791 "Parser1.cpp"
+#line 824 "Parser1.cpp"
 
             default:
               break;
@@ -819,11 +852,13 @@ namespace calc {
     if (!yyerrstatus_)
       {
         ++yynerrs_;
-        std::string msg = YY_("syntax error");
-        error (YY_MOVE (msg));
+        context yyctx (*this, yyla);
+        std::string msg = yysyntax_error_ (yyctx);
+        error (yyla.location, YY_MOVE (msg));
       }
 
 
+    yyerror_range[1].location = yyla.location;
     if (yyerrstatus_ == 3)
       {
         /* If just tried and failed to reuse lookahead token after an
@@ -885,6 +920,7 @@ namespace calc {
         if (yystack_.size () == 1)
           YYABORT;
 
+        yyerror_range[1].location = yystack_[0].location;
         yy_destroy_ ("Error: popping", yystack_[0]);
         yypop_ ();
         YY_STACK_PRINT ();
@@ -892,6 +928,8 @@ namespace calc {
     {
       stack_symbol_type error_token;
 
+      yyerror_range[2].location = yyla.location;
+      YYLLOC_DEFAULT (error_token.location, yyerror_range, 2);
 
       // Shift the error token.
       error_token.state = state_type (yyn);
@@ -957,23 +995,159 @@ namespace calc {
   void
   Parser::error (const syntax_error& yyexc)
   {
-    error (yyexc.what ());
+    error (yyexc.location, yyexc.what ());
   }
 
-#if YYDEBUG || 0
   const char *
   Parser::symbol_name (symbol_kind_type yysymbol)
   {
-    return yytname_[yysymbol];
+    static const char *const yy_sname[] =
+    {
+    "end of file", "error", "invalid token", "SIZE", "FIT", "BF", "FF",
+  "WF", "UNIT", "B", "K", "M", "PATH", "TYPE", "P", "E", "L", "NAME", "ID",
+  "USER", "GROUP", "R", "COUNT", "FULL", "MKDISK", "RMDISK", "FDISK",
+  "MOUNT", "MKFS", "MKUSR", "RMUSR", "MKFILE", "MOUNTED", "CAT", "FILEN",
+  "LOGIN", "LOGOUT", "MKGRP", "RMGRP", "CHGRP", "MKDIR", "REP",
+  "PATH_FILE_LIST", "PASSWORD", "INTEGER", "PATH_VALUE", "ID_VALUE",
+  "PASSWORD_VALUE", "EQUAL", "EOL", "$accept", "comandos", "comando",
+  "mkdisk", "mkdisk_params", "mkdisk_p", "fit_v", "unit_v", "rmdisk",
+  "fdisk", "fdisk_params", "fdisk_p", "unit_v2", "type_v", "mount",
+  "mount_params", "mount_p", "mkfs", "mkfs_params", "mkfs_p", "mkusr",
+  "mkusr_params", "mkusr_p", "rmusr", "mkfile", "mkfile_params",
+  "mkfile_p", "mounted", "cat", "cat_params", "cat_p", "login",
+  "login_params", "login_p", "logout", "mkgrp", "rmgrp", "chgrp",
+  "chgrp_params", "chgrp_p", "mkdir", "mkdir_params", "mkdir_p", "rep",
+  "rep_params", "rep_p", YY_NULLPTR
+    };
+    return yy_sname[yysymbol];
   }
-#endif // #if YYDEBUG || 0
+
+
+
+  // Parser::context.
+  Parser::context::context (const Parser& yyparser, const symbol_type& yyla)
+    : yyparser_ (yyparser)
+    , yyla_ (yyla)
+  {}
+
+  int
+  Parser::context::expected_tokens (symbol_kind_type yyarg[], int yyargn) const
+  {
+    // Actual number of expected tokens
+    int yycount = 0;
+
+    const int yyn = yypact_[+yyparser_.yystack_[0].state];
+    if (!yy_pact_value_is_default_ (yyn))
+      {
+        /* Start YYX at -YYN if negative to avoid negative indexes in
+           YYCHECK.  In other words, skip the first -YYN actions for
+           this state because they are default actions.  */
+        const int yyxbegin = yyn < 0 ? -yyn : 0;
+        // Stay within bounds of both yycheck and yytname.
+        const int yychecklim = yylast_ - yyn + 1;
+        const int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
+        for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
+          if (yycheck_[yyx + yyn] == yyx && yyx != symbol_kind::S_YYerror
+              && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
+            {
+              if (!yyarg)
+                ++yycount;
+              else if (yycount == yyargn)
+                return 0;
+              else
+                yyarg[yycount++] = YY_CAST (symbol_kind_type, yyx);
+            }
+      }
+
+    if (yyarg && yycount == 0 && 0 < yyargn)
+      yyarg[0] = symbol_kind::S_YYEMPTY;
+    return yycount;
+  }
 
 
 
 
 
 
+  int
+  Parser::yy_syntax_error_arguments_ (const context& yyctx,
+                                                 symbol_kind_type yyarg[], int yyargn) const
+  {
+    /* There are many possibilities here to consider:
+       - If this state is a consistent state with a default action, then
+         the only way this function was invoked is if the default action
+         is an error action.  In that case, don't check for expected
+         tokens because there are none.
+       - The only way there can be no lookahead present (in yyla) is
+         if this state is a consistent state with a default action.
+         Thus, detecting the absence of a lookahead is sufficient to
+         determine that there is no unexpected or expected token to
+         report.  In that case, just report a simple "syntax error".
+       - Don't assume there isn't a lookahead just because this state is
+         a consistent state with a default action.  There might have
+         been a previous inconsistent state, consistent state with a
+         non-default action, or user semantic action that manipulated
+         yyla.  (However, yyla is currently not documented for users.)
+       - Of course, the expected token list depends on states to have
+         correct lookahead information, and it depends on the parser not
+         to perform extra reductions after fetching a lookahead from the
+         scanner and before detecting a syntax error.  Thus, state merging
+         (from LALR or IELR) and default reductions corrupt the expected
+         token list.  However, the list is correct for canonical LR with
+         one exception: it will still contain any token that will not be
+         accepted due to an error action in a later state.
+    */
 
+    if (!yyctx.lookahead ().empty ())
+      {
+        if (yyarg)
+          yyarg[0] = yyctx.token ();
+        int yyn = yyctx.expected_tokens (yyarg ? yyarg + 1 : yyarg, yyargn - 1);
+        return yyn + 1;
+      }
+    return 0;
+  }
+
+  // Generate an error message.
+  std::string
+  Parser::yysyntax_error_ (const context& yyctx) const
+  {
+    // Its maximum.
+    enum { YYARGS_MAX = 5 };
+    // Arguments of yyformat.
+    symbol_kind_type yyarg[YYARGS_MAX];
+    int yycount = yy_syntax_error_arguments_ (yyctx, yyarg, YYARGS_MAX);
+
+    char const* yyformat = YY_NULLPTR;
+    switch (yycount)
+      {
+#define YYCASE_(N, S)                         \
+        case N:                               \
+          yyformat = S;                       \
+        break
+      default: // Avoid compiler warnings.
+        YYCASE_ (0, YY_("syntax error"));
+        YYCASE_ (1, YY_("syntax error, unexpected %s"));
+        YYCASE_ (2, YY_("syntax error, unexpected %s, expecting %s"));
+        YYCASE_ (3, YY_("syntax error, unexpected %s, expecting %s or %s"));
+        YYCASE_ (4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
+        YYCASE_ (5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
+#undef YYCASE_
+      }
+
+    std::string yyres;
+    // Argument number.
+    std::ptrdiff_t yyi = 0;
+    for (char const* yyp = yyformat; *yyp; ++yyp)
+      if (yyp[0] == '%' && yyp[1] == 's' && yyi < yycount)
+        {
+          yyres += symbol_name (yyarg[yyi++]);
+          ++yyp;
+        }
+      else
+        yyres += *yyp;
+    return yyres;
+  }
 
 
   const signed char Parser::yypact_ninf_ = -44;
@@ -1157,46 +1331,23 @@ namespace calc {
   };
 
 
-#if YYDEBUG
-  // YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
-  // First, the terminals, then, starting at \a YYNTOKENS, nonterminals.
-  const char*
-  const Parser::yytname_[] =
-  {
-  "\"end of file\"", "error", "\"invalid token\"", "SIZE", "FIT", "BF",
-  "FF", "WF", "UNIT", "B", "K", "M", "PATH", "TYPE", "P", "E", "L", "NAME",
-  "ID", "USER", "GROUP", "R", "COUNT", "FULL", "MKDISK", "RMDISK", "FDISK",
-  "MOUNT", "MKFS", "MKUSR", "RMUSR", "MKFILE", "MOUNTED", "CAT", "FILEN",
-  "LOGIN", "LOGOUT", "MKGRP", "RMGRP", "CHGRP", "MKDIR", "REP",
-  "PATH_FILE_LIST", "PASSWORD", "INTEGER", "PATH_VALUE", "ID_VALUE",
-  "PASSWORD_VALUE", "EQUAL", "EOL", "$accept", "comandos", "comando",
-  "mkdisk", "mkdisk_params", "mkdisk_p", "fit_v", "unit_v", "rmdisk",
-  "fdisk", "fdisk_params", "fdisk_p", "unit_v2", "type_v", "mount",
-  "mount_params", "mount_p", "mkfs", "mkfs_params", "mkfs_p", "mkusr",
-  "mkusr_params", "mkusr_p", "rmusr", "mkfile", "mkfile_params",
-  "mkfile_p", "mounted", "cat", "cat_params", "cat_p", "login",
-  "login_params", "login_p", "logout", "mkgrp", "rmgrp", "chgrp",
-  "chgrp_params", "chgrp_p", "mkdir", "mkdir_params", "mkdir_p", "rep",
-  "rep_params", "rep_p", YY_NULLPTR
-  };
-#endif
 
 
 #if YYDEBUG
   const short
   Parser::yyrline_[] =
   {
-       0,   193,   193,   194,   197,   198,   199,   200,   201,   202,
-     203,   204,   205,   207,   208,   209,   210,   211,   212,   213,
-     214,   215,   220,   223,   224,   227,   228,   229,   230,   233,
-     234,   235,   238,   239,   243,   246,   249,   250,   253,   254,
-     255,   256,   257,   258,   261,   262,   263,   266,   267,   268,
-     272,   275,   276,   279,   280,   284,   287,   288,   291,   292,
-     296,   299,   300,   303,   304,   305,   309,   313,   316,   317,
-     320,   321,   322,   323,   327,   330,   332,   333,   336,   340,
-     342,   343,   346,   347,   348,   352,   355,   359,   363,   365,
-     366,   369,   370,   374,   376,   377,   380,   381,   385,   387,
-     388,   391,   392,   393,   394
+       0,   199,   199,   200,   203,   204,   205,   206,   207,   208,
+     209,   210,   211,   213,   214,   215,   216,   217,   218,   219,
+     220,   221,   226,   229,   230,   233,   234,   235,   236,   239,
+     240,   241,   244,   245,   249,   252,   255,   256,   259,   260,
+     261,   262,   263,   264,   267,   268,   269,   272,   273,   274,
+     278,   281,   282,   285,   286,   290,   293,   294,   297,   298,
+     302,   305,   306,   309,   310,   311,   315,   319,   322,   323,
+     326,   327,   328,   329,   333,   336,   338,   339,   342,   346,
+     348,   349,   352,   353,   354,   358,   361,   365,   369,   371,
+     372,   375,   376,   380,   382,   383,   386,   387,   391,   393,
+     394,   397,   398,   399,   400
   };
 
   void
@@ -1280,11 +1431,21 @@ namespace calc {
 
 #line 12 "grammar.y"
 } // calc
-#line 1284 "Parser1.cpp"
+#line 1435 "Parser1.cpp"
 
-#line 397 "grammar.y"
+#line 403 "grammar.y"
 
+
+#include "Scanner1.hpp"
  
-void calc::Parser::error(const std::string& msg) {
-    std::cerr << "Error: " << msg << '\n';
+void calc::Parser::error(const location_type& loc, const std::string& msg)
+{
+    std::cerr
+        << "Error sintáctico en línea "
+        << loc.begin.line
+        << ", columna "
+        << loc.begin.column
+        << ": "
+        << msg
+        << std::endl;
 }
