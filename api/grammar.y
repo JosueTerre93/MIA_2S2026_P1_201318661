@@ -1,6 +1,9 @@
 %{
 #include <iostream>
 #include <string>
+
+#include "Comandos/Mkdisk.h"
+#include "Comandos/Fdisk.h"
 %}
  
 %require "3.7.4"
@@ -20,16 +23,20 @@
 %code requires
 {
   typedef void* yyscan_t;
+  #include "Comandos/Mkdisk.h"
+  #include "Comandos/Fdisk.h"
 }
  
 %code provides
 {
     #define YY_DECL \
-    int yylex    (calc::Parser::semantic_type *yylval_param, \
-                calc::Parser::location_type *yylloc_param, \
-                yyscan_t yyscanner)
+    int yylex(calc::Parser::semantic_type *yylval_param, \
+              calc::Parser::location_type *yylloc_param, \
+              yyscan_t yyscanner)
 
     YY_DECL;
+
+    std::string obtenerUltimoToken();
 }
 
 /*
@@ -67,7 +74,6 @@ REP -name(cadena) -path(ruta) -id(cadena) -path_file_list(ruta)
 
 
 */
-
 %token SIZE
 %token FIT
 
@@ -123,74 +129,23 @@ REP -name(cadena) -path(ruta) -id(cadena) -path_file_list(ruta)
 %token <long long> INTEGER
 %token <std::string> PATH_VALUE
 %token <std::string> ID_VALUE
+%token <std::string> PASSWORD_VALUE
 
 %token EQUAL
 %token EOL
 
-/*
-%nterm <std::string> comandos
-%nterm <std::string> comando
-%nterm <std::string> mkdisk
-%nterm <std::string> mkdisk_params
-%nterm <std::string> mkdisk_p
-%nterm <std::string> fit_v
-%nterm <std::string> unit_v
-%nterm <std::string> rmdisk
-%nterm <std::string> fdisk
-%nterm <std::string> fdisk_params
-%nterm <std::string> fdisk_p
-%nterm <std::string> unit_v2
-%nterm <std::string> type_v
-%nterm <std::string> mount
-%nterm <std::string> mount_params
-%nterm <std::string> mount_p
-%nterm <std::string> mkfs
-%nterm <std::string> mkfs_params
-%nterm <std::string> mkfs_p
-%nterm <std::string> mkusr
-%nterm <std::string> mkusr_params
-%nterm <std::string> mkusr_p
-%nterm <std::string> rmusr
-%nterm <std::string> mkfile_p
-%nterm <std::string> mkfile
-%nterm <std::string> mkfile_params
+%type <std::string> fit_v
+%type <std::string> unit_v
+%type <std::string> unit_v2
+%type <std::string> type_v
 
-%nterm <std::string> mounted
-
-%nterm <std::string> cat
-%nterm <std::string> cat_params
-%nterm <std::string> cat_p
-
-%nterm <std::string> login
-%nterm <std::string> login_params
-%nterm <std::string> login_p
-
-%nterm <std::string> logout
-
-%nterm <std::string> mkgrp
-%nterm <std::string> mkgrp_params
-%nterm <std::string> mkgrp_p
-
-%nterm <std::string> rmgrp
-
-%nterm <std::string> chgrp
-%nterm <std::string> chgrp_params
-%nterm <std::string> chgrp_p
-
-%nterm <std::string> mkdir
-%nterm <std::string> mkdir_params
-%nterm <std::string> mkdir_p
-
-%nterm <std::string> rep
-%nterm <std::string> rep_params
-%nterm <std::string> rep_p
-*/
 
 %code
 {
     namespace calc 
     {
-    
+        MkdiskParams mkdiskActual;
+        FdiskParams fdiskActual;
     }
 } // %code
  
@@ -222,55 +177,78 @@ comando    : EOL  { std::cerr << "No se encontraron comandos.\n"; }
         ;
 
 /*----------------------------------------*/
-mkdisk : MKDISK mkdisk_params
+mkdisk 
+        : MKDISK 
+        {
+            std::cout 
+                << ">>> INICIO MKDISK EN BISON"
+                << std::endl;
+            
+            calc::mkdiskActual = MkdiskParams();
+        }
+        mkdisk_params
+        {
+            std::cerr << ejecutarMkdisk(calc::mkdiskActual) << std::endl;
+        }
 ;
 
 mkdisk_params : mkdisk_params mkdisk_p
         |mkdisk_p
         ;
 
-mkdisk_p : SIZE EQUAL INTEGER
-        | FIT EQUAL fit_v
-        | UNIT EQUAL unit_v
-        | PATH EQUAL PATH_VALUE
+mkdisk_p : SIZE EQUAL INTEGER { calc::mkdiskActual.size = $3; }
+        | FIT EQUAL fit_v { calc::mkdiskActual.fit = $3; }
+        | UNIT EQUAL unit_v { calc::mkdiskActual.unit = $3; }
+        | PATH EQUAL PATH_VALUE { calc::mkdiskActual.path = $3; }
         ;
 
-fit_v : BF
-        | FF
-        | WF
+fit_v : BF { $$ = "BF"; }
+        | FF { $$ = "FF"; }
+        | WF { $$ = "WF"; }
         ;
 
-unit_v : K
-        | M
+unit_v : K { $$ = "K"; }
+        | M { $$ = "M"; }
         ;
 
 /*--------------------------------------*/
 rmdisk : RMDISK PATH EQUAL PATH_VALUE;
 
 /*--------------------------------------*/
-fdisk : FDISK fdisk_params
+fdisk
+    : FDISK
+    {
+        calc::fdiskActual = FdiskParams();
+    }
+    fdisk_params
+    {
+        std::cerr
+            << ejecutarFdisk(
+                calc::fdiskActual
+            )
+            << std::endl;
+    }
 ;
-
 fdisk_params : fdisk_params fdisk_p
         |fdisk_p
         ;
 
-fdisk_p : SIZE EQUAL INTEGER
-        | UNIT EQUAL unit_v2
-        | PATH EQUAL PATH_VALUE
-        | TYPE EQUAL type_v
-        | FIT EQUAL fit_v
-        | NAME EQUAL ID_VALUE
+fdisk_p : SIZE EQUAL INTEGER { calc::fdiskActual.size = $3; }
+        | UNIT EQUAL unit_v2 { calc::fdiskActual.unit = $3; }
+        | PATH EQUAL PATH_VALUE { calc::fdiskActual.path = $3; }
+        | TYPE EQUAL type_v { calc::fdiskActual.type = $3; }
+        | FIT EQUAL fit_v { calc::fdiskActual.fit = $3; }
+        | NAME EQUAL ID_VALUE { calc::fdiskActual.name = $3; }  
         ;
 
-unit_v2 : B
-        | K
-        | M
+unit_v2 : B{ $$ = "B"; }
+        | K{ $$ = "K"; }
+        | M{ $$ = "M"; }
         ;
 
-type_v : P
-        | E
-        | L
+type_v : P { $$ = "P"; }
+        | E { $$ = "E"; }
+        | L { $$ = "L"; }
         ;
 
 /*-------------------------------------*/
@@ -325,7 +303,7 @@ mkfile_params : mkfile_params mkfile_p
 mkfile_p : PATH EQUAL PATH_VALUE
         | R
         | SIZE EQUAL INTEGER
-        | COUNT
+        | COUNT EQUAL PATH_VALUE
         ;
 
 /*--------------------------------------*/

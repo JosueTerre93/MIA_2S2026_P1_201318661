@@ -251,6 +251,7 @@ void yyfree ( void * , yyscan_t yyscanner );
 
 #ifdef YY_HEADER_EXPORT_START_CONDITIONS
 #define INITIAL 0
+#define ESPERA_PASSWORD 1
 
 #endif
 
@@ -522,9 +523,9 @@ extern int yylex \
 #undef yyTABLES_NAME
 #endif
 
-#line 190 "lexer.l"
+#line 183 "lexer.l"
 
 
-#line 529 "Scanner1.hpp"
+#line 530 "Scanner1.hpp"
 #undef yyIN_HEADER
 #endif /* yyHEADER_H */
