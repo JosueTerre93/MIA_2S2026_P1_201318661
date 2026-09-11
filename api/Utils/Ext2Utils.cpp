@@ -155,7 +155,7 @@ SuperBlock crearSuperBlock(
         );
 
     // Primer inodo libre
-    sb.s_first_ino =
+    sb.s_firts_ino =
         sb.s_inode_start;
 
     // Primer bloque libre

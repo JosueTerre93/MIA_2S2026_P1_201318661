@@ -45,7 +45,7 @@
 #ifndef YY_YY_PARSER1_HPP_INCLUDED
 # define YY_YY_PARSER1_HPP_INCLUDED
 // "%code requires" blocks.
-#line 24 "grammar.y"
+#line 25 "grammar.y"
 
   typedef void* yyscan_t;
   #include "Comandos/Mkdisk.h"
@@ -185,7 +185,7 @@
 # define YYDEBUG 0
 #endif
 
-#line 15 "grammar.y"
+#line 16 "grammar.y"
 namespace calc {
 #line 191 "Parser1.hpp"
 
@@ -575,37 +575,38 @@ namespace calc {
         S_unit_v2 = 64,                          // unit_v2
         S_type_v = 65,                           // type_v
         S_mount = 66,                            // mount
-        S_mount_params = 67,                     // mount_params
-        S_mount_p = 68,                          // mount_p
-        S_mkfs = 69,                             // mkfs
-        S_mkfs_params = 70,                      // mkfs_params
-        S_mkfs_p = 71,                           // mkfs_p
-        S_mkusr = 72,                            // mkusr
-        S_mkusr_params = 73,                     // mkusr_params
-        S_mkusr_p = 74,                          // mkusr_p
-        S_rmusr = 75,                            // rmusr
-        S_mkfile = 76,                           // mkfile
-        S_mkfile_params = 77,                    // mkfile_params
-        S_mkfile_p = 78,                         // mkfile_p
-        S_mounted = 79,                          // mounted
-        S_cat = 80,                              // cat
-        S_cat_params = 81,                       // cat_params
-        S_cat_p = 82,                            // cat_p
-        S_login = 83,                            // login
-        S_login_params = 84,                     // login_params
-        S_login_p = 85,                          // login_p
-        S_logout = 86,                           // logout
-        S_mkgrp = 87,                            // mkgrp
-        S_rmgrp = 88,                            // rmgrp
-        S_chgrp = 89,                            // chgrp
-        S_chgrp_params = 90,                     // chgrp_params
-        S_chgrp_p = 91,                          // chgrp_p
-        S_mkdir = 92,                            // mkdir
-        S_mkdir_params = 93,                     // mkdir_params
-        S_mkdir_p = 94,                          // mkdir_p
-        S_rep = 95,                              // rep
-        S_rep_params = 96,                       // rep_params
-        S_rep_p = 97                             // rep_p
+        S_67_3 = 67,                             // $@3
+        S_mount_params = 68,                     // mount_params
+        S_mount_p = 69,                          // mount_p
+        S_mkfs = 70,                             // mkfs
+        S_mkfs_params = 71,                      // mkfs_params
+        S_mkfs_p = 72,                           // mkfs_p
+        S_mkusr = 73,                            // mkusr
+        S_mkusr_params = 74,                     // mkusr_params
+        S_mkusr_p = 75,                          // mkusr_p
+        S_rmusr = 76,                            // rmusr
+        S_mkfile = 77,                           // mkfile
+        S_mkfile_params = 78,                    // mkfile_params
+        S_mkfile_p = 79,                         // mkfile_p
+        S_mounted = 80,                          // mounted
+        S_cat = 81,                              // cat
+        S_cat_params = 82,                       // cat_params
+        S_cat_p = 83,                            // cat_p
+        S_login = 84,                            // login
+        S_login_params = 85,                     // login_params
+        S_login_p = 86,                          // login_p
+        S_logout = 87,                           // logout
+        S_mkgrp = 88,                            // mkgrp
+        S_rmgrp = 89,                            // rmgrp
+        S_chgrp = 90,                            // chgrp
+        S_chgrp_params = 91,                     // chgrp_params
+        S_chgrp_p = 92,                          // chgrp_p
+        S_mkdir = 93,                            // mkdir
+        S_mkdir_params = 94,                     // mkdir_params
+        S_mkdir_p = 95,                          // mkdir_p
+        S_rep = 96,                              // rep
+        S_rep_params = 97,                       // rep_params
+        S_rep_p = 98                             // rep_p
       };
     };
 
@@ -1980,8 +1981,8 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 180,     ///< Last index in yytable_.
-      yynnts_ = 48,  ///< Number of nonterminal symbols.
+      yylast_ = 185,     ///< Last index in yytable_.
+      yynnts_ = 49,  ///< Number of nonterminal symbols.
       yyfinal_ = 2 ///< Termination state number.
     };
 
@@ -1992,13 +1993,13 @@ switch (yykind)
   };
 
 
-#line 15 "grammar.y"
+#line 16 "grammar.y"
 } // calc
-#line 1998 "Parser1.hpp"
+#line 1999 "Parser1.hpp"
 
 
 // "%code provides" blocks.
-#line 31 "grammar.y"
+#line 32 "grammar.y"
 
     #define YY_DECL \
     int yylex(calc::Parser::semantic_type *yylval_param, \
@@ -2009,7 +2010,7 @@ switch (yykind)
 
     std::string obtenerUltimoToken();
 
-#line 2013 "Parser1.hpp"
+#line 2014 "Parser1.hpp"
 
 
 #endif // !YY_YY_PARSER1_HPP_INCLUDED

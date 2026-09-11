@@ -4,6 +4,7 @@
 
 #include "Comandos/Mkdisk.h"
 #include "Comandos/Fdisk.h"
+#include "Comandos/Mount.h"
 %}
  
 %require "3.7.4"
@@ -146,6 +147,7 @@ REP -name(cadena) -path(ruta) -id(cadena) -path_file_list(ruta)
     {
         MkdiskParams mkdiskActual;
         FdiskParams fdiskActual;
+        MountParams mountActual;
     }
 } // %code
  
@@ -252,15 +254,25 @@ type_v : P { $$ = "P"; }
         ;
 
 /*-------------------------------------*/
-mount : MOUNT mount_params
+mount
+    : MOUNT
+    {
+        calc::mountActual = MountParams();
+    }
+    mount_params
+    {
+        std::cerr
+            << ejecutarMount(calc::mountActual)
+            << std::endl;
+    }
 ;
 
 mount_params : mount_params mount_p
         | mount_p
         ;
 
-mount_p : PATH EQUAL PATH_VALUE 
-        | NAME EQUAL ID_VALUE
+mount_p : PATH EQUAL PATH_VALUE { calc::mountActual.path = $3; }
+        | NAME EQUAL ID_VALUE { calc::mountActual.name = $3; }
         ;
 
 /*------------------------------------*/
@@ -307,8 +319,14 @@ mkfile_p : PATH EQUAL PATH_VALUE
         ;
 
 /*--------------------------------------*/
-mounted : MOUNTED;
-
+mounted
+    : MOUNTED
+    {
+        std::cerr
+            << mostrarParticionesMontadas()
+            << std::endl;
+    }
+;
 /*--------------------------------------*/
 cat : CAT cat_params;
 

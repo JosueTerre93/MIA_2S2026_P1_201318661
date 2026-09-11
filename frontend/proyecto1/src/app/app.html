@@ -132,17 +132,7 @@
           </div>
 
           <!-- ATAJOS RÁPIDOS DE COMANDOS -->
-          <div class="quick-chips">
-            <span class="chips-label">Atajos rápidos:</span>
-            <button class="chip" (click)="insertarComando('mkdisk -size=20 -unit=M -fit=BF -path=/home/disco1.dsk')">mkdisk</button>
-            <button class="chip" (click)="insertarComando('fdisk -size=5 -unit=M -path=/home/disco1.dsk -type=P -name=Part1')">fdisk</button>
-            <button class="chip" (click)="insertarComando('mount -path=/home/disco1.dsk -name=Part1')">mount</button>
-            <button class="chip" (click)="insertarComando('mkfs -id=261disco1 -type=full')">mkfs</button>
-            <button class="chip" (click)="insertarComando('mkusr -user=user1 -pass=1234 -grp=root')">mkusr</button>
-            <button class="chip" (click)="insertarComando('rmusr -user=user1')">rmusr</button>
-            <button class="chip" (click)="insertarComando('mkfile -path=/home/user/test.txt -r -size=64')">mkfile</button>
-            <button class="chip" (click)="insertarComando('rmdisk -path=/home/disco1.dsk')">rmdisk</button>
-          </div>
+
         </div>
       }
 
