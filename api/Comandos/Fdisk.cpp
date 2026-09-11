@@ -461,6 +461,201 @@ static void crearEBRInicial(
 
 
 // ======================================================
+// SOPORTE PARA PARTICIONES LOGICAS
+// ======================================================
+
+static bool obtenerExtendida(const MBR& mbr, Partition& extendida)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        const Partition& p = mbr.mbr_partitions[i];
+        if (p.part_status != '0' && p.part_type == 'E' &&
+            p.part_start >= 0 && p.part_s > 0)
+        {
+            extendida = p;
+            return true;
+        }
+    }
+    return false;
+}
+
+static bool existeNombreLogico(
+    fstream& archivo,
+    const Partition& extendida,
+    const string& name)
+{
+    int pos = extendida.part_start;
+    int fin = extendida.part_start + extendida.part_s;
+
+    while (pos >= extendida.part_start &&
+           pos + static_cast<int>(sizeof(EBR)) <= fin)
+    {
+        EBR ebr{};
+        archivo.clear();
+        archivo.seekg(pos);
+        archivo.read(reinterpret_cast<char*>(&ebr), sizeof(EBR));
+
+        if (!archivo)
+        {
+            archivo.clear();
+            return false;
+        }
+
+        if (ebr.part_s > 0 && name == ebr.part_name)
+            return true;
+
+        if (ebr.part_next == -1)
+            break;
+
+        if (ebr.part_next <= pos || ebr.part_next >= fin)
+            break;
+
+        pos = ebr.part_next;
+    }
+
+    return false;
+}
+
+static string crearParticionLogica(
+    fstream& archivo,
+    const MBR& mbr,
+    const FdiskParams& params,
+    int tamanio)
+{
+    Partition extendida{};
+
+    if (!obtenerExtendida(mbr, extendida))
+        return "Error: no existe una partición extendida donde crear la partición lógica.";
+
+    if (existeNombre(mbr, params.name) ||
+        existeNombreLogico(archivo, extendida, params.name))
+        return "Error: ya existe una partición con ese nombre.";
+
+    int inicioExtendida = extendida.part_start;
+    int finExtendida = extendida.part_start + extendida.part_s;
+
+    EBR actual{};
+    archivo.clear();
+    archivo.seekg(inicioExtendida);
+    archivo.read(reinterpret_cast<char*>(&actual), sizeof(EBR));
+
+    if (!archivo)
+    {
+        archivo.clear();
+        return "Error: no se pudo leer el EBR inicial.";
+    }
+
+    // Primer EBR: el EBR vacío creado al crear la extendida se reutiliza.
+    if (actual.part_s == 0)
+    {
+        long long finNecesario =
+            static_cast<long long>(inicioExtendida) +
+            sizeof(EBR) + tamanio;
+
+        if (finNecesario > finExtendida)
+            return "Error: no existe suficiente espacio dentro de la partición extendida.";
+
+        actual.part_mount = '0';
+        actual.part_fit = convertirFit(params.fit);
+        actual.part_start = inicioExtendida;
+        actual.part_s = tamanio;
+        actual.part_next = -1;
+
+        memset(actual.part_name, 0, sizeof(actual.part_name));
+        strncpy(actual.part_name, params.name.c_str(),
+                sizeof(actual.part_name) - 1);
+
+        archivo.clear();
+        archivo.seekp(inicioExtendida);
+        archivo.write(reinterpret_cast<char*>(&actual), sizeof(EBR));
+
+        if (!archivo)
+        {
+            archivo.clear();
+            return "Error: no se pudo escribir el EBR de la partición lógica.";
+        }
+
+        archivo.flush();
+        return "Partición lógica creada correctamente.";
+    }
+
+    // Recorrer la cadena hasta el último EBR.
+    int posicionActual = inicioExtendida;
+
+    while (actual.part_next != -1)
+    {
+        if (actual.part_next <= posicionActual ||
+            actual.part_next + static_cast<int>(sizeof(EBR)) > finExtendida)
+            return "Error: la cadena de EBR es inválida.";
+
+        posicionActual = actual.part_next;
+
+        archivo.clear();
+        archivo.seekg(posicionActual);
+        archivo.read(reinterpret_cast<char*>(&actual), sizeof(EBR));
+
+        if (!archivo)
+        {
+            archivo.clear();
+            return "Error: no se pudo leer la cadena de EBR.";
+        }
+    }
+
+    // Formato usado:
+    // [EBR][datos lógica][EBR][datos lógica]...
+    int nuevoInicio =
+        actual.part_start +
+        static_cast<int>(sizeof(EBR)) +
+        actual.part_s;
+
+    long long finNecesario =
+        static_cast<long long>(nuevoInicio) +
+        sizeof(EBR) + tamanio;
+
+    if (finNecesario > finExtendida)
+        return "Error: no existe suficiente espacio dentro de la partición extendida.";
+
+    EBR nuevo{};
+    nuevo.part_mount = '0';
+    nuevo.part_fit = convertirFit(params.fit);
+    nuevo.part_start = nuevoInicio;
+    nuevo.part_s = tamanio;
+    nuevo.part_next = -1;
+
+    memset(nuevo.part_name, 0, sizeof(nuevo.part_name));
+    strncpy(nuevo.part_name, params.name.c_str(),
+            sizeof(nuevo.part_name) - 1);
+
+    // Enlazar el EBR anterior.
+    actual.part_next = nuevoInicio;
+
+    archivo.clear();
+    archivo.seekp(posicionActual);
+    archivo.write(reinterpret_cast<char*>(&actual), sizeof(EBR));
+
+    if (!archivo)
+    {
+        archivo.clear();
+        return "Error: no se pudo actualizar el EBR anterior.";
+    }
+
+    // Guardar el nuevo EBR.
+    archivo.clear();
+    archivo.seekp(nuevoInicio);
+    archivo.write(reinterpret_cast<char*>(&nuevo), sizeof(EBR));
+
+    if (!archivo)
+    {
+        archivo.clear();
+        return "Error: no se pudo escribir el nuevo EBR.";
+    }
+
+    archivo.flush();
+    return "Partición lógica creada correctamente.";
+}
+
+
+// ======================================================
 // FDISK
 // ======================================================
 
@@ -565,16 +760,30 @@ string ejecutarFdisk(
 
 
     // =====================================
-    // TIPO L SE IMPLEMENTARÁ CON EBR
+    // PARTICION LOGICA
     // =====================================
 
     if (params.type == "L")
     {
-        archivo.close();
+        long long tamanioLong =
+            convertirABytes(params.size, params.unit);
 
-        return
-            "Error: las particiones lógicas "
-            "se implementarán mediante EBR.";
+        if (tamanioLong <= 0 || tamanioLong > INT_MAX)
+        {
+            archivo.close();
+            return "Error: tamaño de partición lógica inválido.";
+        }
+
+        string resultado =
+            crearParticionLogica(
+                archivo,
+                mbr,
+                params,
+                static_cast<int>(tamanioLong)
+            );
+
+        archivo.close();
+        return resultado;
     }
 
 
