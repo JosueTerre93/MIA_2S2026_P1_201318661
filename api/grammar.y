@@ -5,6 +5,8 @@
 #include "Comandos/Mkdisk.h"
 #include "Comandos/Fdisk.h"
 #include "Comandos/Mount.h"
+#include "Comandos/Mkfs.h"
+#include "Comandos/Login.h"
 %}
  
 %require "3.7.4"
@@ -26,6 +28,7 @@
   typedef void* yyscan_t;
   #include "Comandos/Mkdisk.h"
   #include "Comandos/Fdisk.h"
+  #include "Comandos/Login.h"
 }
  
 %code provides
@@ -131,6 +134,7 @@ REP -name(cadena) -path(ruta) -id(cadena) -path_file_list(ruta)
 %token <std::string> PATH_VALUE
 %token <std::string> ID_VALUE
 %token <std::string> PASSWORD_VALUE
+%token <std::string> MOUNT_ID
 
 %token EQUAL
 %token EOL
@@ -148,6 +152,8 @@ REP -name(cadena) -path(ruta) -id(cadena) -path_file_list(ruta)
         MkdiskParams mkdiskActual;
         FdiskParams fdiskActual;
         MountParams mountActual;
+        MkfsParams mkfsActual;
+        LoginParams loginActual;
     }
 } // %code
  
@@ -276,16 +282,27 @@ mount_p : PATH EQUAL PATH_VALUE { calc::mountActual.path = $3; }
         ;
 
 /*------------------------------------*/
-mkfs : MKFS mkfs_params
+mkfs
+    : MKFS
+    {
+        calc::mkfsActual = MkfsParams();
+    }
+    mkfs_params
+    {
+        std::cerr
+            << ejecutarMkfs(calc::mkfsActual)
+            << std::endl;
+    }
 ;
 
 mkfs_params : mkfs_params mkfs_p
         | mkfs_p
         ;
 
-mkfs_p : ID EQUAL ID_VALUE
-        | TYPE EQUAL FULL
-        ;
+mkfs_p
+    : ID EQUAL MOUNT_ID { calc::mkfsActual.id = $3; }
+    | TYPE EQUAL FULL { calc::mkfsActual.type = "full"; }
+;
 
 /*------------------------------------*/
 mkusr : MKUSR mkusr_params
@@ -338,15 +355,26 @@ cat_p : FILEN EQUAL PATH_VALUE
         ;
 
 /*--------------------------------------*/
-login : LOGIN login_params;
+login
+    : LOGIN
+    {
+        calc::loginActual = LoginParams();
+    }
+    login_params
+    {
+        std::cerr
+            << ejecutarLogin(calc::loginActual)
+            << std::endl;
+    }
+;
 
 login_params : login_params login_p
         | login_p
         ;
 
-login_p : USER EQUAL ID_VALUE
-        | PASSWORD EQUAL PASSWORD_VALUE
-        | ID EQUAL ID_VALUE
+login_p : USER EQUAL ID_VALUE { calc::loginActual.user = $3; }
+        | PASSWORD EQUAL PASSWORD_VALUE { calc::loginActual.password = $3; }
+        | ID EQUAL MOUNT_ID { calc::loginActual.id = $3; }
         ;
 
 /*--------------------------------------*/

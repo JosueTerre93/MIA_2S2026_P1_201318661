@@ -45,24 +45,28 @@
 #include "Comandos/Mkdisk.h"
 #include "Comandos/Fdisk.h"
 #include "Comandos/Mount.h"
+#include "Comandos/Mkfs.h"
+#include "Comandos/Login.h"
 
-#line 50 "Parser1.cpp"
+#line 52 "Parser1.cpp"
 
 
 #include "Parser1.hpp"
 
 
 // Unqualified %code blocks.
-#line 145 "grammar.y"
+#line 149 "grammar.y"
 
     namespace calc 
     {
         MkdiskParams mkdiskActual;
         FdiskParams fdiskActual;
         MountParams mountActual;
+        MkfsParams mkfsActual;
+        LoginParams loginActual;
     }
 
-#line 66 "Parser1.cpp"
+#line 70 "Parser1.cpp"
 
 
 #ifndef YY_
@@ -153,9 +157,9 @@
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-#line 16 "grammar.y"
+#line 18 "grammar.y"
 namespace calc {
-#line 159 "Parser1.cpp"
+#line 163 "Parser1.cpp"
 
   /// Build a parser object.
   Parser::Parser (yyscan_t scanner_yyarg)
@@ -194,6 +198,7 @@ namespace calc {
       case symbol_kind::S_PATH_VALUE: // PATH_VALUE
       case symbol_kind::S_ID_VALUE: // ID_VALUE
       case symbol_kind::S_PASSWORD_VALUE: // PASSWORD_VALUE
+      case symbol_kind::S_MOUNT_ID: // MOUNT_ID
       case symbol_kind::S_fit_v: // fit_v
       case symbol_kind::S_unit_v: // unit_v
       case symbol_kind::S_unit_v2: // unit_v2
@@ -239,6 +244,7 @@ namespace calc {
       case symbol_kind::S_PATH_VALUE: // PATH_VALUE
       case symbol_kind::S_ID_VALUE: // ID_VALUE
       case symbol_kind::S_PASSWORD_VALUE: // PASSWORD_VALUE
+      case symbol_kind::S_MOUNT_ID: // MOUNT_ID
       case symbol_kind::S_fit_v: // fit_v
       case symbol_kind::S_unit_v: // unit_v
       case symbol_kind::S_unit_v2: // unit_v2
@@ -354,6 +360,7 @@ namespace calc {
       case symbol_kind::S_PATH_VALUE: // PATH_VALUE
       case symbol_kind::S_ID_VALUE: // ID_VALUE
       case symbol_kind::S_PASSWORD_VALUE: // PASSWORD_VALUE
+      case symbol_kind::S_MOUNT_ID: // MOUNT_ID
       case symbol_kind::S_fit_v: // fit_v
       case symbol_kind::S_unit_v: // unit_v
       case symbol_kind::S_unit_v2: // unit_v2
@@ -383,6 +390,7 @@ namespace calc {
       case symbol_kind::S_PATH_VALUE: // PATH_VALUE
       case symbol_kind::S_ID_VALUE: // ID_VALUE
       case symbol_kind::S_PASSWORD_VALUE: // PASSWORD_VALUE
+      case symbol_kind::S_MOUNT_ID: // MOUNT_ID
       case symbol_kind::S_fit_v: // fit_v
       case symbol_kind::S_unit_v: // unit_v
       case symbol_kind::S_unit_v2: // unit_v2
@@ -412,6 +420,7 @@ namespace calc {
       case symbol_kind::S_PATH_VALUE: // PATH_VALUE
       case symbol_kind::S_ID_VALUE: // ID_VALUE
       case symbol_kind::S_PASSWORD_VALUE: // PASSWORD_VALUE
+      case symbol_kind::S_MOUNT_ID: // MOUNT_ID
       case symbol_kind::S_fit_v: // fit_v
       case symbol_kind::S_unit_v: // unit_v
       case symbol_kind::S_unit_v2: // unit_v2
@@ -440,6 +449,7 @@ namespace calc {
       case symbol_kind::S_PATH_VALUE: // PATH_VALUE
       case symbol_kind::S_ID_VALUE: // ID_VALUE
       case symbol_kind::S_PASSWORD_VALUE: // PASSWORD_VALUE
+      case symbol_kind::S_MOUNT_ID: // MOUNT_ID
       case symbol_kind::S_fit_v: // fit_v
       case symbol_kind::S_unit_v: // unit_v
       case symbol_kind::S_unit_v2: // unit_v2
@@ -712,6 +722,7 @@ namespace calc {
       case symbol_kind::S_PATH_VALUE: // PATH_VALUE
       case symbol_kind::S_ID_VALUE: // ID_VALUE
       case symbol_kind::S_PASSWORD_VALUE: // PASSWORD_VALUE
+      case symbol_kind::S_MOUNT_ID: // MOUNT_ID
       case symbol_kind::S_fit_v: // fit_v
       case symbol_kind::S_unit_v: // unit_v
       case symbol_kind::S_unit_v2: // unit_v2
@@ -740,127 +751,127 @@ namespace calc {
           switch (yyn)
             {
   case 2: // comandos: %empty
-#line 155 "grammar.y"
+#line 161 "grammar.y"
                     {  }
-#line 746 "Parser1.cpp"
+#line 757 "Parser1.cpp"
     break;
 
   case 4: // comando: EOL
-#line 159 "grammar.y"
+#line 165 "grammar.y"
                   { std::cerr << "No se encontraron comandos.\n"; }
-#line 752 "Parser1.cpp"
+#line 763 "Parser1.cpp"
     break;
 
   case 5: // comando: mkdisk EOL
-#line 160 "grammar.y"
+#line 166 "grammar.y"
                      { std::cerr << "MKDISK ejecutado.\n"; }
-#line 758 "Parser1.cpp"
+#line 769 "Parser1.cpp"
     break;
 
   case 6: // comando: rmdisk EOL
-#line 161 "grammar.y"
+#line 167 "grammar.y"
                      { std::cerr << "RMDISK ejecutado.\n"; }
-#line 764 "Parser1.cpp"
+#line 775 "Parser1.cpp"
     break;
 
   case 7: // comando: fdisk EOL
-#line 162 "grammar.y"
+#line 168 "grammar.y"
                     { std::cerr << "FDISK ejecutado.\n"; }
-#line 770 "Parser1.cpp"
+#line 781 "Parser1.cpp"
     break;
 
   case 8: // comando: mount EOL
-#line 163 "grammar.y"
+#line 169 "grammar.y"
                     { std::cerr << "MOUNT ejecutado.\n"; }
-#line 776 "Parser1.cpp"
+#line 787 "Parser1.cpp"
     break;
 
   case 9: // comando: mkfs EOL
-#line 164 "grammar.y"
+#line 170 "grammar.y"
                    { std::cerr << "MKFS ejecutado.\n"; }
-#line 782 "Parser1.cpp"
+#line 793 "Parser1.cpp"
     break;
 
   case 10: // comando: mkusr EOL
-#line 165 "grammar.y"
+#line 171 "grammar.y"
                     { std::cerr << "MKUSR ejecutado.\n"; }
-#line 788 "Parser1.cpp"
+#line 799 "Parser1.cpp"
     break;
 
   case 11: // comando: rmusr EOL
-#line 166 "grammar.y"
+#line 172 "grammar.y"
                     { std::cerr << "RMUSR ejecutado.\n"; }
-#line 794 "Parser1.cpp"
+#line 805 "Parser1.cpp"
     break;
 
   case 12: // comando: mkfile EOL
-#line 167 "grammar.y"
+#line 173 "grammar.y"
                      { std::cerr << "MKFILE ejecutado.\n"; }
-#line 800 "Parser1.cpp"
+#line 811 "Parser1.cpp"
     break;
 
   case 13: // comando: mounted EOL
-#line 169 "grammar.y"
+#line 175 "grammar.y"
                       { std::cerr << "MOUNTED ejecutado.\n"; }
-#line 806 "Parser1.cpp"
+#line 817 "Parser1.cpp"
     break;
 
   case 14: // comando: cat EOL
-#line 170 "grammar.y"
+#line 176 "grammar.y"
                   { std::cerr << "CAT ejecutado.\n"; }
-#line 812 "Parser1.cpp"
+#line 823 "Parser1.cpp"
     break;
 
   case 15: // comando: login EOL
-#line 171 "grammar.y"
+#line 177 "grammar.y"
                     { std::cerr << "LOGIN ejecutado.\n"; }
-#line 818 "Parser1.cpp"
+#line 829 "Parser1.cpp"
     break;
 
   case 16: // comando: logout EOL
-#line 172 "grammar.y"
+#line 178 "grammar.y"
                      { std::cerr << "LOGOUT ejecutado.\n"; }
-#line 824 "Parser1.cpp"
+#line 835 "Parser1.cpp"
     break;
 
   case 17: // comando: mkgrp EOL
-#line 173 "grammar.y"
+#line 179 "grammar.y"
                     { std::cerr << "MKGRP ejecutado.\n"; }
-#line 830 "Parser1.cpp"
+#line 841 "Parser1.cpp"
     break;
 
   case 18: // comando: rmgrp EOL
-#line 174 "grammar.y"
+#line 180 "grammar.y"
                     { std::cerr << "RMGRP ejecutado.\n"; }
-#line 836 "Parser1.cpp"
+#line 847 "Parser1.cpp"
     break;
 
   case 19: // comando: chgrp EOL
-#line 175 "grammar.y"
+#line 181 "grammar.y"
                     { std::cerr << "CHGRP ejecutado.\n"; }
-#line 842 "Parser1.cpp"
+#line 853 "Parser1.cpp"
     break;
 
   case 20: // comando: mkdir EOL
-#line 176 "grammar.y"
+#line 182 "grammar.y"
                     { std::cerr << "MKDIR ejecutado.\n"; }
-#line 848 "Parser1.cpp"
+#line 859 "Parser1.cpp"
     break;
 
   case 21: // comando: rep EOL
-#line 177 "grammar.y"
+#line 183 "grammar.y"
                   { std::cerr << "REP ejecutado.\n"; }
-#line 854 "Parser1.cpp"
+#line 865 "Parser1.cpp"
     break;
 
   case 22: // comando: error EOL
-#line 178 "grammar.y"
+#line 184 "grammar.y"
                     { std::cerr << "Comando no valido.\n"; yyerrok; }
-#line 860 "Parser1.cpp"
+#line 871 "Parser1.cpp"
     break;
 
   case 23: // $@1: %empty
-#line 184 "grammar.y"
+#line 190 "grammar.y"
         {
             std::cout 
                 << ">>> INICIO MKDISK EN BISON"
@@ -868,81 +879,81 @@ namespace calc {
             
             calc::mkdiskActual = MkdiskParams();
         }
-#line 872 "Parser1.cpp"
+#line 883 "Parser1.cpp"
     break;
 
   case 24: // mkdisk: MKDISK $@1 mkdisk_params
-#line 192 "grammar.y"
+#line 198 "grammar.y"
         {
             std::cerr << ejecutarMkdisk(calc::mkdiskActual) << std::endl;
         }
-#line 880 "Parser1.cpp"
+#line 891 "Parser1.cpp"
     break;
 
   case 27: // mkdisk_p: SIZE EQUAL INTEGER
-#line 201 "grammar.y"
+#line 207 "grammar.y"
                               { calc::mkdiskActual.size = yystack_[0].value.as < long long > (); }
-#line 886 "Parser1.cpp"
+#line 897 "Parser1.cpp"
     break;
 
   case 28: // mkdisk_p: FIT EQUAL fit_v
-#line 202 "grammar.y"
+#line 208 "grammar.y"
                           { calc::mkdiskActual.fit = yystack_[0].value.as < std::string > (); }
-#line 892 "Parser1.cpp"
+#line 903 "Parser1.cpp"
     break;
 
   case 29: // mkdisk_p: UNIT EQUAL unit_v
-#line 203 "grammar.y"
+#line 209 "grammar.y"
                             { calc::mkdiskActual.unit = yystack_[0].value.as < std::string > (); }
-#line 898 "Parser1.cpp"
+#line 909 "Parser1.cpp"
     break;
 
   case 30: // mkdisk_p: PATH EQUAL PATH_VALUE
-#line 204 "grammar.y"
+#line 210 "grammar.y"
                                 { calc::mkdiskActual.path = yystack_[0].value.as < std::string > (); }
-#line 904 "Parser1.cpp"
+#line 915 "Parser1.cpp"
     break;
 
   case 31: // fit_v: BF
-#line 207 "grammar.y"
+#line 213 "grammar.y"
            { yylhs.value.as < std::string > () = "BF"; }
-#line 910 "Parser1.cpp"
+#line 921 "Parser1.cpp"
     break;
 
   case 32: // fit_v: FF
-#line 208 "grammar.y"
+#line 214 "grammar.y"
              { yylhs.value.as < std::string > () = "FF"; }
-#line 916 "Parser1.cpp"
+#line 927 "Parser1.cpp"
     break;
 
   case 33: // fit_v: WF
-#line 209 "grammar.y"
+#line 215 "grammar.y"
              { yylhs.value.as < std::string > () = "WF"; }
-#line 922 "Parser1.cpp"
+#line 933 "Parser1.cpp"
     break;
 
   case 34: // unit_v: K
-#line 212 "grammar.y"
+#line 218 "grammar.y"
            { yylhs.value.as < std::string > () = "K"; }
-#line 928 "Parser1.cpp"
+#line 939 "Parser1.cpp"
     break;
 
   case 35: // unit_v: M
-#line 213 "grammar.y"
+#line 219 "grammar.y"
             { yylhs.value.as < std::string > () = "M"; }
-#line 934 "Parser1.cpp"
+#line 945 "Parser1.cpp"
     break;
 
   case 37: // $@2: %empty
-#line 222 "grammar.y"
+#line 228 "grammar.y"
     {
         calc::fdiskActual = FdiskParams();
     }
-#line 942 "Parser1.cpp"
+#line 953 "Parser1.cpp"
     break;
 
   case 38: // fdisk: FDISK $@2 fdisk_params
-#line 226 "grammar.y"
+#line 232 "grammar.y"
     {
         std::cerr
             << ejecutarFdisk(
@@ -950,123 +961,189 @@ namespace calc {
             )
             << std::endl;
     }
-#line 954 "Parser1.cpp"
+#line 965 "Parser1.cpp"
     break;
 
   case 41: // fdisk_p: SIZE EQUAL INTEGER
-#line 238 "grammar.y"
+#line 244 "grammar.y"
                              { calc::fdiskActual.size = yystack_[0].value.as < long long > (); }
-#line 960 "Parser1.cpp"
+#line 971 "Parser1.cpp"
     break;
 
   case 42: // fdisk_p: UNIT EQUAL unit_v2
-#line 239 "grammar.y"
+#line 245 "grammar.y"
                              { calc::fdiskActual.unit = yystack_[0].value.as < std::string > (); }
-#line 966 "Parser1.cpp"
+#line 977 "Parser1.cpp"
     break;
 
   case 43: // fdisk_p: PATH EQUAL PATH_VALUE
-#line 240 "grammar.y"
+#line 246 "grammar.y"
                                 { calc::fdiskActual.path = yystack_[0].value.as < std::string > (); }
-#line 972 "Parser1.cpp"
+#line 983 "Parser1.cpp"
     break;
 
   case 44: // fdisk_p: TYPE EQUAL type_v
-#line 241 "grammar.y"
+#line 247 "grammar.y"
                             { calc::fdiskActual.type = yystack_[0].value.as < std::string > (); }
-#line 978 "Parser1.cpp"
+#line 989 "Parser1.cpp"
     break;
 
   case 45: // fdisk_p: FIT EQUAL fit_v
-#line 242 "grammar.y"
+#line 248 "grammar.y"
                           { calc::fdiskActual.fit = yystack_[0].value.as < std::string > (); }
-#line 984 "Parser1.cpp"
+#line 995 "Parser1.cpp"
     break;
 
   case 46: // fdisk_p: NAME EQUAL ID_VALUE
-#line 243 "grammar.y"
+#line 249 "grammar.y"
                               { calc::fdiskActual.name = yystack_[0].value.as < std::string > (); }
-#line 990 "Parser1.cpp"
+#line 1001 "Parser1.cpp"
     break;
 
   case 47: // unit_v2: B
-#line 246 "grammar.y"
+#line 252 "grammar.y"
            { yylhs.value.as < std::string > () = "B"; }
-#line 996 "Parser1.cpp"
+#line 1007 "Parser1.cpp"
     break;
 
   case 48: // unit_v2: K
-#line 247 "grammar.y"
+#line 253 "grammar.y"
            { yylhs.value.as < std::string > () = "K"; }
-#line 1002 "Parser1.cpp"
+#line 1013 "Parser1.cpp"
     break;
 
   case 49: // unit_v2: M
-#line 248 "grammar.y"
+#line 254 "grammar.y"
            { yylhs.value.as < std::string > () = "M"; }
-#line 1008 "Parser1.cpp"
+#line 1019 "Parser1.cpp"
     break;
 
   case 50: // type_v: P
-#line 251 "grammar.y"
+#line 257 "grammar.y"
            { yylhs.value.as < std::string > () = "P"; }
-#line 1014 "Parser1.cpp"
+#line 1025 "Parser1.cpp"
     break;
 
   case 51: // type_v: E
-#line 252 "grammar.y"
+#line 258 "grammar.y"
             { yylhs.value.as < std::string > () = "E"; }
-#line 1020 "Parser1.cpp"
+#line 1031 "Parser1.cpp"
     break;
 
   case 52: // type_v: L
-#line 253 "grammar.y"
+#line 259 "grammar.y"
             { yylhs.value.as < std::string > () = "L"; }
-#line 1026 "Parser1.cpp"
+#line 1037 "Parser1.cpp"
     break;
 
   case 53: // $@3: %empty
-#line 259 "grammar.y"
+#line 265 "grammar.y"
     {
         calc::mountActual = MountParams();
     }
-#line 1034 "Parser1.cpp"
+#line 1045 "Parser1.cpp"
     break;
 
   case 54: // mount: MOUNT $@3 mount_params
-#line 263 "grammar.y"
+#line 269 "grammar.y"
     {
         std::cerr
             << ejecutarMount(calc::mountActual)
             << std::endl;
     }
-#line 1044 "Parser1.cpp"
+#line 1055 "Parser1.cpp"
     break;
 
   case 57: // mount_p: PATH EQUAL PATH_VALUE
-#line 274 "grammar.y"
+#line 280 "grammar.y"
                                 { calc::mountActual.path = yystack_[0].value.as < std::string > (); }
-#line 1050 "Parser1.cpp"
+#line 1061 "Parser1.cpp"
     break;
 
   case 58: // mount_p: NAME EQUAL ID_VALUE
-#line 275 "grammar.y"
+#line 281 "grammar.y"
                               { calc::mountActual.name = yystack_[0].value.as < std::string > (); }
-#line 1056 "Parser1.cpp"
+#line 1067 "Parser1.cpp"
     break;
 
-  case 78: // mounted: MOUNTED
-#line 324 "grammar.y"
+  case 59: // $@4: %empty
+#line 287 "grammar.y"
+    {
+        calc::mkfsActual = MkfsParams();
+    }
+#line 1075 "Parser1.cpp"
+    break;
+
+  case 60: // mkfs: MKFS $@4 mkfs_params
+#line 291 "grammar.y"
+    {
+        std::cerr
+            << ejecutarMkfs(calc::mkfsActual)
+            << std::endl;
+    }
+#line 1085 "Parser1.cpp"
+    break;
+
+  case 63: // mkfs_p: ID EQUAL MOUNT_ID
+#line 303 "grammar.y"
+                        { calc::mkfsActual.id = yystack_[0].value.as < std::string > (); }
+#line 1091 "Parser1.cpp"
+    break;
+
+  case 64: // mkfs_p: TYPE EQUAL FULL
+#line 304 "grammar.y"
+                      { calc::mkfsActual.type = "full"; }
+#line 1097 "Parser1.cpp"
+    break;
+
+  case 79: // mounted: MOUNTED
+#line 341 "grammar.y"
     {
         std::cerr
             << mostrarParticionesMontadas()
             << std::endl;
     }
-#line 1066 "Parser1.cpp"
+#line 1107 "Parser1.cpp"
+    break;
+
+  case 84: // $@5: %empty
+#line 360 "grammar.y"
+    {
+        calc::loginActual = LoginParams();
+    }
+#line 1115 "Parser1.cpp"
+    break;
+
+  case 85: // login: LOGIN $@5 login_params
+#line 364 "grammar.y"
+    {
+        std::cerr
+            << ejecutarLogin(calc::loginActual)
+            << std::endl;
+    }
+#line 1125 "Parser1.cpp"
+    break;
+
+  case 88: // login_p: USER EQUAL ID_VALUE
+#line 375 "grammar.y"
+                              { calc::loginActual.user = yystack_[0].value.as < std::string > (); }
+#line 1131 "Parser1.cpp"
+    break;
+
+  case 89: // login_p: PASSWORD EQUAL PASSWORD_VALUE
+#line 376 "grammar.y"
+                                        { calc::loginActual.password = yystack_[0].value.as < std::string > (); }
+#line 1137 "Parser1.cpp"
+    break;
+
+  case 90: // login_p: ID EQUAL MOUNT_ID
+#line 377 "grammar.y"
+                            { calc::loginActual.id = yystack_[0].value.as < std::string > (); }
+#line 1143 "Parser1.cpp"
     break;
 
 
-#line 1070 "Parser1.cpp"
+#line 1147 "Parser1.cpp"
 
             default:
               break;
@@ -1255,15 +1332,15 @@ namespace calc {
   "MOUNT", "MKFS", "MKUSR", "RMUSR", "MKFILE", "MOUNTED", "CAT", "FILEN",
   "LOGIN", "LOGOUT", "MKGRP", "RMGRP", "CHGRP", "MKDIR", "REP",
   "PATH_FILE_LIST", "PASSWORD", "INTEGER", "PATH_VALUE", "ID_VALUE",
-  "PASSWORD_VALUE", "EQUAL", "EOL", "$accept", "comandos", "comando",
-  "mkdisk", "$@1", "mkdisk_params", "mkdisk_p", "fit_v", "unit_v",
-  "rmdisk", "fdisk", "$@2", "fdisk_params", "fdisk_p", "unit_v2", "type_v",
-  "mount", "$@3", "mount_params", "mount_p", "mkfs", "mkfs_params",
-  "mkfs_p", "mkusr", "mkusr_params", "mkusr_p", "rmusr", "mkfile",
-  "mkfile_params", "mkfile_p", "mounted", "cat", "cat_params", "cat_p",
-  "login", "login_params", "login_p", "logout", "mkgrp", "rmgrp", "chgrp",
-  "chgrp_params", "chgrp_p", "mkdir", "mkdir_params", "mkdir_p", "rep",
-  "rep_params", "rep_p", YY_NULLPTR
+  "PASSWORD_VALUE", "MOUNT_ID", "EQUAL", "EOL", "$accept", "comandos",
+  "comando", "mkdisk", "$@1", "mkdisk_params", "mkdisk_p", "fit_v",
+  "unit_v", "rmdisk", "fdisk", "$@2", "fdisk_params", "fdisk_p", "unit_v2",
+  "type_v", "mount", "$@3", "mount_params", "mount_p", "mkfs", "$@4",
+  "mkfs_params", "mkfs_p", "mkusr", "mkusr_params", "mkusr_p", "rmusr",
+  "mkfile", "mkfile_params", "mkfile_p", "mounted", "cat", "cat_params",
+  "cat_p", "login", "$@5", "login_params", "login_p", "logout", "mkgrp",
+  "rmgrp", "chgrp", "chgrp_params", "chgrp_p", "mkdir", "mkdir_params",
+  "mkdir_p", "rep", "rep_params", "rep_p", YY_NULLPTR
     };
     return yy_sname[yysymbol];
   }
@@ -1403,166 +1480,169 @@ namespace calc {
   const signed char
   Parser::yypact_[] =
   {
-     -72,     0,   -72,   -47,   -72,     4,   -72,   -72,   -10,     1,
-     -14,    40,   -72,    13,    -1,   -72,    31,    43,    -7,    39,
-      -8,   -72,   -72,    20,    21,    22,    23,    24,    25,    26,
-      27,    28,    29,    30,    32,    33,    34,    35,    36,    37,
-     -72,     3,    41,    42,     2,    44,    45,   -10,   -72,    46,
-      47,    48,     1,   -72,    49,    50,    53,   -72,    55,    40,
-     -72,    56,    13,   -72,    57,    58,    59,    -1,   -72,    60,
-      61,    62,    63,    -7,   -72,    64,   -72,    39,   -72,    65,
-      66,    67,    68,    -8,   -72,   -72,   -72,   -72,   -72,   -72,
+     -72,     0,   -72,   -48,   -72,    -7,   -72,   -72,   -72,     1,
+      -3,    40,   -72,   -15,   -72,   -72,    28,    32,    50,    54,
+      -8,   -72,   -72,     4,    17,    21,    22,    23,    24,    25,
+      26,    27,    29,    30,    31,    33,    34,    36,    37,    38,
+     -72,     3,    41,    43,    -9,    35,    42,    44,    45,     1,
+     -72,    46,    47,    51,   -72,    52,    40,   -72,    53,   -15,
+     -72,    -1,    55,    56,    57,    58,    50,   -72,    59,   -72,
+      54,   -72,    60,    61,    62,    63,    -8,   -72,   -72,   -72,
      -72,   -72,   -72,   -72,   -72,   -72,   -72,   -72,   -72,   -72,
-     -72,   -72,    69,    70,    71,    72,     3,   -72,    76,    74,
-      75,    77,    78,    79,    80,    42,   -72,    81,    82,     2,
-     -72,   101,    85,   -72,    86,    87,    88,   -72,    90,    93,
-      89,    94,   -72,    95,   -72,    92,    96,    97,   -72,    99,
-     100,   102,   103,   -72,    98,   -72,   105,   106,   107,   109,
-     -72,   111,    51,    12,   112,   -72,   -72,   114,    51,    54,
-     115,    52,   110,   -72,   116,   113,   -72,   -72,   -72,   -72,
+     -72,   -72,   -72,   -72,   -72,    64,    65,    66,    67,     3,
+     -72,    72,    69,    70,    71,    73,    74,    75,    43,   -72,
+      76,    77,    -9,   -72,    78,    79,    35,   -72,    39,    83,
+      84,   -72,    86,    89,    85,    90,   -72,    91,   -72,    88,
+      92,    93,    -1,   -72,    94,    97,    98,    99,   -72,   101,
+     -72,   102,   103,   104,   106,   -72,    95,     7,    12,   107,
+     -72,   -72,   109,     7,    48,   110,    49,   108,   -72,   111,
+     112,   -72,    80,   100,   -72,   -72,   -72,   -72,   -72,   -72,
+     -72,   -72,   -72,   113,   114,    87,   -72,   -72,   -72,   -72,
      -72,   -72,   -72,   -72,   -72,   -72,   -72,   -72,   -72,   -72,
      -72,   -72,   -72,   -72,   -72,   -72,   -72,   -72,   -72,   -72,
      -72,   -72,   -72,   -72,   -72,   -72,   -72,   -72,   -72,   -72,
-     -72,   -72,   -72,   -72,   -72,   -72,   -72,   -72,   -72,   -72,
-     -72,   -72
+     -72,   -72,   -72,   -72
   };
 
   const signed char
   Parser::yydefact_[] =
   {
-       2,     0,     1,     0,    23,     0,    37,    53,     0,     0,
-       0,     0,    78,     0,     0,    89,     0,     0,     0,     0,
+       2,     0,     1,     0,    23,     0,    37,    53,    59,     0,
+       0,     0,    79,     0,    84,    91,     0,     0,     0,     0,
        0,     4,     3,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-      22,     0,     0,     0,     0,     0,     0,    59,    61,     0,
-       0,     0,    64,    66,     0,     0,     0,    75,     0,    71,
-      73,     0,    79,    81,     0,     0,     0,    83,    85,     0,
-       0,     0,     0,    92,    94,     0,   101,    97,    99,     0,
-       0,     0,     0,   102,   104,     5,     6,     7,     8,     9,
-      10,    11,    12,    13,    14,    15,    16,    17,    18,    19,
-      20,    21,     0,     0,     0,     0,    24,    26,     0,     0,
-       0,     0,     0,     0,     0,    38,    40,     0,     0,    54,
-      56,     0,     0,    60,     0,     0,     0,    65,     0,     0,
-       0,     0,    72,     0,    80,     0,     0,     0,    84,     0,
-       0,     0,     0,    93,     0,    98,     0,     0,     0,     0,
-     103,     0,     0,     0,     0,    25,    36,     0,     0,     0,
-       0,     0,     0,    39,     0,     0,    55,    63,    62,    67,
-      69,    68,    70,    76,    74,    77,    82,    88,    86,    87,
-      90,    91,    95,    96,   100,   106,   105,   107,   108,    27,
-      31,    32,    33,    28,    34,    35,    29,    30,    41,    45,
-      47,    48,    49,    42,    43,    50,    51,    52,    44,    46,
-      57,    58
+      22,     0,     0,     0,     0,     0,     0,     0,     0,    65,
+      67,     0,     0,     0,    76,     0,    72,    74,     0,    80,
+      82,     0,     0,     0,     0,     0,    94,    96,     0,   103,
+      99,   101,     0,     0,     0,     0,   104,   106,     5,     6,
+       7,     8,     9,    10,    11,    12,    13,    14,    15,    16,
+      17,    18,    19,    20,    21,     0,     0,     0,     0,    24,
+      26,     0,     0,     0,     0,     0,     0,     0,    38,    40,
+       0,     0,    54,    56,     0,     0,    60,    62,     0,     0,
+       0,    66,     0,     0,     0,     0,    73,     0,    81,     0,
+       0,     0,    85,    87,     0,     0,     0,     0,    95,     0,
+     100,     0,     0,     0,     0,   105,     0,     0,     0,     0,
+      25,    36,     0,     0,     0,     0,     0,     0,    39,     0,
+       0,    55,     0,     0,    61,    68,    70,    69,    71,    77,
+      75,    78,    83,     0,     0,     0,    86,    92,    93,    97,
+      98,   102,   108,   107,   109,   110,    27,    31,    32,    33,
+      28,    34,    35,    29,    30,    41,    45,    47,    48,    49,
+      42,    43,    50,    51,    52,    44,    46,    57,    58,    64,
+      63,    90,    88,    89
   };
 
   const signed char
   Parser::yypgoto_[] =
   {
-     -72,   -72,   -72,   -72,   -72,   -72,   -26,   -71,   -72,   -72,
-     -72,   -72,   -72,   -27,   -72,   -72,   -72,   -72,   -72,   -29,
-     -72,   -72,   104,   -72,   -72,   117,   -72,   -72,   -72,   108,
-     -72,   -72,   -72,    38,   -72,   -72,   118,   -72,   -72,   -72,
-     -72,   -72,    18,   -72,   -72,    91,   -72,   -72,    16
+     -72,   -72,   -72,   -72,   -72,   -72,   -21,   -71,   -72,   -72,
+     -72,   -72,   -72,   -19,   -72,   -72,   -72,   -72,   -72,   -20,
+     -72,   -72,   -72,   -18,   -72,   -72,   115,   -72,   -72,   -72,
+      82,   -72,   -72,   -72,   116,   -72,   -72,   -72,   -35,   -72,
+     -72,   -72,   -72,   -72,    96,   -72,   -72,   117,   -72,   -72,
+      81
   };
 
   const unsigned char
   Parser::yydefgoto_[] =
   {
-       0,     1,    22,    23,    41,   106,   107,   193,   196,    24,
-      25,    43,   115,   116,   203,   208,    26,    44,   119,   120,
-      27,    47,    48,    28,    52,    53,    29,    30,    59,    60,
-      31,    32,    62,    63,    33,    67,    68,    34,    35,    36,
-      37,    73,    74,    38,    77,    78,    39,    83,    84
+       0,     1,    22,    23,    41,    99,   100,   190,   193,    24,
+      25,    43,   108,   109,   200,   205,    26,    44,   112,   113,
+      27,    45,   116,   117,    28,    49,    50,    29,    30,    56,
+      57,    31,    32,    59,    60,    33,    61,   132,   133,    34,
+      35,    36,    37,    66,    67,    38,    70,    71,    39,    76,
+      77
   };
 
   const unsigned char
   Parser::yytable_[] =
   {
-       2,     3,    40,    45,    79,    54,   102,   103,    46,    80,
-      81,   104,    71,    72,   117,   105,    42,    64,    65,   118,
-      49,    50,   194,   195,     4,     5,     6,     7,     8,     9,
-      10,    11,    12,    13,    82,    14,    15,    16,    17,    18,
-      19,    20,    66,    55,    51,   109,   110,    61,    69,    21,
-     111,    75,    56,    76,   112,   113,   190,   191,   192,   114,
-      70,    57,    58,   200,   201,   202,   205,   206,   207,    85,
-      86,    87,    88,    89,    90,    91,    92,    93,    94,    95,
-     155,    96,    97,    98,    99,   100,   101,   199,   163,   108,
-     166,   143,   121,   122,   124,   125,   126,   128,   129,   150,
-     134,   130,     0,   131,   133,   135,   136,   137,   139,   140,
-     141,   142,   144,   146,   147,   148,   149,   151,   152,   153,
-     154,   156,   157,   158,   167,   159,   160,   161,   162,   164,
-     165,   168,   169,   170,   174,   171,   172,   173,   177,   175,
-     176,     0,   178,   184,   179,   180,   181,     0,   182,   183,
-     185,   123,   186,   187,   188,   189,   209,   197,   198,   211,
-     204,   210,     0,     0,     0,     0,     0,   132,   145,   127,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,   138
+       2,     3,    40,   110,    72,    42,    95,    96,   111,    73,
+      74,    97,   187,   188,   189,    98,    51,   129,   130,    58,
+      46,    47,   191,   192,     4,     5,     6,     7,     8,     9,
+      10,    11,    12,    13,    75,    14,    15,    16,    17,    18,
+      19,    20,   131,    52,    48,    62,   102,   103,   114,    63,
+      21,   104,    53,   115,    78,   105,   106,   197,   198,   199,
+     107,    54,    55,   202,   203,   204,    68,    79,    69,    64,
+      65,    80,    81,    82,    83,    84,    85,    86,   150,    87,
+      88,    89,   196,    90,    91,   165,    92,    93,    94,   158,
+     101,   118,   161,   119,   120,   122,   123,   176,   164,     0,
+     124,   125,   127,   209,   134,   135,   136,   137,   139,   141,
+     142,   143,   144,   146,   147,   148,   149,   151,   152,   153,
+     154,     0,   155,   156,   157,   159,   160,   162,   163,   166,
+     170,   167,   168,   169,   213,   171,   172,   173,   126,   186,
+     177,   174,   175,   178,   179,   180,   181,   182,   210,   183,
+     184,   185,   194,   195,   206,   201,   207,   145,   208,     0,
+     212,   211,   138,     0,   121,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,   128,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,   140
   };
 
   const short
   Parser::yycheck_[] =
   {
-       0,     1,    49,    13,    12,    19,     3,     4,    18,    17,
-      18,     8,    19,    20,    12,    12,    12,    18,    19,    17,
+       0,     1,    50,    12,    12,    12,     3,     4,    17,    17,
+      18,     8,     5,     6,     7,    12,    19,    18,    19,    34,
       19,    20,    10,    11,    24,    25,    26,    27,    28,    29,
       30,    31,    32,    33,    42,    35,    36,    37,    38,    39,
-      40,    41,    43,     3,    43,     3,     4,    34,    17,    49,
-       8,    12,    12,    14,    12,    13,     5,     6,     7,    17,
-      17,    21,    22,     9,    10,    11,    14,    15,    16,    49,
-      49,    49,    49,    49,    49,    49,    49,    49,    49,    49,
-     106,    49,    49,    49,    49,    49,    49,   158,   115,    48,
-     119,    73,    48,    48,    48,    48,    48,    48,    48,    83,
-      62,    48,    -1,    48,    48,    48,    48,    48,    48,    48,
-      48,    48,    48,    48,    48,    48,    48,    48,    48,    48,
-      48,    45,    48,    48,    23,    48,    48,    48,    48,    48,
-      48,    46,    46,    46,    45,    47,    46,    44,    46,    45,
-      45,    -1,    46,    45,    47,    46,    46,    -1,    46,    46,
-      45,    47,    46,    46,    45,    44,    46,    45,    44,    46,
-      45,    45,    -1,    -1,    -1,    -1,    -1,    59,    77,    52,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    67
+      40,    41,    43,     3,    43,    17,     3,     4,    13,    17,
+      50,     8,    12,    18,    50,    12,    13,     9,    10,    11,
+      17,    21,    22,    14,    15,    16,    12,    50,    14,    19,
+      20,    50,    50,    50,    50,    50,    50,    50,    99,    50,
+      50,    50,   153,    50,    50,    46,    50,    50,    50,   108,
+      49,    49,   112,    49,    49,    49,    49,   132,   116,    -1,
+      49,    49,    49,    23,    49,    49,    49,    49,    49,    49,
+      49,    49,    49,    49,    49,    49,    49,    45,    49,    49,
+      49,    -1,    49,    49,    49,    49,    49,    49,    49,    46,
+      45,    47,    46,    44,    47,    45,    45,    49,    56,    44,
+      46,    49,    49,    46,    46,    46,    45,    45,    48,    46,
+      46,    45,    45,    44,    46,    45,    45,    76,    46,    -1,
+      46,    48,    66,    -1,    49,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    59,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    70
   };
 
   const signed char
   Parser::yystos_[] =
   {
-       0,    51,     0,     1,    24,    25,    26,    27,    28,    29,
+       0,    52,     0,     1,    24,    25,    26,    27,    28,    29,
       30,    31,    32,    33,    35,    36,    37,    38,    39,    40,
-      41,    49,    52,    53,    59,    60,    66,    70,    73,    76,
-      77,    80,    81,    84,    87,    88,    89,    90,    93,    96,
-      49,    54,    12,    61,    67,    13,    18,    71,    72,    19,
-      20,    43,    74,    75,    19,     3,    12,    21,    22,    78,
-      79,    34,    82,    83,    18,    19,    43,    85,    86,    17,
-      17,    19,    20,    91,    92,    12,    14,    94,    95,    12,
-      17,    18,    42,    97,    98,    49,    49,    49,    49,    49,
-      49,    49,    49,    49,    49,    49,    49,    49,    49,    49,
-      49,    49,     3,     4,     8,    12,    55,    56,    48,     3,
-       4,     8,    12,    13,    17,    62,    63,    12,    17,    68,
-      69,    48,    48,    72,    48,    48,    48,    75,    48,    48,
-      48,    48,    79,    48,    83,    48,    48,    48,    86,    48,
-      48,    48,    48,    92,    48,    95,    48,    48,    48,    48,
-      98,    48,    48,    48,    48,    56,    45,    48,    48,    48,
-      48,    48,    48,    63,    48,    48,    69,    23,    46,    46,
-      46,    47,    46,    44,    45,    45,    45,    46,    46,    47,
-      46,    46,    46,    46,    45,    45,    46,    46,    45,    44,
-       5,     6,     7,    57,    10,    11,    58,    45,    44,    57,
-       9,    10,    11,    64,    45,    14,    15,    16,    65,    46,
-      45,    46
+      41,    50,    53,    54,    60,    61,    67,    71,    75,    78,
+      79,    82,    83,    86,    90,    91,    92,    93,    96,    99,
+      50,    55,    12,    62,    68,    72,    19,    20,    43,    76,
+      77,    19,     3,    12,    21,    22,    80,    81,    34,    84,
+      85,    87,    17,    17,    19,    20,    94,    95,    12,    14,
+      97,    98,    12,    17,    18,    42,   100,   101,    50,    50,
+      50,    50,    50,    50,    50,    50,    50,    50,    50,    50,
+      50,    50,    50,    50,    50,     3,     4,     8,    12,    56,
+      57,    49,     3,     4,     8,    12,    13,    17,    63,    64,
+      12,    17,    69,    70,    13,    18,    73,    74,    49,    49,
+      49,    77,    49,    49,    49,    49,    81,    49,    85,    18,
+      19,    43,    88,    89,    49,    49,    49,    49,    95,    49,
+      98,    49,    49,    49,    49,   101,    49,    49,    49,    49,
+      57,    45,    49,    49,    49,    49,    49,    49,    64,    49,
+      49,    70,    49,    49,    74,    46,    46,    47,    46,    44,
+      45,    45,    45,    49,    49,    49,    89,    46,    46,    46,
+      46,    45,    45,    46,    46,    45,    44,     5,     6,     7,
+      58,    10,    11,    59,    45,    44,    58,     9,    10,    11,
+      65,    45,    14,    15,    16,    66,    46,    45,    46,    23,
+      48,    48,    46,    47
   };
 
   const signed char
   Parser::yyr1_[] =
   {
-       0,    50,    51,    51,    52,    52,    52,    52,    52,    52,
-      52,    52,    52,    52,    52,    52,    52,    52,    52,    52,
-      52,    52,    52,    54,    53,    55,    55,    56,    56,    56,
-      56,    57,    57,    57,    58,    58,    59,    61,    60,    62,
-      62,    63,    63,    63,    63,    63,    63,    64,    64,    64,
-      65,    65,    65,    67,    66,    68,    68,    69,    69,    70,
-      71,    71,    72,    72,    73,    74,    74,    75,    75,    75,
-      76,    77,    78,    78,    79,    79,    79,    79,    80,    81,
-      82,    82,    83,    84,    85,    85,    86,    86,    86,    87,
-      88,    89,    90,    91,    91,    92,    92,    93,    94,    94,
-      95,    95,    96,    97,    97,    98,    98,    98,    98
+       0,    51,    52,    52,    53,    53,    53,    53,    53,    53,
+      53,    53,    53,    53,    53,    53,    53,    53,    53,    53,
+      53,    53,    53,    55,    54,    56,    56,    57,    57,    57,
+      57,    58,    58,    58,    59,    59,    60,    62,    61,    63,
+      63,    64,    64,    64,    64,    64,    64,    65,    65,    65,
+      66,    66,    66,    68,    67,    69,    69,    70,    70,    72,
+      71,    73,    73,    74,    74,    75,    76,    76,    77,    77,
+      77,    78,    79,    80,    80,    81,    81,    81,    81,    82,
+      83,    84,    84,    85,    87,    86,    88,    88,    89,    89,
+      89,    90,    91,    92,    93,    94,    94,    95,    95,    96,
+      97,    97,    98,    98,    99,   100,   100,   101,   101,   101,
+     101
   };
 
   const signed char
@@ -1573,12 +1653,13 @@ namespace calc {
        2,     2,     2,     0,     3,     2,     1,     3,     3,     3,
        3,     1,     1,     1,     1,     1,     4,     0,     3,     2,
        1,     3,     3,     3,     3,     3,     3,     1,     1,     1,
-       1,     1,     1,     0,     3,     2,     1,     3,     3,     2,
-       2,     1,     3,     3,     2,     2,     1,     3,     3,     3,
-       4,     2,     2,     1,     3,     1,     3,     3,     1,     2,
-       2,     1,     3,     2,     2,     1,     3,     3,     3,     1,
-       4,     4,     2,     2,     1,     3,     3,     2,     2,     1,
-       3,     1,     2,     2,     1,     3,     3,     3,     3
+       1,     1,     1,     0,     3,     2,     1,     3,     3,     0,
+       3,     2,     1,     3,     3,     2,     2,     1,     3,     3,
+       3,     4,     2,     2,     1,     3,     1,     3,     3,     1,
+       2,     2,     1,     3,     0,     3,     2,     1,     3,     3,
+       3,     1,     4,     4,     2,     2,     1,     3,     3,     2,
+       2,     1,     3,     1,     2,     2,     1,     3,     3,     3,
+       3
   };
 
 
@@ -1588,17 +1669,18 @@ namespace calc {
   const short
   Parser::yyrline_[] =
   {
-       0,   155,   155,   156,   159,   160,   161,   162,   163,   164,
-     165,   166,   167,   169,   170,   171,   172,   173,   174,   175,
-     176,   177,   178,   184,   183,   197,   198,   201,   202,   203,
-     204,   207,   208,   209,   212,   213,   217,   222,   221,   234,
-     235,   238,   239,   240,   241,   242,   243,   246,   247,   248,
-     251,   252,   253,   259,   258,   270,   271,   274,   275,   279,
-     282,   283,   286,   287,   291,   294,   295,   298,   299,   300,
-     304,   308,   311,   312,   315,   316,   317,   318,   323,   331,
-     333,   334,   337,   341,   343,   344,   347,   348,   349,   353,
-     356,   360,   364,   366,   367,   370,   371,   375,   377,   378,
-     381,   382,   386,   388,   389,   392,   393,   394,   395
+       0,   161,   161,   162,   165,   166,   167,   168,   169,   170,
+     171,   172,   173,   175,   176,   177,   178,   179,   180,   181,
+     182,   183,   184,   190,   189,   203,   204,   207,   208,   209,
+     210,   213,   214,   215,   218,   219,   223,   228,   227,   240,
+     241,   244,   245,   246,   247,   248,   249,   252,   253,   254,
+     257,   258,   259,   265,   264,   276,   277,   280,   281,   287,
+     286,   298,   299,   303,   304,   308,   311,   312,   315,   316,
+     317,   321,   325,   328,   329,   332,   333,   334,   335,   340,
+     348,   350,   351,   354,   360,   359,   371,   372,   375,   376,
+     377,   381,   384,   388,   392,   394,   395,   398,   399,   403,
+     405,   406,   409,   410,   414,   416,   417,   420,   421,   422,
+     423
   };
 
   void
@@ -1667,10 +1749,10 @@ namespace calc {
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
-      45,    46,    47,    48,    49
+      45,    46,    47,    48,    49,    50
     };
     // Last valid token kind.
-    const int code_max = 304;
+    const int code_max = 305;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -1680,11 +1762,11 @@ namespace calc {
       return symbol_kind::S_YYUNDEF;
   }
 
-#line 16 "grammar.y"
+#line 18 "grammar.y"
 } // calc
-#line 1686 "Parser1.cpp"
+#line 1768 "Parser1.cpp"
 
-#line 398 "grammar.y"
+#line 426 "grammar.y"
 
 
 #include "Scanner1.hpp"

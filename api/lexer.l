@@ -146,6 +146,12 @@ ID_VALUE         [a-zA-Z_][a-zA-Z0-9_]*
     BEGIN(INITIAL);
 }
 
+[0-9]{3}[A-Z] {
+    ultimo_token = yytext;
+    yylval_param->emplace<std::string>(yytext);
+    return Parser::token::MOUNT_ID;
+}
+
 {INTEGER} {
     ultimo_token = yytext;
     yylval_param->emplace<long long>(

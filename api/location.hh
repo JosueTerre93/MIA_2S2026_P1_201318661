@@ -53,7 +53,7 @@
 #  endif
 # endif
 
-#line 16 "grammar.y"
+#line 18 "grammar.y"
 namespace calc {
 #line 59 "location.hh"
 
@@ -299,7 +299,7 @@ namespace calc {
     return ostr;
   }
 
-#line 16 "grammar.y"
+#line 18 "grammar.y"
 } // calc
 #line 305 "location.hh"
 

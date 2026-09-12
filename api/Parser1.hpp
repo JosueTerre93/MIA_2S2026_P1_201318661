@@ -45,13 +45,14 @@
 #ifndef YY_YY_PARSER1_HPP_INCLUDED
 # define YY_YY_PARSER1_HPP_INCLUDED
 // "%code requires" blocks.
-#line 25 "grammar.y"
+#line 27 "grammar.y"
 
   typedef void* yyscan_t;
   #include "Comandos/Mkdisk.h"
   #include "Comandos/Fdisk.h"
+  #include "Comandos/Login.h"
 
-#line 55 "Parser1.hpp"
+#line 56 "Parser1.hpp"
 
 
 # include <cstdlib> // std::abort
@@ -185,9 +186,9 @@
 # define YYDEBUG 0
 #endif
 
-#line 16 "grammar.y"
+#line 18 "grammar.y"
 namespace calc {
-#line 191 "Parser1.hpp"
+#line 192 "Parser1.hpp"
 
 
 
@@ -389,6 +390,7 @@ namespace calc {
       // PATH_VALUE
       // ID_VALUE
       // PASSWORD_VALUE
+      // MOUNT_ID
       // fit_v
       // unit_v
       // unit_v2
@@ -488,8 +490,9 @@ namespace calc {
     PATH_VALUE = 300,              // PATH_VALUE
     ID_VALUE = 301,                // ID_VALUE
     PASSWORD_VALUE = 302,          // PASSWORD_VALUE
-    EQUAL = 303,                   // EQUAL
-    EOL = 304                      // EOL
+    MOUNT_ID = 303,                // MOUNT_ID
+    EQUAL = 304,                   // EQUAL
+    EOL = 305                      // EOL
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -506,7 +509,7 @@ namespace calc {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 50, ///< Number of tokens.
+        YYNTOKENS = 51, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -556,57 +559,60 @@ namespace calc {
         S_PATH_VALUE = 45,                       // PATH_VALUE
         S_ID_VALUE = 46,                         // ID_VALUE
         S_PASSWORD_VALUE = 47,                   // PASSWORD_VALUE
-        S_EQUAL = 48,                            // EQUAL
-        S_EOL = 49,                              // EOL
-        S_YYACCEPT = 50,                         // $accept
-        S_comandos = 51,                         // comandos
-        S_comando = 52,                          // comando
-        S_mkdisk = 53,                           // mkdisk
-        S_54_1 = 54,                             // $@1
-        S_mkdisk_params = 55,                    // mkdisk_params
-        S_mkdisk_p = 56,                         // mkdisk_p
-        S_fit_v = 57,                            // fit_v
-        S_unit_v = 58,                           // unit_v
-        S_rmdisk = 59,                           // rmdisk
-        S_fdisk = 60,                            // fdisk
-        S_61_2 = 61,                             // $@2
-        S_fdisk_params = 62,                     // fdisk_params
-        S_fdisk_p = 63,                          // fdisk_p
-        S_unit_v2 = 64,                          // unit_v2
-        S_type_v = 65,                           // type_v
-        S_mount = 66,                            // mount
-        S_67_3 = 67,                             // $@3
-        S_mount_params = 68,                     // mount_params
-        S_mount_p = 69,                          // mount_p
-        S_mkfs = 70,                             // mkfs
-        S_mkfs_params = 71,                      // mkfs_params
-        S_mkfs_p = 72,                           // mkfs_p
-        S_mkusr = 73,                            // mkusr
-        S_mkusr_params = 74,                     // mkusr_params
-        S_mkusr_p = 75,                          // mkusr_p
-        S_rmusr = 76,                            // rmusr
-        S_mkfile = 77,                           // mkfile
-        S_mkfile_params = 78,                    // mkfile_params
-        S_mkfile_p = 79,                         // mkfile_p
-        S_mounted = 80,                          // mounted
-        S_cat = 81,                              // cat
-        S_cat_params = 82,                       // cat_params
-        S_cat_p = 83,                            // cat_p
-        S_login = 84,                            // login
-        S_login_params = 85,                     // login_params
-        S_login_p = 86,                          // login_p
-        S_logout = 87,                           // logout
-        S_mkgrp = 88,                            // mkgrp
-        S_rmgrp = 89,                            // rmgrp
-        S_chgrp = 90,                            // chgrp
-        S_chgrp_params = 91,                     // chgrp_params
-        S_chgrp_p = 92,                          // chgrp_p
-        S_mkdir = 93,                            // mkdir
-        S_mkdir_params = 94,                     // mkdir_params
-        S_mkdir_p = 95,                          // mkdir_p
-        S_rep = 96,                              // rep
-        S_rep_params = 97,                       // rep_params
-        S_rep_p = 98                             // rep_p
+        S_MOUNT_ID = 48,                         // MOUNT_ID
+        S_EQUAL = 49,                            // EQUAL
+        S_EOL = 50,                              // EOL
+        S_YYACCEPT = 51,                         // $accept
+        S_comandos = 52,                         // comandos
+        S_comando = 53,                          // comando
+        S_mkdisk = 54,                           // mkdisk
+        S_55_1 = 55,                             // $@1
+        S_mkdisk_params = 56,                    // mkdisk_params
+        S_mkdisk_p = 57,                         // mkdisk_p
+        S_fit_v = 58,                            // fit_v
+        S_unit_v = 59,                           // unit_v
+        S_rmdisk = 60,                           // rmdisk
+        S_fdisk = 61,                            // fdisk
+        S_62_2 = 62,                             // $@2
+        S_fdisk_params = 63,                     // fdisk_params
+        S_fdisk_p = 64,                          // fdisk_p
+        S_unit_v2 = 65,                          // unit_v2
+        S_type_v = 66,                           // type_v
+        S_mount = 67,                            // mount
+        S_68_3 = 68,                             // $@3
+        S_mount_params = 69,                     // mount_params
+        S_mount_p = 70,                          // mount_p
+        S_mkfs = 71,                             // mkfs
+        S_72_4 = 72,                             // $@4
+        S_mkfs_params = 73,                      // mkfs_params
+        S_mkfs_p = 74,                           // mkfs_p
+        S_mkusr = 75,                            // mkusr
+        S_mkusr_params = 76,                     // mkusr_params
+        S_mkusr_p = 77,                          // mkusr_p
+        S_rmusr = 78,                            // rmusr
+        S_mkfile = 79,                           // mkfile
+        S_mkfile_params = 80,                    // mkfile_params
+        S_mkfile_p = 81,                         // mkfile_p
+        S_mounted = 82,                          // mounted
+        S_cat = 83,                              // cat
+        S_cat_params = 84,                       // cat_params
+        S_cat_p = 85,                            // cat_p
+        S_login = 86,                            // login
+        S_87_5 = 87,                             // $@5
+        S_login_params = 88,                     // login_params
+        S_login_p = 89,                          // login_p
+        S_logout = 90,                           // logout
+        S_mkgrp = 91,                            // mkgrp
+        S_rmgrp = 92,                            // rmgrp
+        S_chgrp = 93,                            // chgrp
+        S_chgrp_params = 94,                     // chgrp_params
+        S_chgrp_p = 95,                          // chgrp_p
+        S_mkdir = 96,                            // mkdir
+        S_mkdir_params = 97,                     // mkdir_params
+        S_mkdir_p = 98,                          // mkdir_p
+        S_rep = 99,                              // rep
+        S_rep_params = 100,                      // rep_params
+        S_rep_p = 101                            // rep_p
       };
     };
 
@@ -650,6 +656,7 @@ namespace calc {
       case symbol_kind::S_PATH_VALUE: // PATH_VALUE
       case symbol_kind::S_ID_VALUE: // ID_VALUE
       case symbol_kind::S_PASSWORD_VALUE: // PASSWORD_VALUE
+      case symbol_kind::S_MOUNT_ID: // MOUNT_ID
       case symbol_kind::S_fit_v: // fit_v
       case symbol_kind::S_unit_v: // unit_v
       case symbol_kind::S_unit_v2: // unit_v2
@@ -739,6 +746,7 @@ switch (yykind)
       case symbol_kind::S_PATH_VALUE: // PATH_VALUE
       case symbol_kind::S_ID_VALUE: // ID_VALUE
       case symbol_kind::S_PASSWORD_VALUE: // PASSWORD_VALUE
+      case symbol_kind::S_MOUNT_ID: // MOUNT_ID
       case symbol_kind::S_fit_v: // fit_v
       case symbol_kind::S_unit_v: // unit_v
       case symbol_kind::S_unit_v2: // unit_v2
@@ -1629,6 +1637,21 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_MOUNT_ID (std::string v, location_type l)
+      {
+        return symbol_type (token::MOUNT_ID, std::move (v), std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_MOUNT_ID (const std::string& v, const location_type& l)
+      {
+        return symbol_type (token::MOUNT_ID, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_EQUAL (location_type l)
       {
         return symbol_type (token::EQUAL, std::move (l));
@@ -1981,8 +2004,8 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 185,     ///< Last index in yytable_.
-      yynnts_ = 49,  ///< Number of nonterminal symbols.
+      yylast_ = 187,     ///< Last index in yytable_.
+      yynnts_ = 51,  ///< Number of nonterminal symbols.
       yyfinal_ = 2 ///< Termination state number.
     };
 
@@ -1993,13 +2016,13 @@ switch (yykind)
   };
 
 
-#line 16 "grammar.y"
+#line 18 "grammar.y"
 } // calc
-#line 1999 "Parser1.hpp"
+#line 2022 "Parser1.hpp"
 
 
 // "%code provides" blocks.
-#line 32 "grammar.y"
+#line 35 "grammar.y"
 
     #define YY_DECL \
     int yylex(calc::Parser::semantic_type *yylval_param, \
@@ -2010,7 +2033,7 @@ switch (yykind)
 
     std::string obtenerUltimoToken();
 
-#line 2014 "Parser1.hpp"
+#line 2037 "Parser1.hpp"
 
 
 #endif // !YY_YY_PARSER1_HPP_INCLUDED
