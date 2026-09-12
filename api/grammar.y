@@ -7,6 +7,9 @@
 #include "Comandos/Mount.h"
 #include "Comandos/Mkfs.h"
 #include "Comandos/Login.h"
+#include "Comandos/Logout.h"
+#include "Comandos/Mkgrp.h"
+#include "Comandos/Rmgrp.h"
 %}
  
 %require "3.7.4"
@@ -29,6 +32,8 @@
   #include "Comandos/Mkdisk.h"
   #include "Comandos/Fdisk.h"
   #include "Comandos/Login.h"
+  #include "Comandos/Mkgrp.h"
+  #include "Comandos/Rmgrp.h"
 }
  
 %code provides
@@ -43,41 +48,6 @@
     std::string obtenerUltimoToken();
 }
 
-/*
-GRAMATICA NUEVA A IMPLEMENTAR:
-
-MOUNTED (no lleva parametros)
-
-CAT -filen (enlaza archivos)
-
-LOGIN -user(cadena) -pass(password) -id(cadena)
-
-LOGOUT (no lleva parametros)
-
-- Los siguientes comandos necesitan una sesion iniciada
-
-MKGRP -name(cadena)
-
-RMGRP -name(cadena)
-
-MKUSR -usr(cadena) -pass(password) -grp(cadena)
-
-RMUSR -usr(cadena)
-
-CHGRP -usr(cadena) -grp(cadena)
-
-- Administracion de carpetas, archivos y permisos
-
-MKDIR -path(ruta) -p
-
-Reportes
-
-REP -name(cadena) -path(ruta) -id(cadena) -path_file_list(ruta)
-
-
-
-
-*/
 %token SIZE
 %token FIT
 
@@ -154,6 +124,8 @@ REP -name(cadena) -path(ruta) -id(cadena) -path_file_list(ruta)
         MountParams mountActual;
         MkfsParams mkfsActual;
         LoginParams loginActual;
+        MkgrpParams mkgrpActual;
+        RmgrpParams rmgrpActual;
     }
 } // %code
  
@@ -163,24 +135,24 @@ comandos   : %empty {  }
         ;
  
 comando    : EOL  { std::cerr << "No se encontraron comandos.\n"; }
-        | mkdisk EOL { std::cerr << "MKDISK ejecutado.\n"; }
-        | rmdisk EOL { std::cerr << "RMDISK ejecutado.\n"; }
-        | fdisk EOL { std::cerr << "FDISK ejecutado.\n"; }
-        | mount EOL { std::cerr << "MOUNT ejecutado.\n"; }
-        | mkfs EOL { std::cerr << "MKFS ejecutado.\n"; }
-        | mkusr EOL { std::cerr << "MKUSR ejecutado.\n"; }
-        | rmusr EOL { std::cerr << "RMUSR ejecutado.\n"; }
-        | mkfile EOL { std::cerr << "MKFILE ejecutado.\n"; }
+        | mkdisk EOL {  }
+        | rmdisk EOL {  }
+        | fdisk EOL {  }
+        | mount EOL {  }
+        | mkfs EOL {  }
+        | mkusr EOL {  }
+        | rmusr EOL {  }
+        | mkfile EOL {  }
 
-        | mounted EOL { std::cerr << "MOUNTED ejecutado.\n"; }
-        | cat EOL { std::cerr << "CAT ejecutado.\n"; }
-        | login EOL { std::cerr << "LOGIN ejecutado.\n"; }
-        | logout EOL { std::cerr << "LOGOUT ejecutado.\n"; }
-        | mkgrp EOL { std::cerr << "MKGRP ejecutado.\n"; }
-        | rmgrp EOL { std::cerr << "RMGRP ejecutado.\n"; }
-        | chgrp EOL { std::cerr << "CHGRP ejecutado.\n"; }
-        | mkdir EOL { std::cerr << "MKDIR ejecutado.\n"; }
-        | rep EOL { std::cerr << "REP ejecutado.\n"; }
+        | mounted EOL {  }
+        | cat EOL {  }
+        | login EOL {  }
+        | logout EOL {  }
+        | mkgrp EOL {  }
+        | rmgrp EOL {  }
+        | chgrp EOL {  }
+        | mkdir EOL {  }
+        | rep EOL {  }
         | error EOL { std::cerr << "Comando no valido.\n"; yyerrok; }
         ;
 
@@ -378,15 +350,42 @@ login_p : USER EQUAL ID_VALUE { calc::loginActual.user = $3; }
         ;
 
 /*--------------------------------------*/
-logout : LOGOUT;
+logout
+    : LOGOUT
+    {
+        std::cerr
+            << ejecutarLogout()
+            << std::endl;
+    }
+;
 
 /*--------------------------------------*/
-mkgrp : MKGRP NAME EQUAL ID_VALUE
+mkgrp
+    : MKGRP NAME EQUAL ID_VALUE
+    {
+        MkgrpParams params;
+        params.name = $4;
+
+        std::cerr
+            << ejecutarMkgrp(params)
+            << std::endl;
+    }
+;
         ;
 
 /*--------------------------------------*/
-rmgrp : RMGRP NAME EQUAL ID_VALUE
-        ;
+rmgrp
+    : RMGRP NAME EQUAL ID_VALUE
+    {
+        RmgrpParams params;
+
+        params.name = $4;
+
+        std::cerr
+            << ejecutarRmgrp(params)
+            << std::endl;
+    }
+;
 
 /*--------------------------------------*/
 chgrp : CHGRP chgrp_params;

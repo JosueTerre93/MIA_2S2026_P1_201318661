@@ -45,14 +45,16 @@
 #ifndef YY_YY_PARSER1_HPP_INCLUDED
 # define YY_YY_PARSER1_HPP_INCLUDED
 // "%code requires" blocks.
-#line 27 "grammar.y"
+#line 30 "grammar.y"
 
   typedef void* yyscan_t;
   #include "Comandos/Mkdisk.h"
   #include "Comandos/Fdisk.h"
   #include "Comandos/Login.h"
+  #include "Comandos/Mkgrp.h"
+  #include "Comandos/Rmgrp.h"
 
-#line 56 "Parser1.hpp"
+#line 58 "Parser1.hpp"
 
 
 # include <cstdlib> // std::abort
@@ -186,9 +188,9 @@
 # define YYDEBUG 0
 #endif
 
-#line 18 "grammar.y"
+#line 21 "grammar.y"
 namespace calc {
-#line 192 "Parser1.hpp"
+#line 194 "Parser1.hpp"
 
 
 
@@ -2016,13 +2018,13 @@ switch (yykind)
   };
 
 
-#line 18 "grammar.y"
+#line 21 "grammar.y"
 } // calc
-#line 2022 "Parser1.hpp"
+#line 2024 "Parser1.hpp"
 
 
 // "%code provides" blocks.
-#line 35 "grammar.y"
+#line 40 "grammar.y"
 
     #define YY_DECL \
     int yylex(calc::Parser::semantic_type *yylval_param, \
@@ -2033,7 +2035,7 @@ switch (yykind)
 
     std::string obtenerUltimoToken();
 
-#line 2037 "Parser1.hpp"
+#line 2039 "Parser1.hpp"
 
 
 #endif // !YY_YY_PARSER1_HPP_INCLUDED
