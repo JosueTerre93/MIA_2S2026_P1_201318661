@@ -10,6 +10,7 @@
 #include "Comandos/Logout.h"
 #include "Comandos/Mkgrp.h"
 #include "Comandos/Rmgrp.h"
+#include "Comandos/Mkusr.h"
 %}
  
 %require "3.7.4"
@@ -277,17 +278,44 @@ mkfs_p
 ;
 
 /*------------------------------------*/
-mkusr : MKUSR mkusr_params
+mkusr
+    : MKUSR
+      {
+          /*
+              Reiniciar parámetros cada vez que
+              comienza un nuevo comando MKUSR.
+          */
+          calc::mkusrActual = MkusrParams{};
+      }
+      mkusr_params
+      {
+          std::cout
+              << ejecutarMkusr(calc::mkusrActual)
+              << std::endl;
+      }
+    ;
 ;
 
 mkusr_params : mkusr_params mkusr_p
         | mkusr_p
         ;
 
-mkusr_p : USER EQUAL ID_VALUE
-        | PASSWORD EQUAL PASSWORD_VALUE
-        | GROUP EQUAL ID_VALUE
-        ;
+mkusr_p
+    : USER EQUAL ID_VALUE
+      {
+          calc::mkusrActual.user = $3;
+      }
+
+    | PASSWORD EQUAL PASSWORD_VALUE
+      {
+          calc::mkusrActual.password = $3;
+      }
+
+    | GROUP EQUAL ID_VALUE
+      {
+          calc::mkusrActual.group = $3;
+      }
+    ;
 
 /*-------------------------------------*/
 rmusr : RMUSR USER EQUAL ID_VALUE

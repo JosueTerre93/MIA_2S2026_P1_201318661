@@ -1,1 +1,3 @@
 mkdisk -size=3000 -unit=K -path=/home/edgar/Calificacion_MIA/Discos/DiscoN.mia
+
+g++ -std=c++17 api.cpp Parser1.cpp Scanner1.cpp parserService.cpp Comandos/*.cpp Utils/*.cpp -o servidor -pthread
