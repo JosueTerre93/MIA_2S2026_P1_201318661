@@ -34,7 +34,7 @@ static std::string ultimo_token;
 %option header-file="Scanner1.hpp"
 
 INTEGER          [0-9]+
-PATH_VALUE       \"\/[^\"\r\n]+\"|\/[^ \t\r\n]+
+PATH_VALUE       \"\/[^\"\r\n]+\"|\/[^ \t\r\n]*
 PASSWORD_VALUE   [a-zA-Z0-9]{1,10}
 ID_VALUE         [a-zA-Z_][a-zA-Z0-9_]*
 

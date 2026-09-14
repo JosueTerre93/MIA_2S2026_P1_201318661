@@ -798,3 +798,665 @@
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
+
+/* ==========================================================================
+   MIA STUDIO - TEMA CLARO
+   Agregar AL FINAL de app.css
+   ========================================================================== */
+
+:host {
+  /* Fondos */
+  --bg-main: #f3f6fa;
+  --bg-surface: #ffffff;
+  --bg-surface-glass: rgba(255, 255, 255, 0.97);
+  --bg-hover: #eef4f8;
+
+  /* Texto */
+  --text-primary: #172033;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+
+  /* Colores principales */
+  --accent-cyan: #0284c7;
+  --accent-cyan-hover: #0369a1;
+  --accent-cyan-glow: rgba(2, 132, 199, 0.15);
+
+  --accent-emerald: #16a34a;
+  --accent-rose: #dc2626;
+  --accent-amber: #d97706;
+
+  /* Bordes */
+  --border-subtle: #dbe3ec;
+  --border-glass: #e2e8f0;
+  --border-focus: #0284c7;
+
+  /* Terminal clara */
+  --term-bg: #f8fafc;
+  --term-cmd: #0369a1;
+  --term-success: #15803d;
+  --term-error: #b91c1c;
+  --term-info: #475569;
+
+  /* Sombras */
+  --shadow-card:
+    0 1px 3px rgba(15, 23, 42, 0.05),
+    0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+
+/* ==========================================================================
+   FONDO GENERAL
+   ========================================================================== */
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(14, 165, 233, 0.08),
+      transparent 32%
+    ),
+    #f3f6fa;
+
+  color: var(--text-primary);
+}
+
+.app-layout {
+  background: transparent;
+}
+
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+
+.app-header {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #e2e8f0;
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.04),
+    0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.brand-logo {
+  background: linear-gradient(
+    135deg,
+    #e0f2fe,
+    #ede9fe
+  );
+
+  border: 1px solid #bae6fd;
+  color: #0284c7;
+  box-shadow: none;
+}
+
+.brand-title {
+  background: linear-gradient(
+    120deg,
+    #172033 30%,
+    #0284c7 100%
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-subtitle {
+  color: #64748b;
+}
+
+
+/* ==========================================================================
+   BADGES
+   ========================================================================== */
+
+.badge {
+  background: #f8fafc;
+  color: #475569;
+  border-color: #dbe3ec;
+}
+
+.student-badge {
+  background: #f5f3ff;
+  color: #6d28d9;
+  border-color: #ddd6fe;
+}
+
+
+/* ==========================================================================
+   ESTADO DEL BACKEND
+   ========================================================================== */
+
+.backend-pill {
+  background: #f8fafc;
+  border-color: #dbe3ec;
+  color: #475569;
+}
+
+.backend-pill:hover {
+  background: #eef4f8;
+}
+
+.backend-pill.online {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #15803d;
+}
+
+.backend-pill.offline {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+.backend-pill.checking {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #b45309;
+}
+
+
+/* ==========================================================================
+   NAVEGACIÓN
+   ========================================================================== */
+
+.nav-tabs {
+  background: #e9eff5;
+  border: 1px solid #dbe3ec;
+}
+
+.tab-btn {
+  color: #64748b;
+}
+
+.tab-btn:hover {
+  color: #172033;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.tab-btn.active {
+  background: #ffffff;
+  color: #0284c7;
+  border: 1px solid #bae6fd;
+
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.06),
+    0 3px 8px rgba(2, 132, 199, 0.08);
+}
+
+
+/* ==========================================================================
+   TARJETAS
+   ========================================================================== */
+
+.card {
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid #e2e8f0;
+
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.04),
+    0 8px 22px rgba(15, 23, 42, 0.05);
+}
+
+.panel-header {
+  background: #ffffff;
+  border-bottom-color: #e2e8f0;
+}
+
+.panel-title {
+  color: #172033;
+}
+
+.panel-icon {
+  filter: none;
+}
+
+.hint-text {
+  color: #64748b;
+}
+
+.hint-text strong {
+  color: #0284c7;
+}
+
+
+/* ==========================================================================
+   ENTRADA DE COMANDOS
+   ========================================================================== */
+
+.input-container {
+  background: #f8fafc;
+}
+
+.prompt-symbol {
+  color: #0284c7;
+}
+
+.command-input {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #172033;
+}
+
+.command-input:hover {
+  border-color: #94a3b8;
+}
+
+.command-input:focus {
+  background: #ffffff;
+  border-color: #0284c7;
+
+  box-shadow:
+    0 0 0 3px rgba(2, 132, 199, 0.10);
+}
+
+.command-input::placeholder {
+  color: #94a3b8;
+}
+
+
+/* ==========================================================================
+   CHIPS
+   ========================================================================== */
+
+.chips-label {
+  color: #64748b;
+}
+
+.chip {
+  background: #ffffff;
+  border-color: #dbe3ec;
+  color: #0369a1;
+}
+
+.chip:hover {
+  background: #e0f2fe;
+  border-color: #7dd3fc;
+  color: #075985;
+
+  transform: translateY(-1px);
+}
+
+
+/* ==========================================================================
+   EDITOR DE SCRIPTS
+   ========================================================================== */
+
+.progress-bar-container {
+  background: #f0fdf4;
+  border-bottom-color: #bbf7d0;
+}
+
+.progress-info {
+  color: #15803d;
+}
+
+.progress-track {
+  background: #dcfce7;
+}
+
+.progress-fill {
+  background: linear-gradient(
+    90deg,
+    #0284c7,
+    #16a34a
+  );
+}
+
+.script-editor-wrapper {
+  background: #ffffff;
+}
+
+.script-editor {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #1e293b;
+}
+
+.script-editor:focus {
+  background: #ffffff;
+  border-color: #0284c7;
+
+  box-shadow:
+    0 0 0 3px rgba(2, 132, 199, 0.08);
+}
+
+.script-editor::placeholder {
+  color: #94a3b8;
+}
+
+
+/* ==========================================================================
+   CATÁLOGO
+   ========================================================================== */
+
+.catalogo-box {
+  background: #ffffff;
+}
+
+.catalogo-card {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.catalogo-card:hover {
+  background: #ffffff;
+  border-color: #7dd3fc;
+
+  box-shadow:
+    0 8px 20px rgba(15, 23, 42, 0.08);
+
+  transform: translateY(-2px);
+}
+
+.cmd-badge {
+  color: #0369a1;
+}
+
+.category-badge {
+  background: #e9eff5;
+  color: #475569;
+}
+
+.cmd-desc {
+  color: #475569;
+}
+
+.code-preview {
+  background: #eef4f8;
+  border: 1px solid #dbe3ec;
+}
+
+.code-preview code {
+  color: #0369a1;
+}
+
+.param-name {
+  color: #334155;
+}
+
+.param-name.required {
+  color: #dc2626;
+}
+
+.param-desc {
+  color: #64748b;
+}
+
+
+/* ==========================================================================
+   REPORTES
+   ========================================================================== */
+
+.reportes-box {
+  background: #ffffff;
+}
+
+.info-paragraph {
+  color: #475569;
+  background: #f8fafc;
+  border-bottom-color: #e2e8f0;
+}
+
+.reporte-card {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.reporte-card:hover {
+  background: #ffffff;
+  border-color: #c4b5fd;
+
+  box-shadow:
+    0 8px 20px rgba(15, 23, 42, 0.08);
+
+  transform: translateY(-2px);
+}
+
+.reporte-badge {
+  color: #7c3aed;
+}
+
+.reporte-desc {
+  color: #475569;
+}
+
+
+/* ==========================================================================
+   CONSOLA
+   ========================================================================== */
+
+.console-panel {
+  border-color: #dbe3ec;
+}
+
+.console-header {
+  background: #eef2f6;
+  border-bottom-color: #dbe3ec;
+}
+
+.console-title {
+  color: #1e293b;
+}
+
+.console-count {
+  color: #64748b;
+}
+
+.toggle-control {
+  color: #64748b;
+}
+
+.console-body {
+  background: #f8fafc;
+  color: #334155;
+}
+
+.console-empty {
+  color: #94a3b8;
+}
+
+.line-time {
+  color: #94a3b8;
+}
+
+.console-line.cmd {
+  color: #0369a1;
+  font-weight: 600;
+}
+
+.console-line.salida {
+  color: #15803d;
+}
+
+.console-line.error {
+  color: #b91c1c;
+  background: #fef2f2;
+
+  border-left: 3px solid #dc2626;
+
+  padding: 4px 8px;
+}
+
+.console-line.info {
+  color: #475569;
+}
+
+
+/* ==========================================================================
+   BOTONES
+   ========================================================================== */
+
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    #0284c7,
+    #0369a1
+  );
+
+  color: #ffffff;
+
+  box-shadow:
+    0 2px 8px rgba(2, 132, 199, 0.20);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(
+    135deg,
+    #0369a1,
+    #075985
+  );
+
+  box-shadow:
+    0 5px 14px rgba(2, 132, 199, 0.25);
+}
+
+.btn-secondary {
+  background: #ffffff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #f1f5f9;
+}
+
+.btn-success {
+  background: linear-gradient(
+    135deg,
+    #16a34a,
+    #15803d
+  );
+
+  color: #ffffff;
+
+  box-shadow:
+    0 2px 8px rgba(22, 163, 74, 0.20);
+}
+
+.btn-success:hover:not(:disabled) {
+  background: linear-gradient(
+    135deg,
+    #15803d,
+    #166534
+  );
+}
+
+.btn-danger {
+  background: linear-gradient(
+    135deg,
+    #dc2626,
+    #b91c1c
+  );
+
+  color: #ffffff;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: linear-gradient(
+    135deg,
+    #b91c1c,
+    #991b1b
+  );
+}
+
+.btn-outline {
+  background: #ffffff;
+  color: #0369a1;
+  border-color: #7dd3fc;
+}
+
+.btn-outline:hover:not(:disabled) {
+  background: #e0f2fe;
+  border-color: #0284c7;
+}
+
+.btn-subtle {
+  background: #ffffff;
+  color: #475569;
+  border-color: #dbe3ec;
+}
+
+.btn-subtle:hover {
+  background: #eef4f8;
+  color: #172033;
+}
+
+.btn-danger-subtle:hover {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+
+/* ==========================================================================
+   SCROLLBAR
+   ========================================================================== */
+
+.catalogo-box::-webkit-scrollbar,
+.console-body::-webkit-scrollbar,
+.script-editor::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.catalogo-box::-webkit-scrollbar-track,
+.console-body::-webkit-scrollbar-track,
+.script-editor::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.catalogo-box::-webkit-scrollbar-thumb,
+.console-body::-webkit-scrollbar-thumb,
+.script-editor::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+.catalogo-box::-webkit-scrollbar-thumb:hover,
+.console-body::-webkit-scrollbar-thumb:hover,
+.script-editor::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+
+/* ==========================================================================
+   SELECCIÓN DE TEXTO
+   ========================================================================== */
+
+::selection {
+  background: rgba(2, 132, 199, 0.18);
+  color: #0f172a;
+}
+
+
+/* ==========================================================================
+   RESPONSIVE - AJUSTES VISUALES
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+  .app-header {
+    background: #ffffff;
+  }
+
+  .nav-tabs {
+    background: #e9eff5;
+  }
+
+  .input-container {
+    background: #f8fafc;
+  }
+
+  .console-header {
+    background: #eef2f6;
+  }
+}

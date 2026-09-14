@@ -142,7 +142,7 @@
           <div class="panel-header">
             <div class="panel-title-group">
               <span class="panel-icon">📜</span>
-              <span class="panel-title">Editor de Script por Lotes (.mia / .txt)</span>
+              <span class="panel-title">Editor de Script por Lotes (.smia)</span>
             </div>
             <div class="script-actions">
               <label class="btn btn-secondary file-upload-btn">
@@ -152,7 +152,7 @@
                   <line x1="12" y1="3" x2="12" y2="15"></line>
                 </svg>
                 <span>Cargar Archivo</span>
-                <input type="file" accept=".mia,.txt,.sh" (change)="cargarArchivoScript($event)" style="display: none;" />
+                <input type="file" accept=".smia" (change)="cargarArchivoScript($event)" style="display: none;" />
               </label>
 
               @if (!progresoScript()) {

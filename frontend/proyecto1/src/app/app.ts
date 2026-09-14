@@ -169,14 +169,18 @@ export class App implements OnInit, AfterViewChecked {
   ];
 
   // Reportes predefinidos para la pestaña de visualización
-  readonly reportesCatalogo = [
-    { tipo: 'mbr', nombre: 'Reporte MBR', desc: 'Estructura general del disco y sus particiones primarias/extendidas.' },
-    { tipo: 'disk', nombre: 'Reporte Disco', desc: 'Mapa gráfico del espacio utilizado y disponible en el disco.' },
-    { tipo: 'inode', nombre: 'Reporte Inodos', desc: 'Tabla de inodos asignados en el sistema de archivos.' },
-    { tipo: 'block', nombre: 'Reporte Bloques', desc: 'Detalle de bloques de carpetas, archivos y apuntadores.' },
-    { tipo: 'tree', nombre: 'Reporte Árbol', desc: 'Árbol completo de directorios y archivos con inodos y bloques.' }
-  ];
-
+readonly reportesCatalogo = [
+    { tipo: 'mbr', nombre: 'Reporte MBR', desc: 'Información del MBR, particiones y EBR.' },
+    { tipo: 'disk', nombre: 'Reporte DISK', desc: 'Distribución y porcentajes del disco.' },
+    { tipo: 'inode', nombre: 'Reporte Inodos', desc: 'Inodos utilizados.' },
+    { tipo: 'block', nombre: 'Reporte Bloques', desc: 'Bloques utilizados.' },
+    { tipo: 'bm_inode', nombre: 'Bitmap de Inodos', desc: 'Estado del bitmap de inodos.' },
+    { tipo: 'bm_block', nombre: 'Bitmap de Bloques', desc: 'Estado del bitmap de bloques.' },
+    { tipo: 'tree', nombre: 'Reporte TREE', desc: 'Árbol completo del sistema EXT2.' },
+    { tipo: 'sb', nombre: 'SuperBlock', desc: 'Información completa del SuperBlock.' },
+    { tipo: 'file', nombre: 'Reporte FILE', desc: 'Contenido de un archivo.' },
+    { tipo: 'ls', nombre: 'Reporte LS', desc: 'Información de archivos y directorios.' }
+];
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
