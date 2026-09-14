@@ -45,7 +45,7 @@
 #ifndef YY_YY_PARSER1_HPP_INCLUDED
 # define YY_YY_PARSER1_HPP_INCLUDED
 // "%code requires" blocks.
-#line 40 "grammar.y"
+#line 43 "grammar.y"
 
   typedef void* yyscan_t;
   #include "Comandos/Mkdisk.h"
@@ -189,7 +189,7 @@
 # define YYDEBUG 0
 #endif
 
-#line 31 "grammar.y"
+#line 34 "grammar.y"
 namespace calc {
 #line 195 "Parser1.hpp"
 
@@ -467,7 +467,7 @@ namespace calc {
     USER = 274,                    // USER
     GROUP = 275,                   // GROUP
     R = 276,                       // R
-    COUNT = 277,                   // COUNT
+    CONT = 277,                    // CONT
     FULL = 278,                    // FULL
     MKDISK = 279,                  // MKDISK
     RMDISK = 280,                  // RMDISK
@@ -536,7 +536,7 @@ namespace calc {
         S_USER = 19,                             // USER
         S_GROUP = 20,                            // GROUP
         S_R = 21,                                // R
-        S_COUNT = 22,                            // COUNT
+        S_CONT = 22,                             // CONT
         S_FULL = 23,                             // FULL
         S_MKDISK = 24,                           // MKDISK
         S_RMDISK = 25,                           // RMDISK
@@ -1252,16 +1252,16 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_COUNT (location_type l)
+      make_CONT (location_type l)
       {
-        return symbol_type (token::COUNT, std::move (l));
+        return symbol_type (token::CONT, std::move (l));
       }
 #else
       static
       symbol_type
-      make_COUNT (const location_type& l)
+      make_CONT (const location_type& l)
       {
-        return symbol_type (token::COUNT, l);
+        return symbol_type (token::CONT, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -2021,13 +2021,13 @@ switch (yykind)
   };
 
 
-#line 31 "grammar.y"
+#line 34 "grammar.y"
 } // calc
 #line 2027 "Parser1.hpp"
 
 
 // "%code provides" blocks.
-#line 51 "grammar.y"
+#line 54 "grammar.y"
 
     #define YY_DECL \
     int yylex(calc::Parser::semantic_type *yylval_param, \

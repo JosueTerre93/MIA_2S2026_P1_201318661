@@ -3,13 +3,15 @@
 
 #include <string>
 
+using namespace std;
+
 struct MkfsParams
 {
-    std::string id;
-    std::string type = "full";
+    string id;
+    string type = "full";
 };
 
-std::string ejecutarMkfs(
+string ejecutarMkfs(
     const MkfsParams& params
 );
 

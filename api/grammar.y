@@ -15,10 +15,13 @@
 #include "Comandos/Chgrp.h"
 #include "Comandos/Cat.h"
 #include "Comandos/Mkdir.h"
+#include "Comandos/Mkfile.h"
+#include "Comandos/Rmdisk.h"
 
 static ChgrpParams chgrpActual;
 static CatParams catActual;
 static MkdirParams mkdirActual;
+static MkfileParams mkfileActual;
 
 %}
  
@@ -85,7 +88,7 @@ static MkdirParams mkdirActual;
 %token GROUP
 
 %token R
-%token COUNT
+%token CONT
 %token FULL
 
 %token MKDISK
@@ -205,7 +208,17 @@ unit_v : K { $$ = "K"; }
         ;
 
 /*--------------------------------------*/
-rmdisk : RMDISK PATH EQUAL PATH_VALUE;
+rmdisk
+    : RMDISK PATH EQUAL PATH_VALUE
+    {
+        RmdiskParams params;
+        params.path = $4;
+
+        std::cerr
+            << ejecutarRmdisk(params)
+            << endl;
+    }
+    ;
 
 /*--------------------------------------*/
 fdisk
@@ -343,18 +356,45 @@ rmusr
 ;
 
 /*--------------------------------------*/
-mkfile : MKFILE mkfile_params
-;
+mkfile
+    : MKFILE mkfile_params
+    {
+        std::cerr
+            << ejecutarMkfile(mkfileActual)
+            << endl;
 
-mkfile_params : mkfile_params mkfile_p
-        | mkfile_p
-        ;
+        mkfileActual =
+            MkfileParams{};
+    }
+    ;
 
-mkfile_p : PATH EQUAL PATH_VALUE
-        | R
-        | SIZE EQUAL INTEGER
-        | COUNT EQUAL PATH_VALUE
-        ;
+mkfile_params
+    : mkfile_params mkfile_p
+    | mkfile_p
+    ;
+
+mkfile_p
+    : PATH EQUAL PATH_VALUE
+    {
+        mkfileActual.path = $3;
+    }
+
+    | R
+    {
+        mkfileActual.r = true;
+    }
+
+    | SIZE EQUAL INTEGER
+    {
+        mkfileActual.size = $3;
+        mkfileActual.sizeIngresado = true;
+    }
+
+    | CONT EQUAL PATH_VALUE
+    {
+        mkfileActual.cont = $3;
+    }
+    ;
 
 /*--------------------------------------*/
 mounted

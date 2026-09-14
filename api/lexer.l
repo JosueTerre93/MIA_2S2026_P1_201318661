@@ -86,7 +86,7 @@ ID_VALUE         [a-zA-Z_][a-zA-Z0-9_]*
 "-name" { ultimo_token = yytext; return Parser::token::NAME; }
 "-id"   { ultimo_token = yytext; return Parser::token::ID; }
 
-"-user"|"-usr" { ultimo_token = yytext; return Parser::token::USER; }
+"-user" { ultimo_token = yytext; return Parser::token::USER; }
 
 "=" { ultimo_token = yytext; return Parser::token::EQUAL; }
 
@@ -99,7 +99,7 @@ ID_VALUE         [a-zA-Z_][a-zA-Z0-9_]*
 "-grp" { ultimo_token = yytext; return Parser::token::GROUP; }
 
 "-r"     { ultimo_token = yytext; return Parser::token::R; }
-"-count" { ultimo_token = yytext; return Parser::token::COUNT; }
+"-cont" { ultimo_token = yytext; return Parser::token::CONT; }
 
 "-filen"|"-file"[0-9]+|"-file" {
     ultimo_token = yytext;
