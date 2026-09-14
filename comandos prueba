@@ -1,3 +1,111 @@
-mkdisk -size=3000 -unit=K -path=/home/edgar/Calificacion_MIA/Discos/DiscoN.mia
+# ==========================================
+# 1. CREAR DISCO
+# ==========================================
 
-g++ -std=c++17 api.cpp Parser1.cpp Scanner1.cpp parserService.cpp Comandos/*.cpp Utils/*.cpp -o servidor -pthread
+mkdisk -size=10 -unit=M -fit=FF -path="/home/edgar/Calificacion_MIA/Discos/DiscoN.mia"
+
+
+# ==========================================
+# 2. CREAR PARTICIÓN
+# ==========================================
+
+fdisk -size=5 -unit=M -path="/home/edgar/Calificacion_MIA/Discos/DiscoN.mia" -name=Part1 -type=P -fit=WF
+
+
+# ==========================================
+# 3. MONTAR PARTICIÓN
+# ==========================================
+
+mount -path="/home/edgar/Calificacion_MIA/Discos/DiscoN.mia" -name=Part1
+
+
+# ==========================================
+# 4. FORMATEAR
+# Usa aquí el ID que te devuelva MOUNT
+# ==========================================
+
+mkfs -id=611A -type=full
+
+
+# ==========================================
+# 5. LOGIN ROOT
+# ==========================================
+
+login -user=root -pass=123 -id=611A
+
+
+# ==========================================
+# 6. CREAR GRUPOS
+# ==========================================
+
+mkgrp -name=usuarios
+
+mkgrp -name=admin
+
+mkgrp -name=ventas
+
+
+# ==========================================
+# 7. CREAR USUARIOS
+# ==========================================
+
+mkusr -user=josue -pass=1234 -grp=usuarios
+
+mkusr -user=pedro -pass=abcd -grp=ventas
+
+mkusr -user=maria -pass=5678 -grp=admin
+
+
+# ==========================================
+# 8. CAMBIAR GRUPO
+# josue: usuarios -> admin
+# ==========================================
+
+chgrp -user=josue -grp=admin
+
+
+# ==========================================
+# 9. ELIMINAR USUARIO
+# ==========================================
+
+rmusr -user=pedro
+
+
+# ==========================================
+# 10. ELIMINAR GRUPO
+# ==========================================
+
+rmgrp -name=ventas
+
+
+# ==========================================
+# 11. CERRAR SESIÓN ROOT
+# ==========================================
+
+logout
+
+
+# ==========================================
+# 12. LOGIN CON USUARIO CREADO
+# ==========================================
+
+login -user=josue -pass=1234 -id=vd1
+
+
+# ==========================================
+# 13. PROBAR PERMISOS
+# Esto debería FALLAR porque josue no es root
+# ==========================================
+
+mkgrp -name=prueba
+
+mkusr -user=carlos -pass=1111 -grp=admin
+
+chgrp -user=maria -grp=usuarios
+
+
+# ==========================================
+# 14. LOGOUT
+# ==========================================
+
+logout

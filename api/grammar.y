@@ -11,6 +11,10 @@
 #include "Comandos/Mkgrp.h"
 #include "Comandos/Rmgrp.h"
 #include "Comandos/Mkusr.h"
+#include "Comandos/Rmusr.h"
+#include "Comandos/Chgrp.h"
+
+static ChgrpParams chgrpActual;
 %}
  
 %require "3.7.4"
@@ -35,6 +39,7 @@
   #include "Comandos/Login.h"
   #include "Comandos/Mkgrp.h"
   #include "Comandos/Rmgrp.h"
+
 }
  
 %code provides
@@ -127,6 +132,8 @@
         LoginParams loginActual;
         MkgrpParams mkgrpActual;
         RmgrpParams rmgrpActual;
+        ChgrpParams chgrpActual;
+        MkusrParams mkusrActual;
     }
 } // %code
  
@@ -289,12 +296,12 @@ mkusr
       }
       mkusr_params
       {
-          std::cout
+          std::cerr
               << ejecutarMkusr(calc::mkusrActual)
               << std::endl;
       }
-    ;
 ;
+
 
 mkusr_params : mkusr_params mkusr_p
         | mkusr_p
@@ -318,7 +325,16 @@ mkusr_p
     ;
 
 /*-------------------------------------*/
-rmusr : RMUSR USER EQUAL ID_VALUE
+rmusr
+    : RMUSR USER EQUAL ID_VALUE
+    {
+        RmusrParams params;
+        params.user = $4;
+
+        std::cerr
+            << ejecutarRmusr(params)
+            << std::endl;
+    }
 ;
 
 /*--------------------------------------*/
@@ -399,7 +415,6 @@ mkgrp
             << std::endl;
     }
 ;
-        ;
 
 /*--------------------------------------*/
 rmgrp
@@ -416,15 +431,35 @@ rmgrp
 ;
 
 /*--------------------------------------*/
-chgrp : CHGRP chgrp_params;
+chgrp
+    : CHGRP
+      {
+          chgrpActual = ChgrpParams{};
+      }
+      chgrp_params
+      {
+          std::cerr
+              << ejecutarChgrp(chgrpActual)
+              << std::endl;
+      }
+    ;
 
-chgrp_params : chgrp_params chgrp_p
-        | chgrp_p
-        ;
+chgrp_params
+    : chgrp_params chgrp_p
+    | chgrp_p
+    ;
 
-chgrp_p : USER EQUAL ID_VALUE
-        | GROUP EQUAL ID_VALUE
-        ;
+chgrp_p
+    : USER EQUAL ID_VALUE
+      {
+          chgrpActual.user = $3;
+      }
+
+    | GROUP EQUAL ID_VALUE
+      {
+          chgrpActual.group = $3;
+      }
+    ;
 
 /*--------------------------------------*/
 mkdir : MKDIR mkdir_params;
