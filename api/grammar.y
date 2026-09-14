@@ -17,11 +17,13 @@
 #include "Comandos/Mkdir.h"
 #include "Comandos/Mkfile.h"
 #include "Comandos/Rmdisk.h"
+#include "Comandos/Rep.h"
 
 static ChgrpParams chgrpActual;
 static CatParams catActual;
 static MkdirParams mkdirActual;
 static MkfileParams mkfileActual;
+static RepParams repActual;
 
 %}
  
@@ -110,7 +112,7 @@ static MkfileParams mkfileActual;
 %token CHGRP
 %token MKDIR
 %token REP
-%token PATH_FILE_LIST
+%token PATH_FILE_LS
 
 %token PASSWORD
 
@@ -142,6 +144,7 @@ static MkfileParams mkfileActual;
         RmgrpParams rmgrpActual;
         ChgrpParams chgrpActual;
         MkusrParams mkusrActual;
+        RepParams repActual;
     }
 } // %code
  
@@ -544,17 +547,44 @@ mkdir_p
     ;
 
 /*--------------------------------------*/
-rep : REP rep_params;
+rep
+    : REP rep_params
+    {
+        std::cerr
+            << ejecutarRep(repActual)
+            << endl;
 
-rep_params : rep_params rep_p
-        | rep_p
-        ;
+        repActual =
+            RepParams{};
+    }
+    ;
 
-rep_p : NAME EQUAL ID_VALUE
-        | PATH EQUAL PATH_VALUE
-        | ID EQUAL ID_VALUE
-        | PATH_FILE_LIST EQUAL PATH_VALUE
-        ;
+rep_params
+    : rep_params rep_p
+    | rep_p
+    ;
+
+rep_p
+    : NAME EQUAL ID_VALUE
+    {
+        repActual.name = $3;
+    }
+
+    | PATH EQUAL PATH_VALUE
+    {
+        repActual.path = $3;
+    }
+
+    | ID EQUAL MOUNT_ID
+    {
+        repActual.id = $3;
+    }
+
+    | PATH_FILE_LS EQUAL PATH_VALUE
+    {
+        repActual.pathFileLs = $3;
+    }
+    ;
 
 %%
 

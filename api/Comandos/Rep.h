@@ -10,7 +10,6 @@ struct RepParams
     string name;
     string path;
     string id;
-
     string pathFileLs;
 };
 

@@ -45,7 +45,7 @@
 #ifndef YY_YY_PARSER1_HPP_INCLUDED
 # define YY_YY_PARSER1_HPP_INCLUDED
 // "%code requires" blocks.
-#line 43 "grammar.y"
+#line 45 "grammar.y"
 
   typedef void* yyscan_t;
   #include "Comandos/Mkdisk.h"
@@ -189,7 +189,7 @@
 # define YYDEBUG 0
 #endif
 
-#line 34 "grammar.y"
+#line 36 "grammar.y"
 namespace calc {
 #line 195 "Parser1.hpp"
 
@@ -487,7 +487,7 @@ namespace calc {
     CHGRP = 294,                   // CHGRP
     MKDIR = 295,                   // MKDIR
     REP = 296,                     // REP
-    PATH_FILE_LIST = 297,          // PATH_FILE_LIST
+    PATH_FILE_LS = 297,            // PATH_FILE_LS
     PASSWORD = 298,                // PASSWORD
     INTEGER = 299,                 // INTEGER
     PATH_VALUE = 300,              // PATH_VALUE
@@ -556,7 +556,7 @@ namespace calc {
         S_CHGRP = 39,                            // CHGRP
         S_MKDIR = 40,                            // MKDIR
         S_REP = 41,                              // REP
-        S_PATH_FILE_LIST = 42,                   // PATH_FILE_LIST
+        S_PATH_FILE_LS = 42,                     // PATH_FILE_LS
         S_PASSWORD = 43,                         // PASSWORD
         S_INTEGER = 44,                          // INTEGER
         S_PATH_VALUE = 45,                       // PATH_VALUE
@@ -1552,16 +1552,16 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_PATH_FILE_LIST (location_type l)
+      make_PATH_FILE_LS (location_type l)
       {
-        return symbol_type (token::PATH_FILE_LIST, std::move (l));
+        return symbol_type (token::PATH_FILE_LS, std::move (l));
       }
 #else
       static
       symbol_type
-      make_PATH_FILE_LIST (const location_type& l)
+      make_PATH_FILE_LS (const location_type& l)
       {
-        return symbol_type (token::PATH_FILE_LIST, l);
+        return symbol_type (token::PATH_FILE_LS, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -2009,7 +2009,7 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 170,     ///< Last index in yytable_.
+      yylast_ = 176,     ///< Last index in yytable_.
       yynnts_ = 53,  ///< Number of nonterminal symbols.
       yyfinal_ = 2 ///< Termination state number.
     };
@@ -2021,13 +2021,13 @@ switch (yykind)
   };
 
 
-#line 34 "grammar.y"
+#line 36 "grammar.y"
 } // calc
 #line 2027 "Parser1.hpp"
 
 
 // "%code provides" blocks.
-#line 54 "grammar.y"
+#line 56 "grammar.y"
 
     #define YY_DECL \
     int yylex(calc::Parser::semantic_type *yylval_param, \

@@ -106,9 +106,9 @@ ID_VALUE         [a-zA-Z_][a-zA-Z0-9_]*
     return Parser::token::FILEN;
 }
 
-"-path_file_list" {
+"-path_file_ls" {
     ultimo_token = yytext;
-    return Parser::token::PATH_FILE_LIST;
+    return Parser::token::PATH_FILE_LS;
 }
 
 "full" {
