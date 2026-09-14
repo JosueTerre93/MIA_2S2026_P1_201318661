@@ -53,17 +53,22 @@
 #include "Comandos/Mkusr.h"
 #include "Comandos/Rmusr.h"
 #include "Comandos/Chgrp.h"
+#include "Comandos/Cat.h"
+#include "Comandos/Mkdir.h"
 
 static ChgrpParams chgrpActual;
+static CatParams catActual;
+static MkdirParams mkdirActual;
 
-#line 60 "Parser1.cpp"
+
+#line 65 "Parser1.cpp"
 
 
 #include "Parser1.hpp"
 
 
 // Unqualified %code blocks.
-#line 125 "grammar.y"
+#line 130 "grammar.y"
 
     namespace calc 
     {
@@ -78,7 +83,7 @@ static ChgrpParams chgrpActual;
         MkusrParams mkusrActual;
     }
 
-#line 82 "Parser1.cpp"
+#line 87 "Parser1.cpp"
 
 
 #ifndef YY_
@@ -169,9 +174,9 @@ static ChgrpParams chgrpActual;
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-#line 26 "grammar.y"
+#line 31 "grammar.y"
 namespace calc {
-#line 175 "Parser1.cpp"
+#line 180 "Parser1.cpp"
 
   /// Build a parser object.
   Parser::Parser (yyscan_t scanner_yyarg)
@@ -763,127 +768,127 @@ namespace calc {
           switch (yyn)
             {
   case 2: // comandos: %empty
-#line 141 "grammar.y"
+#line 146 "grammar.y"
                     {  }
-#line 769 "Parser1.cpp"
+#line 774 "Parser1.cpp"
     break;
 
   case 4: // comando: EOL
-#line 145 "grammar.y"
+#line 150 "grammar.y"
                   { std::cerr << "No se encontraron comandos.\n"; }
-#line 775 "Parser1.cpp"
+#line 780 "Parser1.cpp"
     break;
 
   case 5: // comando: mkdisk EOL
-#line 146 "grammar.y"
+#line 151 "grammar.y"
                      {  }
-#line 781 "Parser1.cpp"
+#line 786 "Parser1.cpp"
     break;
 
   case 6: // comando: rmdisk EOL
-#line 147 "grammar.y"
+#line 152 "grammar.y"
                      {  }
-#line 787 "Parser1.cpp"
+#line 792 "Parser1.cpp"
     break;
 
   case 7: // comando: fdisk EOL
-#line 148 "grammar.y"
+#line 153 "grammar.y"
                     {  }
-#line 793 "Parser1.cpp"
+#line 798 "Parser1.cpp"
     break;
 
   case 8: // comando: mount EOL
-#line 149 "grammar.y"
+#line 154 "grammar.y"
                     {  }
-#line 799 "Parser1.cpp"
+#line 804 "Parser1.cpp"
     break;
 
   case 9: // comando: mkfs EOL
-#line 150 "grammar.y"
+#line 155 "grammar.y"
                    {  }
-#line 805 "Parser1.cpp"
+#line 810 "Parser1.cpp"
     break;
 
   case 10: // comando: mkusr EOL
-#line 151 "grammar.y"
+#line 156 "grammar.y"
                     {  }
-#line 811 "Parser1.cpp"
+#line 816 "Parser1.cpp"
     break;
 
   case 11: // comando: rmusr EOL
-#line 152 "grammar.y"
+#line 157 "grammar.y"
                     {  }
-#line 817 "Parser1.cpp"
+#line 822 "Parser1.cpp"
     break;
 
   case 12: // comando: mkfile EOL
-#line 153 "grammar.y"
+#line 158 "grammar.y"
                      {  }
-#line 823 "Parser1.cpp"
+#line 828 "Parser1.cpp"
     break;
 
   case 13: // comando: mounted EOL
-#line 155 "grammar.y"
+#line 160 "grammar.y"
                       {  }
-#line 829 "Parser1.cpp"
+#line 834 "Parser1.cpp"
     break;
 
   case 14: // comando: cat EOL
-#line 156 "grammar.y"
+#line 161 "grammar.y"
                   {  }
-#line 835 "Parser1.cpp"
+#line 840 "Parser1.cpp"
     break;
 
   case 15: // comando: login EOL
-#line 157 "grammar.y"
+#line 162 "grammar.y"
                     {  }
-#line 841 "Parser1.cpp"
+#line 846 "Parser1.cpp"
     break;
 
   case 16: // comando: logout EOL
-#line 158 "grammar.y"
+#line 163 "grammar.y"
                      {  }
-#line 847 "Parser1.cpp"
+#line 852 "Parser1.cpp"
     break;
 
   case 17: // comando: mkgrp EOL
-#line 159 "grammar.y"
+#line 164 "grammar.y"
                     {  }
-#line 853 "Parser1.cpp"
+#line 858 "Parser1.cpp"
     break;
 
   case 18: // comando: rmgrp EOL
-#line 160 "grammar.y"
+#line 165 "grammar.y"
                     {  }
-#line 859 "Parser1.cpp"
+#line 864 "Parser1.cpp"
     break;
 
   case 19: // comando: chgrp EOL
-#line 161 "grammar.y"
+#line 166 "grammar.y"
                     {  }
-#line 865 "Parser1.cpp"
+#line 870 "Parser1.cpp"
     break;
 
   case 20: // comando: mkdir EOL
-#line 162 "grammar.y"
+#line 167 "grammar.y"
                     {  }
-#line 871 "Parser1.cpp"
+#line 876 "Parser1.cpp"
     break;
 
   case 21: // comando: rep EOL
-#line 163 "grammar.y"
+#line 168 "grammar.y"
                   {  }
-#line 877 "Parser1.cpp"
+#line 882 "Parser1.cpp"
     break;
 
   case 22: // comando: error EOL
-#line 164 "grammar.y"
+#line 169 "grammar.y"
                     { std::cerr << "Comando no valido.\n"; yyerrok; }
-#line 883 "Parser1.cpp"
+#line 888 "Parser1.cpp"
     break;
 
   case 23: // $@1: %empty
-#line 170 "grammar.y"
+#line 175 "grammar.y"
         {
             std::cout 
                 << ">>> INICIO MKDISK EN BISON"
@@ -891,81 +896,81 @@ namespace calc {
             
             calc::mkdiskActual = MkdiskParams();
         }
-#line 895 "Parser1.cpp"
+#line 900 "Parser1.cpp"
     break;
 
   case 24: // mkdisk: MKDISK $@1 mkdisk_params
-#line 178 "grammar.y"
+#line 183 "grammar.y"
         {
             std::cerr << ejecutarMkdisk(calc::mkdiskActual) << std::endl;
         }
-#line 903 "Parser1.cpp"
+#line 908 "Parser1.cpp"
     break;
 
   case 27: // mkdisk_p: SIZE EQUAL INTEGER
-#line 187 "grammar.y"
+#line 192 "grammar.y"
                               { calc::mkdiskActual.size = yystack_[0].value.as < long long > (); }
-#line 909 "Parser1.cpp"
+#line 914 "Parser1.cpp"
     break;
 
   case 28: // mkdisk_p: FIT EQUAL fit_v
-#line 188 "grammar.y"
+#line 193 "grammar.y"
                           { calc::mkdiskActual.fit = yystack_[0].value.as < std::string > (); }
-#line 915 "Parser1.cpp"
+#line 920 "Parser1.cpp"
     break;
 
   case 29: // mkdisk_p: UNIT EQUAL unit_v
-#line 189 "grammar.y"
+#line 194 "grammar.y"
                             { calc::mkdiskActual.unit = yystack_[0].value.as < std::string > (); }
-#line 921 "Parser1.cpp"
+#line 926 "Parser1.cpp"
     break;
 
   case 30: // mkdisk_p: PATH EQUAL PATH_VALUE
-#line 190 "grammar.y"
+#line 195 "grammar.y"
                                 { calc::mkdiskActual.path = yystack_[0].value.as < std::string > (); }
-#line 927 "Parser1.cpp"
+#line 932 "Parser1.cpp"
     break;
 
   case 31: // fit_v: BF
-#line 193 "grammar.y"
+#line 198 "grammar.y"
            { yylhs.value.as < std::string > () = "BF"; }
-#line 933 "Parser1.cpp"
+#line 938 "Parser1.cpp"
     break;
 
   case 32: // fit_v: FF
-#line 194 "grammar.y"
+#line 199 "grammar.y"
              { yylhs.value.as < std::string > () = "FF"; }
-#line 939 "Parser1.cpp"
+#line 944 "Parser1.cpp"
     break;
 
   case 33: // fit_v: WF
-#line 195 "grammar.y"
+#line 200 "grammar.y"
              { yylhs.value.as < std::string > () = "WF"; }
-#line 945 "Parser1.cpp"
+#line 950 "Parser1.cpp"
     break;
 
   case 34: // unit_v: K
-#line 198 "grammar.y"
+#line 203 "grammar.y"
            { yylhs.value.as < std::string > () = "K"; }
-#line 951 "Parser1.cpp"
+#line 956 "Parser1.cpp"
     break;
 
   case 35: // unit_v: M
-#line 199 "grammar.y"
+#line 204 "grammar.y"
             { yylhs.value.as < std::string > () = "M"; }
-#line 957 "Parser1.cpp"
+#line 962 "Parser1.cpp"
     break;
 
   case 37: // $@2: %empty
-#line 208 "grammar.y"
+#line 213 "grammar.y"
     {
         calc::fdiskActual = FdiskParams();
     }
-#line 965 "Parser1.cpp"
+#line 970 "Parser1.cpp"
     break;
 
   case 38: // fdisk: FDISK $@2 fdisk_params
-#line 212 "grammar.y"
+#line 217 "grammar.y"
     {
         std::cerr
             << ejecutarFdisk(
@@ -973,143 +978,143 @@ namespace calc {
             )
             << std::endl;
     }
-#line 977 "Parser1.cpp"
+#line 982 "Parser1.cpp"
     break;
 
   case 41: // fdisk_p: SIZE EQUAL INTEGER
-#line 224 "grammar.y"
+#line 229 "grammar.y"
                              { calc::fdiskActual.size = yystack_[0].value.as < long long > (); }
-#line 983 "Parser1.cpp"
+#line 988 "Parser1.cpp"
     break;
 
   case 42: // fdisk_p: UNIT EQUAL unit_v2
-#line 225 "grammar.y"
+#line 230 "grammar.y"
                              { calc::fdiskActual.unit = yystack_[0].value.as < std::string > (); }
-#line 989 "Parser1.cpp"
+#line 994 "Parser1.cpp"
     break;
 
   case 43: // fdisk_p: PATH EQUAL PATH_VALUE
-#line 226 "grammar.y"
+#line 231 "grammar.y"
                                 { calc::fdiskActual.path = yystack_[0].value.as < std::string > (); }
-#line 995 "Parser1.cpp"
+#line 1000 "Parser1.cpp"
     break;
 
   case 44: // fdisk_p: TYPE EQUAL type_v
-#line 227 "grammar.y"
+#line 232 "grammar.y"
                             { calc::fdiskActual.type = yystack_[0].value.as < std::string > (); }
-#line 1001 "Parser1.cpp"
+#line 1006 "Parser1.cpp"
     break;
 
   case 45: // fdisk_p: FIT EQUAL fit_v
-#line 228 "grammar.y"
+#line 233 "grammar.y"
                           { calc::fdiskActual.fit = yystack_[0].value.as < std::string > (); }
-#line 1007 "Parser1.cpp"
+#line 1012 "Parser1.cpp"
     break;
 
   case 46: // fdisk_p: NAME EQUAL ID_VALUE
-#line 229 "grammar.y"
+#line 234 "grammar.y"
                               { calc::fdiskActual.name = yystack_[0].value.as < std::string > (); }
-#line 1013 "Parser1.cpp"
+#line 1018 "Parser1.cpp"
     break;
 
   case 47: // unit_v2: B
-#line 232 "grammar.y"
+#line 237 "grammar.y"
            { yylhs.value.as < std::string > () = "B"; }
-#line 1019 "Parser1.cpp"
+#line 1024 "Parser1.cpp"
     break;
 
   case 48: // unit_v2: K
-#line 233 "grammar.y"
+#line 238 "grammar.y"
            { yylhs.value.as < std::string > () = "K"; }
-#line 1025 "Parser1.cpp"
+#line 1030 "Parser1.cpp"
     break;
 
   case 49: // unit_v2: M
-#line 234 "grammar.y"
+#line 239 "grammar.y"
            { yylhs.value.as < std::string > () = "M"; }
-#line 1031 "Parser1.cpp"
+#line 1036 "Parser1.cpp"
     break;
 
   case 50: // type_v: P
-#line 237 "grammar.y"
+#line 242 "grammar.y"
            { yylhs.value.as < std::string > () = "P"; }
-#line 1037 "Parser1.cpp"
+#line 1042 "Parser1.cpp"
     break;
 
   case 51: // type_v: E
-#line 238 "grammar.y"
+#line 243 "grammar.y"
             { yylhs.value.as < std::string > () = "E"; }
-#line 1043 "Parser1.cpp"
+#line 1048 "Parser1.cpp"
     break;
 
   case 52: // type_v: L
-#line 239 "grammar.y"
+#line 244 "grammar.y"
             { yylhs.value.as < std::string > () = "L"; }
-#line 1049 "Parser1.cpp"
+#line 1054 "Parser1.cpp"
     break;
 
   case 53: // $@3: %empty
-#line 245 "grammar.y"
+#line 250 "grammar.y"
     {
         calc::mountActual = MountParams();
     }
-#line 1057 "Parser1.cpp"
+#line 1062 "Parser1.cpp"
     break;
 
   case 54: // mount: MOUNT $@3 mount_params
-#line 249 "grammar.y"
+#line 254 "grammar.y"
     {
         std::cerr
             << ejecutarMount(calc::mountActual)
             << std::endl;
     }
-#line 1067 "Parser1.cpp"
+#line 1072 "Parser1.cpp"
     break;
 
   case 57: // mount_p: PATH EQUAL PATH_VALUE
-#line 260 "grammar.y"
+#line 265 "grammar.y"
                                 { calc::mountActual.path = yystack_[0].value.as < std::string > (); }
-#line 1073 "Parser1.cpp"
+#line 1078 "Parser1.cpp"
     break;
 
   case 58: // mount_p: NAME EQUAL ID_VALUE
-#line 261 "grammar.y"
+#line 266 "grammar.y"
                               { calc::mountActual.name = yystack_[0].value.as < std::string > (); }
-#line 1079 "Parser1.cpp"
+#line 1084 "Parser1.cpp"
     break;
 
   case 59: // $@4: %empty
-#line 267 "grammar.y"
+#line 272 "grammar.y"
     {
         calc::mkfsActual = MkfsParams();
     }
-#line 1087 "Parser1.cpp"
+#line 1092 "Parser1.cpp"
     break;
 
   case 60: // mkfs: MKFS $@4 mkfs_params
-#line 271 "grammar.y"
+#line 276 "grammar.y"
     {
         std::cerr
             << ejecutarMkfs(calc::mkfsActual)
             << std::endl;
     }
-#line 1097 "Parser1.cpp"
+#line 1102 "Parser1.cpp"
     break;
 
   case 63: // mkfs_p: ID EQUAL MOUNT_ID
-#line 283 "grammar.y"
+#line 288 "grammar.y"
                         { calc::mkfsActual.id = yystack_[0].value.as < std::string > (); }
-#line 1103 "Parser1.cpp"
+#line 1108 "Parser1.cpp"
     break;
 
   case 64: // mkfs_p: TYPE EQUAL FULL
-#line 284 "grammar.y"
+#line 289 "grammar.y"
                       { calc::mkfsActual.type = "full"; }
-#line 1109 "Parser1.cpp"
+#line 1114 "Parser1.cpp"
     break;
 
   case 65: // $@5: %empty
-#line 290 "grammar.y"
+#line 295 "grammar.y"
       {
           /*
               Reiniciar parámetros cada vez que
@@ -1117,45 +1122,45 @@ namespace calc {
           */
           calc::mkusrActual = MkusrParams{};
       }
-#line 1121 "Parser1.cpp"
+#line 1126 "Parser1.cpp"
     break;
 
   case 66: // mkusr: MKUSR $@5 mkusr_params
-#line 298 "grammar.y"
+#line 303 "grammar.y"
       {
           std::cerr
               << ejecutarMkusr(calc::mkusrActual)
               << std::endl;
       }
-#line 1131 "Parser1.cpp"
+#line 1136 "Parser1.cpp"
     break;
 
   case 69: // mkusr_p: USER EQUAL ID_VALUE
-#line 312 "grammar.y"
+#line 317 "grammar.y"
       {
           calc::mkusrActual.user = yystack_[0].value.as < std::string > ();
       }
-#line 1139 "Parser1.cpp"
+#line 1144 "Parser1.cpp"
     break;
 
   case 70: // mkusr_p: PASSWORD EQUAL PASSWORD_VALUE
-#line 317 "grammar.y"
+#line 322 "grammar.y"
       {
           calc::mkusrActual.password = yystack_[0].value.as < std::string > ();
       }
-#line 1147 "Parser1.cpp"
+#line 1152 "Parser1.cpp"
     break;
 
   case 71: // mkusr_p: GROUP EQUAL ID_VALUE
-#line 322 "grammar.y"
+#line 327 "grammar.y"
       {
           calc::mkusrActual.group = yystack_[0].value.as < std::string > ();
       }
-#line 1155 "Parser1.cpp"
+#line 1160 "Parser1.cpp"
     break;
 
   case 72: // rmusr: RMUSR USER EQUAL ID_VALUE
-#line 330 "grammar.y"
+#line 335 "grammar.y"
     {
         RmusrParams params;
         params.user = yystack_[0].value.as < std::string > ();
@@ -1164,67 +1169,85 @@ namespace calc {
             << ejecutarRmusr(params)
             << std::endl;
     }
-#line 1168 "Parser1.cpp"
+#line 1173 "Parser1.cpp"
     break;
 
   case 80: // mounted: MOUNTED
-#line 357 "grammar.y"
+#line 362 "grammar.y"
     {
         std::cerr
             << mostrarParticionesMontadas()
             << std::endl;
     }
-#line 1178 "Parser1.cpp"
+#line 1183 "Parser1.cpp"
+    break;
+
+  case 81: // cat: CAT cat_params
+#line 371 "grammar.y"
+    {
+        std::cerr << ejecutarCat(catActual) << endl;
+
+        catActual = CatParams{};
+    }
+#line 1193 "Parser1.cpp"
+    break;
+
+  case 84: // cat_p: FILEN EQUAL PATH_VALUE
+#line 385 "grammar.y"
+    {
+        catActual.files.push_back(yystack_[0].value.as < std::string > ());
+    }
+#line 1201 "Parser1.cpp"
     break;
 
   case 85: // $@6: %empty
-#line 376 "grammar.y"
+#line 393 "grammar.y"
     {
         calc::loginActual = LoginParams();
     }
-#line 1186 "Parser1.cpp"
+#line 1209 "Parser1.cpp"
     break;
 
   case 86: // login: LOGIN $@6 login_params
-#line 380 "grammar.y"
+#line 397 "grammar.y"
     {
         std::cerr
             << ejecutarLogin(calc::loginActual)
             << std::endl;
     }
-#line 1196 "Parser1.cpp"
+#line 1219 "Parser1.cpp"
     break;
 
   case 89: // login_p: USER EQUAL ID_VALUE
-#line 391 "grammar.y"
+#line 408 "grammar.y"
                               { calc::loginActual.user = yystack_[0].value.as < std::string > (); }
-#line 1202 "Parser1.cpp"
+#line 1225 "Parser1.cpp"
     break;
 
   case 90: // login_p: PASSWORD EQUAL PASSWORD_VALUE
-#line 392 "grammar.y"
+#line 409 "grammar.y"
                                         { calc::loginActual.password = yystack_[0].value.as < std::string > (); }
-#line 1208 "Parser1.cpp"
+#line 1231 "Parser1.cpp"
     break;
 
   case 91: // login_p: ID EQUAL MOUNT_ID
-#line 393 "grammar.y"
+#line 410 "grammar.y"
                             { calc::loginActual.id = yystack_[0].value.as < std::string > (); }
-#line 1214 "Parser1.cpp"
+#line 1237 "Parser1.cpp"
     break;
 
   case 92: // logout: LOGOUT
-#line 399 "grammar.y"
+#line 416 "grammar.y"
     {
         std::cerr
             << ejecutarLogout()
             << std::endl;
     }
-#line 1224 "Parser1.cpp"
+#line 1247 "Parser1.cpp"
     break;
 
   case 93: // mkgrp: MKGRP NAME EQUAL ID_VALUE
-#line 409 "grammar.y"
+#line 426 "grammar.y"
     {
         MkgrpParams params;
         params.name = yystack_[0].value.as < std::string > ();
@@ -1233,11 +1256,11 @@ namespace calc {
             << ejecutarMkgrp(params)
             << std::endl;
     }
-#line 1237 "Parser1.cpp"
+#line 1260 "Parser1.cpp"
     break;
 
   case 94: // rmgrp: RMGRP NAME EQUAL ID_VALUE
-#line 422 "grammar.y"
+#line 439 "grammar.y"
     {
         RmgrpParams params;
 
@@ -1247,45 +1270,70 @@ namespace calc {
             << ejecutarRmgrp(params)
             << std::endl;
     }
-#line 1251 "Parser1.cpp"
+#line 1274 "Parser1.cpp"
     break;
 
   case 95: // $@7: %empty
-#line 436 "grammar.y"
+#line 453 "grammar.y"
       {
           chgrpActual = ChgrpParams{};
       }
-#line 1259 "Parser1.cpp"
+#line 1282 "Parser1.cpp"
     break;
 
   case 96: // chgrp: CHGRP $@7 chgrp_params
-#line 440 "grammar.y"
+#line 457 "grammar.y"
       {
           std::cerr
               << ejecutarChgrp(chgrpActual)
               << std::endl;
       }
-#line 1269 "Parser1.cpp"
+#line 1292 "Parser1.cpp"
     break;
 
   case 99: // chgrp_p: USER EQUAL ID_VALUE
-#line 454 "grammar.y"
+#line 471 "grammar.y"
       {
           chgrpActual.user = yystack_[0].value.as < std::string > ();
       }
-#line 1277 "Parser1.cpp"
+#line 1300 "Parser1.cpp"
     break;
 
   case 100: // chgrp_p: GROUP EQUAL ID_VALUE
-#line 459 "grammar.y"
+#line 476 "grammar.y"
       {
           chgrpActual.group = yystack_[0].value.as < std::string > ();
       }
-#line 1285 "Parser1.cpp"
+#line 1308 "Parser1.cpp"
+    break;
+
+  case 101: // mkdir: MKDIR mkdir_params
+#line 484 "grammar.y"
+    {
+        std::cerr << ejecutarMkdir(mkdirActual) << std::endl;
+        mkdirActual = MkdirParams{};
+    }
+#line 1317 "Parser1.cpp"
+    break;
+
+  case 104: // mkdir_p: PATH EQUAL PATH_VALUE
+#line 497 "grammar.y"
+    {
+        mkdirActual.path = yystack_[0].value.as < std::string > ();
+    }
+#line 1325 "Parser1.cpp"
+    break;
+
+  case 105: // mkdir_p: P
+#line 501 "grammar.y"
+    {
+        mkdirActual.p = true;
+    }
+#line 1333 "Parser1.cpp"
     break;
 
 
-#line 1289 "Parser1.cpp"
+#line 1337 "Parser1.cpp"
 
             default:
               break;
@@ -1809,18 +1857,18 @@ namespace calc {
   const short
   Parser::yyrline_[] =
   {
-       0,   141,   141,   142,   145,   146,   147,   148,   149,   150,
-     151,   152,   153,   155,   156,   157,   158,   159,   160,   161,
-     162,   163,   164,   170,   169,   183,   184,   187,   188,   189,
-     190,   193,   194,   195,   198,   199,   203,   208,   207,   220,
-     221,   224,   225,   226,   227,   228,   229,   232,   233,   234,
-     237,   238,   239,   245,   244,   256,   257,   260,   261,   267,
-     266,   278,   279,   283,   284,   290,   289,   306,   307,   311,
-     316,   321,   329,   341,   344,   345,   348,   349,   350,   351,
-     356,   364,   366,   367,   370,   376,   375,   387,   388,   391,
-     392,   393,   398,   408,   421,   436,   435,   448,   449,   453,
-     458,   465,   467,   468,   471,   472,   476,   478,   479,   482,
-     483,   484,   485
+       0,   146,   146,   147,   150,   151,   152,   153,   154,   155,
+     156,   157,   158,   160,   161,   162,   163,   164,   165,   166,
+     167,   168,   169,   175,   174,   188,   189,   192,   193,   194,
+     195,   198,   199,   200,   203,   204,   208,   213,   212,   225,
+     226,   229,   230,   231,   232,   233,   234,   237,   238,   239,
+     242,   243,   244,   250,   249,   261,   262,   265,   266,   272,
+     271,   283,   284,   288,   289,   295,   294,   311,   312,   316,
+     321,   326,   334,   346,   349,   350,   353,   354,   355,   356,
+     361,   370,   379,   380,   384,   393,   392,   404,   405,   408,
+     409,   410,   415,   425,   438,   453,   452,   465,   466,   470,
+     475,   483,   491,   492,   496,   500,   507,   509,   510,   513,
+     514,   515,   516
   };
 
   void
@@ -1902,11 +1950,11 @@ namespace calc {
       return symbol_kind::S_YYUNDEF;
   }
 
-#line 26 "grammar.y"
+#line 31 "grammar.y"
 } // calc
-#line 1908 "Parser1.cpp"
+#line 1956 "Parser1.cpp"
 
-#line 488 "grammar.y"
+#line 519 "grammar.y"
 
 
 #include "Scanner1.hpp"

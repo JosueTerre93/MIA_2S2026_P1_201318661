@@ -13,8 +13,13 @@
 #include "Comandos/Mkusr.h"
 #include "Comandos/Rmusr.h"
 #include "Comandos/Chgrp.h"
+#include "Comandos/Cat.h"
+#include "Comandos/Mkdir.h"
 
 static ChgrpParams chgrpActual;
+static CatParams catActual;
+static MkdirParams mkdirActual;
+
 %}
  
 %require "3.7.4"
@@ -361,14 +366,26 @@ mounted
     }
 ;
 /*--------------------------------------*/
-cat : CAT cat_params;
+cat
+    : CAT cat_params
+    {
+        std::cerr << ejecutarCat(catActual) << endl;
 
-cat_params : cat_params cat_p
-        | cat_p
-        ;
+        catActual = CatParams{};
+    }
+    ;
 
-cat_p : FILEN EQUAL PATH_VALUE
-        ;
+cat_params
+    : cat_params cat_p
+    | cat_p
+    ;
+
+cat_p
+    : FILEN EQUAL PATH_VALUE
+    {
+        catActual.files.push_back($3);
+    }
+    ;
 
 /*--------------------------------------*/
 login
@@ -462,15 +479,29 @@ chgrp_p
     ;
 
 /*--------------------------------------*/
-mkdir : MKDIR mkdir_params;
+mkdir
+    : MKDIR mkdir_params
+    {
+        std::cerr << ejecutarMkdir(mkdirActual) << std::endl;
+        mkdirActual = MkdirParams{};
+    }
+    ;
 
-mkdir_params : mkdir_params mkdir_p
-        | mkdir_p
-        ;
+mkdir_params
+    : mkdir_params mkdir_p
+    | mkdir_p
+    ;
 
-mkdir_p : PATH EQUAL PATH_VALUE
-        | P
-        ;
+mkdir_p
+    : PATH EQUAL PATH_VALUE
+    {
+        mkdirActual.path = $3;
+    }
+    | P
+    {
+        mkdirActual.p = true;
+    }
+    ;
 
 /*--------------------------------------*/
 rep : REP rep_params;

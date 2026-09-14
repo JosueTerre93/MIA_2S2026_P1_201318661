@@ -79,7 +79,7 @@ ID_VALUE         [a-zA-Z_][a-zA-Z0-9_]*
 "-path" { ultimo_token = yytext; return Parser::token::PATH; }
 "-type" { ultimo_token = yytext; return Parser::token::TYPE; }
 
-"P"|"-p" { ultimo_token = yytext; return Parser::token::P; }
+"-p"      { ultimo_token = yytext; return Parser::token::P; }
 "E"       { ultimo_token = yytext; return Parser::token::E; }
 "L"       { ultimo_token = yytext; return Parser::token::L; }
 

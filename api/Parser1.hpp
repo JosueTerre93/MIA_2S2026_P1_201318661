@@ -45,7 +45,7 @@
 #ifndef YY_YY_PARSER1_HPP_INCLUDED
 # define YY_YY_PARSER1_HPP_INCLUDED
 // "%code requires" blocks.
-#line 35 "grammar.y"
+#line 40 "grammar.y"
 
   typedef void* yyscan_t;
   #include "Comandos/Mkdisk.h"
@@ -189,7 +189,7 @@
 # define YYDEBUG 0
 #endif
 
-#line 26 "grammar.y"
+#line 31 "grammar.y"
 namespace calc {
 #line 195 "Parser1.hpp"
 
@@ -2021,13 +2021,13 @@ switch (yykind)
   };
 
 
-#line 26 "grammar.y"
+#line 31 "grammar.y"
 } // calc
 #line 2027 "Parser1.hpp"
 
 
 // "%code provides" blocks.
-#line 46 "grammar.y"
+#line 51 "grammar.y"
 
     #define YY_DECL \
     int yylex(calc::Parser::semantic_type *yylval_param, \
